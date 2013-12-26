@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fragment_teamsLandscapePage" type="id" />
+    <item name="list_teammates_teams" type="id" />
+    <item name="fragment_eventsPage" type="id" />
+    <item name="fragment_notifyPage" type="id" />
+    <item name="fragment_teamsPortraitPage" type="id" />
+    <item name="action_search" type="id" />
+    <item name="action_addItem" type="id" />
+    <item name="action_login" type="id" />
+    <item name="action_settings" type="id" />
+    <item name="navigation_list" type="id" />
+    <item name="navigation_drawer" type="id" />
+    <item name="container" type="id" />
+    <item name="drawer_layout" type="id" />
+</resources>

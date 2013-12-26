@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@id/fragment_teamsPortraitPage"
+    android:background="@color/holo_gray_background">
+
+    <ListView
+        android:dividerHeight="4dip"
+        android:smoothScrollbar="true"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@id/list_teammates_teams"
+        android:choiceMode="multipleChoice"
+        android:background="@android:color/transparent" />
+
+    <RelativeLayout
+        android:id="@id/android:empty"
+        android:layout_width="300dip"
+        android:layout_height="100dip"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/holo_card_white">
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/no_teams"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </RelativeLayout>
+</RelativeLayout>
