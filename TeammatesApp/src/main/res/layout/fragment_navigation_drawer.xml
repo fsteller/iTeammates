@@ -12,29 +12,36 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         android:background="#cccc"
-        android:layout_above="@+id/textView2" />
+        android:layout_above="@+id/action_login" />
 
     <TextView
-        android:paddingTop="3dip"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/action_login"
-        android:id="@+id/textView2"
-        android:layout_above="@id/action_login"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:paddingTop="3dip"
-        android:paddingBottom="3dip"
+        android:background="#cccc"
         android:id="@id/action_login"
-        android:layout_width="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/action_login"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
+        android:paddingStart="?android:attr/listPreferredItemPaddingLeft"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:layout_above="@id/action_settings" />
+
+    <TextView
+        android:background="#cccc"
+        android:id="@id/action_settings"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/action_settings"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
+        android:paddingStart="?android:attr/listPreferredItemPaddingLeft"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
 
 </RelativeLayout>

@@ -15,6 +15,10 @@
         <string name="activityName_teams">Teams</string>
         <string name="activityName_events">Events</string>
 
+        <!-- Context Actions -->
+        <string name="share">Share</string>
+        <string name="delete">Delete</string>
+
         <!-- Pages Menu Actions -->
         <string name="action_search">Search</string>
         <string name="action_addItem">Add Item</string>
@@ -32,9 +36,10 @@
 
 
     <!-- Others -->
-
     <string name="app_name">iTeammates</string>
-
+    <string name="alphabet">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890</string>
+    <string name="created_label">Create at: %s</string>
+    <string name="updated_label">Las update on: %s</string>
 
 
 </resources>

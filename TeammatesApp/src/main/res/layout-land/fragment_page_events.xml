@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@id/fragment_eventsPage"
-    android:background="@color/holo_gray_background">
+    android:background="@color/holo_gray_background"
+    android:padding="15dip">
 
     <GridView
         android:padding="5dip"
@@ -17,7 +18,8 @@
         android:scrollbars="none"
         android:verticalSpacing="10dip"
         android:horizontalSpacing="10dip"
-        android:choiceMode="multipleChoice" />
+        android:choiceMode="multipleChoice"
+        android:background="@drawable/holo_card_white" />
 
 
     <RelativeLayout

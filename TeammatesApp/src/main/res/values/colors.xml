@@ -21,9 +21,9 @@
     <color name="holo_white">#ffffffff</color>
     <color name="holo_black">#ff000000</color>
 
-    <color name="holo_orange">#FFBB33</color>
-    <color name="holo_orange_light">#55FFBB33</color>
-    <color name="holo_orange_dark">@android:color/holo_orange_dark</color>
+    <color name="holo_orange_light">#FFBB33</color>
+    <color name="holo_orange_dark">#55FFBB33</color>
+    <color name="holo_orange">@android:color/holo_orange_dark</color>
 
     <color name="holo_green">#99CC00</color>
     <color name="holo_green_light">#5599CC00</color>
@@ -35,7 +35,7 @@
     <color name="holo_purple_light">#55AA66CC</color>
 
     <color name="holo_red">#FF4444</color>
-    <color name="holo_red_light">#55FF4444</color>
+    <color name="holo_red_light">#ffe87951</color>
 
     <color name="holo_gray">#ffc0c0c0</color>
     <color name="holo_darker_gray">#ff808080</color>

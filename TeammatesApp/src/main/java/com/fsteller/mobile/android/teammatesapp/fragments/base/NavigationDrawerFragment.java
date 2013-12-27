@@ -20,11 +20,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fsteller.mobile.android.teammatesapp.R;
-
-;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -78,6 +75,8 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
     //<editor-fold desc="Overridden Methods">
 
+    //<editor-fold desc="Fragment Methods">
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,18 +112,18 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         if (rootView != null) {
 
-            final TextView settingsAction = (TextView) rootView.findViewById(R.id.action_settings);
-            settingsAction.setOnClickListener(this);
+            final TextView actionSettings = (TextView) rootView.findViewById(R.id.action_settings);
+            actionSettings.setOnClickListener(this);
 
-            final TextView loginAction = (TextView) rootView.findViewById(R.id.action_login);
-            loginAction.setOnClickListener(this);
+            final TextView actionLogin = (TextView) rootView.findViewById(R.id.action_login);
+            actionLogin.setOnClickListener(this);
 
             mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
             mDrawerListView.setAdapter(mArrayAdapter);
             mDrawerListView.setOnItemClickListener(this);
             mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         }
-        return mDrawerListView;
+        return rootView;
     }
 
     @Override
@@ -175,25 +174,32 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
         return super.onOptionsItemSelected(item);
     }
-
+    //</editor-fold>
     //<editor-fold desc="View.OnClickListener">
+
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.action_login:
-
+                mCallbacks.onNavigationDrawerActionCalled(NavigationDrawerCallbacks.Actions.Login);
+                break;
             case R.id.action_settings:
-
+                mCallbacks.onNavigationDrawerActionCalled(NavigationDrawerCallbacks.Actions.Settings);
+                break;
             default:
         }
     }
+
     //</editor-fold>
     //<editor-fold desc="AdapterView.OnItemClickListener">
+
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         selectItem(position);
     }
+
     //</editor-fold>
+
     //</editor-fold>
     //<editor-fold desc="Public methods">
     public boolean isDrawerOpen() {
@@ -313,10 +319,20 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
      * Callbacks interface that all activities using this fragment must implement.
      */
     public static interface NavigationDrawerCallbacks {
+
+        public static enum Actions {Login, Search, Settings}
+
         /**
          * Called when an item in the navigation drawer is selected.
+         * @param position the position index of the selected item.
          */
-        void onNavigationDrawerItemSelected(int position);
+        void onNavigationDrawerItemSelected(final int position);
+
+        /**
+         * Called when an action calls to be completed, i.e. when action item is selected.
+         * @param action
+         */
+        void onNavigationDrawerActionCalled(final Actions action);
     }
 
     //</editor-fold>

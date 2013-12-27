@@ -6,24 +6,23 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.fsteller.mobile.android.teammatesapp.fragments.base.ITeammatesCollection;
 import com.fsteller.mobile.android.teammatesapp.fragments.base.NavigationDrawerFragment;
 import com.fsteller.mobile.android.teammatesapp.fragments.events.EventsPage;
 import com.fsteller.mobile.android.teammatesapp.fragments.notification.NotificationsPage;
 import com.fsteller.mobile.android.teammatesapp.fragments.teams.TeamsPage;
 
-public class Teammates extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+import java.util.ArrayList;
+
+public class Teammates extends Activity implements ITeammatesCollection, NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     //<editor-fold desc="Constants">
-
-    private static final Class[] activities = new Class[]{EventsPage.class, TeamsPage.class, NotificationsPage.class};
+    private static final String TAG = Teammates.class.getSimpleName();
+    private static final Class[] mFragmentPages = new Class[]{EventsPage.class, TeamsPage.class, NotificationsPage.class};
 
     //</editor-fold>
     //<editor-fold desc="Variables">
@@ -43,6 +42,8 @@ public class Teammates extends Activity
 
     //<editor-fold desc="Overridden Methods">
 
+    //<editor-fold desc="Activity Methods">
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,25 +56,6 @@ public class Teammates extends Activity
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-    }
-
-    @Override
-    public void onNavigationDrawerItemSelected(final int position) {
-        // update the main content by replacing fragments
-
-        try {
-
-            final Fragment mFragment = (Fragment) activities[position + 1].newInstance();
-            final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-            fragmentTransaction.replace(R.id.container, mFragment).commit();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //final FragmentManager fragmentManager = getFragmentManager();
-        //fragmentManager.beginTransaction().replace(R.id.container,PlaceholderFragment.newInstance(position + 1)).commit();
     }
 
     @Override
@@ -100,12 +82,78 @@ public class Teammates extends Activity
         }
         return super.onOptionsItemSelected(item);
     }
+    //</editor-fold>
+    //<editor-fold desc="ITeammatesCollection">
+
+    @Override
+    public ArrayList<Integer> getCollectionItems() {
+        return null;
+    }
+
+    @Override
+    public boolean isItemCollected(Integer itemId) {
+        return false;
+    }
+
+    @Override
+    public void actionRequest(Fragment sender, int requestCode) {
+
+    }
+
+    @Override
+    public void itemStateChanged(Fragment sender, Integer itemId, boolean checked) {
+
+    }
+
+    @Override
+    public void clearItemCollection() {
+
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
+
+    @Override
+    public void onNavigationDrawerItemSelected(final int position) {
+        // update the main content by replacing fragments
+
+        try {
+
+            final Fragment mFragment = (Fragment) mFragmentPages[position].newInstance();
+            final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            //fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+            fragmentTransaction.replace(R.id.container, mFragment).commit();
+            onSectionAttached(position);
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+
+        //final FragmentManager fragmentManager = getFragmentManager();
+        //fragmentManager.beginTransaction().replace(R.id.container,PlaceholderFragment.newInstance(position + 1)).commit();
+    }
+
+    @Override
+    public void onNavigationDrawerActionCalled(final Actions action) {
+        switch (action) {
+            case Login:
+                break;
+            case Search:
+                break;
+            case Settings:
+                break;
+            default:
+        }
+    }
+
+    //</editor-fold>
 
     //</editor-fold>
     //<editor-fold desc="Public Methods">
 
-    public void onSectionAttached(final int number) {
-        mTitle = getResources().getStringArray(R.array.app_activities)[number - 1];
+    public void onSectionAttached(final int position) {
+        mTitle = getResources().getStringArray(R.array.app_activities)[position];
     }
 
     public void restoreActionBar() {
@@ -116,6 +164,7 @@ public class Teammates extends Activity
             actionBar.setTitle(mTitle);
         }
     }
+
 
     //</editor-fold>
 }
