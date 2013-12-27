@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.helpers.databse;
+package com.fsteller.mobile.android.teammatesapp.helpers.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
- interface Entity {
+interface Entity {
 
     public Cursor loadAll();
 

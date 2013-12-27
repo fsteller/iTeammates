@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract.Contacts;
 
-import com.fsteller.mobile.android.teammatesapp.helpers.databse.TeammatesContract;
+import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
 
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
@@ -32,6 +32,9 @@ public interface TC {
     }
 
     public static interface Activity {
+
+        public static final String PARAMS = "activity_parameters";
+
         public static interface ActionRequest {
             public static final int Edit = ActivityActions.Edit;
             public static final int Share = ActivityActions.Share;

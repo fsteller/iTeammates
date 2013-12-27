@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.helpers.databse;
+package com.fsteller.mobile.android.teammatesapp.helpers.database;
 
 import android.content.ContentValues;
 import android.content.Context;
