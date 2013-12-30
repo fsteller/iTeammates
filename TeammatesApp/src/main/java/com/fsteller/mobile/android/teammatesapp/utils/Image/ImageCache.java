@@ -139,7 +139,7 @@ public class ImageCache {
             return;
         }
 
-        // Create to memory cache
+        // AddItem to memory cache
         if (mMemoryCache != null && mMemoryCache.get(data) == null) {
             mMemoryCache.put(data, bitmap);
         }

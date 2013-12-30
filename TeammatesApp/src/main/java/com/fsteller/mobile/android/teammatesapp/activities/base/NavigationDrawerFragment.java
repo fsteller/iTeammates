@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.fragments.base;
+package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -324,12 +324,14 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
         /**
          * Called when an item in the navigation drawer is selected.
+         *
          * @param position the position index of the selected item.
          */
         void onNavigationDrawerItemSelected(final int position);
 
         /**
          * Called when an action calls to be completed, i.e. when action item is selected.
+         *
          * @param action
          */
         void onNavigationDrawerActionCalled(final Actions action);

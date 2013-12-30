@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.fragments.teams;
+package com.fsteller.mobile.android.teammatesapp.activities.teams;
 
 import android.content.Context;
 import android.content.CursorLoader;
@@ -24,8 +24,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
-import com.fsteller.mobile.android.teammatesapp.fragments.base.FragmentPageBase;
-import com.fsteller.mobile.android.teammatesapp.fragments.base.TC;
+import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase;
+import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.DateTime;
 
@@ -162,8 +162,8 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
 
         mode.finish();
         final int requestCode =
-              item.getItemId() == R.id.action_share ? TC.Activity.ActionRequest.Share :
-              item.getItemId() == R.id.action_delete ? TC.Activity.ActionRequest.Delete : -1;
+                item.getItemId() == R.id.action_share ? TC.Activity.ActionRequest.Share :
+                        item.getItemId() == R.id.action_delete ? TC.Activity.ActionRequest.Delete : -1;
 
         return sendActionRequest(requestCode);
     }

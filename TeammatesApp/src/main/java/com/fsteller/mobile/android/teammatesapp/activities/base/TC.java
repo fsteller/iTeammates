@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.fragments.base;
+package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -33,13 +33,31 @@ public interface TC {
 
     public static interface Activity {
 
-        public static final String PARAMS = "activity_parameters";
+        public static interface PARAMS {
+            public static final String ID = "activity_parameters";
+            public static final String ACCOUNT_ID = "activity_account_id";
+            public static final String COLLECTION_ID = "activity_collection_id";
+        }
+
+        public static interface MenuRequest {
+            public static final int About = ActivityActions.About;
+            public static final int AddItem = ActivityActions.Create;
+            public static final int Login = ActivityActions.SignIn;
+            public static final int Settings = ActivityActions.Settings;
+        }
 
         public static interface ActionRequest {
             public static final int Edit = ActivityActions.Edit;
             public static final int Share = ActivityActions.Share;
             public static final int Delete = ActivityActions.Delete;
             public static final int PickImage = ActivityActions.PickImage;
+        }
+
+        public static interface Dialog {
+            public static final int About = ActivityActions.About;
+            public static final int Share = ActivityActions.Share;
+            public static final int SignIn = ActivityActions.SignIn;
+            public static final int Settings = ActivityActions.Settings;
         }
     }
 

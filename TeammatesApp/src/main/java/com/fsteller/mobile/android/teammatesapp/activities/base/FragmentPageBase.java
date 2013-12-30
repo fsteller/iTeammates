@@ -1,6 +1,5 @@
-package com.fsteller.mobile.android.teammatesapp.fragments.base;
+package com.fsteller.mobile.android.teammatesapp.activities.base;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.SearchView;
 
 import com.fsteller.mobile.android.teammatesapp.R;

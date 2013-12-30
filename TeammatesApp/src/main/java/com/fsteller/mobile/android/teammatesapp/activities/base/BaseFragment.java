@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.fragments.base;
+package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.Activity;
 import android.app.Fragment;

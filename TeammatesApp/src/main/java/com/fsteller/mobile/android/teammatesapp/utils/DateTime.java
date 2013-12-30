@@ -16,7 +16,8 @@ import java.util.TimeZone;
  */
 public final class DateTime {
 
-    private DateTime(){}
+    private DateTime() {
+    }
 
     private static final String TAG = DateTime.class.getSimpleName();
 
@@ -52,10 +53,10 @@ public final class DateTime {
     }
 
     public static String getDate(long milliSeconds, String dateFormat) {
-        // Create a DateFormatter object for displaying date in specified format.
+        // AddItem a DateFormatter object for displaying date in specified format.
         DateFormat formatter = new SimpleDateFormat(dateFormat);
 
-        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        // AddItem a calendar object that will convert the date and time value in milliseconds to date.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());

@@ -16,7 +16,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
-import com.fsteller.mobile.android.teammatesapp.fragments.base.TC;
+import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 
 import java.util.Locale;

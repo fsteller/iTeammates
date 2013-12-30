@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.fsteller.mobile.android.teammatesapp.fragments.base.TC;
+import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 
 import java.util.ArrayList;
 
@@ -66,8 +66,8 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
         Log.d(TAG, String.format("sendBroadcast: %s", receiverPermission));
         final Intent intent = new Intent(receiverPermission);
 
-        intent.putStringArrayListExtra(TC.Activity.PARAMS, params);
         intent.putExtra(TC.Broadcast.BROADCAST_ACTION, action);
+        intent.putStringArrayListExtra(TC.Activity.PARAMS.ID, params);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

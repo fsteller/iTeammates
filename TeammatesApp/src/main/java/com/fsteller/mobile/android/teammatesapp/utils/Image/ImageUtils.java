@@ -24,7 +24,8 @@ public final class ImageUtils {
 
     private static final String TAG = ImageUtils.class.getSimpleName();
 
-    private ImageUtils(){}
+    private ImageUtils() {
+    }
 
     public static ImageLoader setupImageLoader(final Activity activity, final int defaultImageRefId, final BitmapProcessor callback) {
 
@@ -64,7 +65,7 @@ public final class ImageUtils {
         // Resolve list item preferred height theme attribute into typedValue
         activity.getTheme().resolveAttribute(android.R.attr.listPreferredItemHeight, typedValue, true);
 
-        // Create a new DisplayMetrics object
+        // AddItem a new DisplayMetrics object
         final DisplayMetrics metrics = new DisplayMetrics();
 
         // Populate the DisplayMetrics

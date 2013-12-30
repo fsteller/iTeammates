@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context="com.fsteller.mobile.android.teammatesapp.fragments.base.NavigationDrawerFragment"
+    tools:context="com.fsteller.mobile.android.teammatesapp.activities.base.NavigationDrawerFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -42,6 +42,6 @@
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
         android:paddingStart="?android:attr/listPreferredItemPaddingLeft"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
+        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.fragments.events;
+package com.fsteller.mobile.android.teammatesapp.activities.events;
 
 import android.content.Intent;
 import android.content.Loader;
@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
-import com.fsteller.mobile.android.teammatesapp.fragments.base.FragmentPageBase;
-import com.fsteller.mobile.android.teammatesapp.fragments.base.TC;
+import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase;
+import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 
 /**
  * Created by fhernandezs on 24/12/13 for iTeammates.
