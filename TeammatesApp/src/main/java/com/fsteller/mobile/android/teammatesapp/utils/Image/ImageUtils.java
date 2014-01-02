@@ -27,6 +27,10 @@ public final class ImageUtils {
     private ImageUtils() {
     }
 
+    public static ImageLoader setupImageLoader(final Activity activity, final int defaultImageRefId) {
+        return setupImageLoader(activity, defaultImageRefId, ImageProcessor.getInstance());
+    }
+
     public static ImageLoader setupImageLoader(final Activity activity, final int defaultImageRefId, final BitmapProcessor callback) {
 
         final ImageLoader mImageLoader = new ImageLoader(activity, getListPreferredItemHeight(activity)) {
@@ -76,6 +80,17 @@ public final class ImageUtils {
     }
 
     public static final class ImageProcessor implements BitmapProcessor {
+
+        private static ImageProcessor instance = null;
+
+        private ImageProcessor() {
+        }
+
+        public static ImageProcessor getInstance() {
+            if (instance == null)
+                instance = new ImageProcessor();
+            return instance;
+        }
 
         @Override
         public final Bitmap loadImage(final Context context, final String imageData, final int imageSize) {

@@ -151,7 +151,7 @@ public final class TeammatesContract {
             //</editor-fold>
 
             //<editor-fold desc="pubic methods">
-            public static Uri getTeamContactsDataUri(int id) {
+            public static Uri getTeamContactUri(int id) {
                 final Uri result = getTeamDataUri(id);
                 return Uri.withAppendedPath(result, CONTENT_DIRECTORY);
             }

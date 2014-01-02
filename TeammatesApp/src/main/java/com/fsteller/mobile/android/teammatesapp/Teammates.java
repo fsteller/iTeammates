@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.fsteller.mobile.android.teammatesapp.activities.base.BaseActivity;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ITeammatesCollection;
 import com.fsteller.mobile.android.teammatesapp.activities.base.NavigationDrawerFragment;
 import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
@@ -23,17 +24,17 @@ import com.fsteller.mobile.android.teammatesapp.activities.events.Events;
 import com.fsteller.mobile.android.teammatesapp.activities.events.EventsPage;
 import com.fsteller.mobile.android.teammatesapp.activities.notification.Notifications;
 import com.fsteller.mobile.android.teammatesapp.activities.notification.NotificationsPage;
-import com.fsteller.mobile.android.teammatesapp.activities.teams.Teams;
+import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsMaintenance;
 import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsPage;
 
 import java.util.ArrayList;
 
-public class Teammates extends Activity implements ITeammatesCollection, NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Teammates extends BaseActivity implements ITeammatesCollection, NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     //<editor-fold desc="Constants">
 
     private static final String TAG = Teammates.class.getSimpleName();
-    private static final Class[] childActivities = new Class[]{Events.class, Teams.class, Notifications.class};
+    private static final Class[] childActivities = new Class[]{Events.class, TeamsMaintenance.class, Notifications.class};
     private static final Class[] mFragmentPages = new Class[]{EventsPage.class, TeamsPage.class, NotificationsPage.class};
     private static final Class[] childDialogs = new Class[]{DialogFragment_Settings.class, DialogFragment_Login.class, DialogFragment_Share.class, DialogFragment_About.class};
 

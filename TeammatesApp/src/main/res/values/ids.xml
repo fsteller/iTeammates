@@ -21,4 +21,20 @@
     <item name="listView_item_image" type="id" />
     <item name="listView_item_description" type="id" />
     <item name="action_about" type="id" />
+    <item name="header_image" type="id" />
+    <item name="header_button" type="id" />
+    <item name="title_label" type="id" />
+    <item name="header_control" type="id" />
+    <item name="header_control_label" type="id" />
+    <item name="collection_title_label" type="id" />
+    <item name="collection_title_text" type="id" />
+    <item name="collection_lookup_key_label" type="id" />
+    <item name="collection_lookup_key_text" type="id" />
+    <item name="list_view" type="id" />
+    <item name="title_description_label" type="id" />
+    <item name="contact_image" type="id" />
+    <item name="contact_label" type="id" />
+    <item name="contact_phone" type="id" />
+    <item name="contact_check" type="id" />
+    <item name="contact_item" type="id" />
 </resources>

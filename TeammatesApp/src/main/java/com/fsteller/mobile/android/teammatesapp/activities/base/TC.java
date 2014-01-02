@@ -13,22 +13,23 @@ public interface TC {
 
     static interface ActivityActions {
 
-        public static final int Add = 1101;
-        public static final int Create = Add;
+        public static final int Add = 1101;         //Menu Action
+        public static final int Create = Add;       //Menu Action
 
-        public static final int Edit = 1103;
-        public static final int Update = Edit;
+        public static final int Edit = 1103;        //Menu Action
+        public static final int Update = Edit;      //Menu Action
 
-        public static final int Drop = 1105;
-        public static final int Delete = Drop;
+        public static final int Drop = 1105;        //Menu Action
+        public static final int Delete = Drop;      //Menu Action
 
-        public static final int Share = 1106;
-        public static final int Search = 1107;
-        public static final int PickImage = 1108;
+        public static final int Search = 1106;      //Menu Action
+        public static final int PickImage = 1107;   //Menu Action
 
-        public static final int Settings = 1109;
-        public static final int SignIn = 1110;
-        public static final int About = 1111;
+
+        public static final int Share = 1108;       //Menu Action
+        public static final int Settings = 1109;    //Menu Action
+        public static final int SignIn = 1110;      //Menu Action
+        public static final int About = 1111;       //Menu Action
     }
 
     public static interface Activity {
@@ -37,6 +38,8 @@ public interface TC {
             public static final String ID = "activity_parameters";
             public static final String ACCOUNT_ID = "activity_account_id";
             public static final String COLLECTION_ID = "activity_collection_id";
+            public static final String COLLECTION_ITEMS = "activity_collection_items";
+            public static final String COLLECTION_IMAGE_REF = "activity_collection_image_ref";
         }
 
         public static interface MenuRequest {
@@ -104,6 +107,8 @@ public interface TC {
                     // a contact's current _ID value and LOOKUP_KEY, the teams Provider can generate
                     // a "permanent" contact URI.
                     Contacts.LOOKUP_KEY,
+                    // Indicates whether or not a contact has a registered phone number
+                    Contacts.HAS_PHONE_NUMBER,
                     // In platform version 3.0 and later, the teams table contains
                     // DISPLAY_NAME_PRIMARY, which either contains the contact's displayable name or
                     // some other useful identifier such as an email address. This column isn't
@@ -121,9 +126,10 @@ public interface TC {
             // The query column numbers which map to each value in the projection
             final static int ID = 0;
             final static int LOOKUP_KEY = 1;
-            final static int DISPLAY_NAME = 2;
-            final static int PHOTO_THUMBNAIL_DATA = 3;
-            final static int SORT_KEY = 4;
+            final static int HAS_PHONE_NUMBER = 2;
+            final static int DISPLAY_NAME = 3;
+            final static int PHOTO_THUMBNAIL_DATA = 4;
+            final static int SORT_KEY = 5;
         }
 
         public interface CalendarQuery {

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/teammates_header_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <view
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:id="@id/header_image"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            class="com.fsteller.mobile.android.teammatesapp.utils.Image.RoundedImageView" />
+
+        <ImageButton
+            android:id="@id/header_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_camera"
+            android:layout_alignBottom="@id/header_image"
+            android:layout_alignStart="@id/header_image"
+            android:layout_alignLeft="@id/header_image"
+            android:contentDescription="@string/emptyString" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:weightSum="1"
+        android:padding="@dimen/default_padding">
+
+        <TextView
+            android:text="@string/emptyString"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@id/title_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="@string/emptyString"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_label"
+            android:id="@id/title_description_label"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:text="@string/emptyString"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@id/header_control_label"
+            android:layout_below="@id/title_description_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <FrameLayout
+            android:visibility="gone"
+            android:id="@id/header_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header_control_label" />
+
+    </RelativeLayout>
+</LinearLayout>

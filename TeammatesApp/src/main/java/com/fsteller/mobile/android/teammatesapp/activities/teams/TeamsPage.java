@@ -243,7 +243,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
         public TeamsPortraitListAdapter(final Context context) {
             super(context,
                     TC.Queries.TeamsQuery.SORT_KEY,
-                    R.layout.page_listview_item,
+                    R.layout.listview_item_page,
                     TC.Queries.TeamsQuery.TEAMS_PROJECTION,
                     new int[]{
                             R.id.listView_item_date,
@@ -305,7 +305,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
         public TeamsLandscapeListAdapter(final Context context) {
             super(context,
                     TC.Queries.TeamsQuery.SORT_KEY,
-                    R.layout.page_gridview_item,
+                    R.layout.gridview_item_page,
                     TC.Queries.TeamsQuery.TEAMS_PROJECTION,
                     new int[]{
                             R.id.listView_item_date,

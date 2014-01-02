@@ -6,10 +6,10 @@
 
     </style>
 
-    <!-- Search text highlight theme. -->
     <style name="searchTextHighlight">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/holo_orange</item>
     </style>
 
+    <dimen name="titleText_size">16dp</dimen>
 </resources>

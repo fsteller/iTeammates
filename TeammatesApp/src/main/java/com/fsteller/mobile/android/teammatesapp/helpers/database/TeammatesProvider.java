@@ -49,10 +49,10 @@ public final class TeammatesProvider extends ContentProvider {
         URI_MATCHER.addURI(TeammatesContract.AUTHORITY, TeammatesContract.Teams.PATH_NUMERIC_FILTER, TEAM_FILTER);
         URI_MATCHER.addURI(TeammatesContract.AUTHORITY, TeammatesContract.Teams.PATH_TEXT_FILTER, TEAM_FILTER);
 
-        //URI_MATCHER.addURI(TeammatesContract.AUTHORITY, TeammatesContract.Teams.PATH_FILTER, TEAM_FILTER);
+        //URI_MATCHER.addURI(TeammatesContract.AUTHORITY, TeammatesContract.TeamsMaintenance.PATH_FILTER, TEAM_FILTER);
 
         //SearchManager.SUGGEST_URI_PATH_QUERY
-        //URI_MATCHER.addURI(TeammatesContract.AUTHORITY, TeammatesContract.Teams.PATH_EXPRESSION_FILTER, TEAM_EX_FILTER_MATCH);
+        //URI_MATCHER.addURI(TeammatesContract.AUTHORITY, TeammatesContract.TeamsMaintenance.PATH_EXPRESSION_FILTER, TEAM_EX_FILTER_MATCH);
 
 
         // Table teams.contacts related uris

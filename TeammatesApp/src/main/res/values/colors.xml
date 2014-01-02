@@ -42,4 +42,9 @@
     <color name="holo_gray_background">#ffe1e1e1</color>
     <color name="holo_gray_actionbar">#ff3c3c3c</color>
 
+
+    <color name="teammates_activity_background">@android:color/darker_gray</color>
+    <color name="teammates_control_transparent">@android:color/transparent</color>
+    <color name="teammates_header_background">@android:color/background_light</color>
+
 </resources>
