@@ -13,7 +13,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 /**
  * Created by fsteller on 12/30/13.
  */
-public class BaseActivity extends Activity {
+public abstract class ActivityBase extends Activity {
 
     protected TeammatesApp app;
     protected static final int SOFT_INPUT_MODE_VISIBLE = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
@@ -21,7 +21,7 @@ public class BaseActivity extends Activity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (BuildConfig.DEBUG)
@@ -53,7 +53,7 @@ public class BaseActivity extends Activity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(BaseActivity.this, msg, duration);
+                Toast.makeText(ActivityBase.this, msg, duration);
             }
         });
     }

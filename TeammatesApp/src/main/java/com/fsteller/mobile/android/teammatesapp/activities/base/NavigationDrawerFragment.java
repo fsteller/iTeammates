@@ -179,15 +179,20 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(final View v) {
+        NavigationDrawerCallbacks.Actions actions = NavigationDrawerCallbacks.Actions.None;
         switch (v.getId()) {
             case R.id.action_login:
-                mCallbacks.onNavigationDrawerActionCalled(NavigationDrawerCallbacks.Actions.Login);
+                actions = NavigationDrawerCallbacks.Actions.Login;
                 break;
             case R.id.action_settings:
-                mCallbacks.onNavigationDrawerActionCalled(NavigationDrawerCallbacks.Actions.Settings);
+                actions = NavigationDrawerCallbacks.Actions.Settings;
                 break;
             default:
         }
+        if (mDrawerLayout != null)
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        mCallbacks.onNavigationDrawerActionCalled(actions);
+
     }
 
     //</editor-fold>
@@ -320,7 +325,7 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
      */
     public static interface NavigationDrawerCallbacks {
 
-        public static enum Actions {Login, Search, Settings}
+        public static enum Actions {None, Login, Settings}
 
         /**
          * Called when an item in the navigation drawer is selected.

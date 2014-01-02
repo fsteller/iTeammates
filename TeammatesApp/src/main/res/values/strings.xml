@@ -44,6 +44,11 @@
     <string name="created_label">Create at: %s</string>
     <string name="updated_label">Las update on: %s</string>
     <string name="emptyString" />
+    <string name="Name">Name</string>
+    <string name="Contact">Contact</string>
+    <string name="teamsMaintenace_titleLabel">Teams</string>
+    <string name="teamsMaintenace_titleDescriptionLabel">Please, provide a team name and optional image&#8230;</string>
+    <string name="selectPicture">Please Select a Picture</string>
 
 
 </resources>

@@ -19,7 +19,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 /**
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
-public abstract class FragmentPageBase extends BaseFragment implements AbsListView.OnScrollListener, SearchView.OnQueryTextListener, AbsListView.MultiChoiceModeListener {
+public abstract class FragmentPageBase extends FragmentBase implements AbsListView.OnScrollListener, SearchView.OnQueryTextListener, AbsListView.MultiChoiceModeListener {
 
     //<editor-fold desc="Constants">
 
@@ -111,7 +111,7 @@ public abstract class FragmentPageBase extends BaseFragment implements AbsListVi
             final View cardView = rootView.findViewById(R.id.card);
             if (cardView != null) {
                 cardView.setBackgroundResource(getBackgroundResource(checked));
-                mCallback.itemStateChanged(this, (int) id, checked);
+                mCallback.itemStateChanged(getPageIndex(), (int) id, checked);
             }
         }
     }
@@ -146,7 +146,7 @@ public abstract class FragmentPageBase extends BaseFragment implements AbsListVi
     protected boolean sendActionRequest(final int requestCode) {
         final boolean result = requestCode > 0;
         if (result)
-            mCallback.actionRequest(this, requestCode);
+            mCallback.actionRequest(getPageIndex(), requestCode);
         return result;
     }
 

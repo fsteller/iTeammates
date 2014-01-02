@@ -5,7 +5,9 @@
     android:padding="@dimen/default_padding"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@id/list_view"
-    android:orientation="vertical">
+    android:smoothScrollbar="true"
+    android:orientation="vertical"
+    android:dividerHeight="12dip"
+    android:id="@id/list_view">
 
 </ListView>

@@ -80,7 +80,7 @@ public class EventsPage extends FragmentPageBase implements AdapterView.OnItemCl
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
             restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, EMPTY_STRING);
-            mCallback.clearItemCollection();
+            mCallback.clearItemCollection(getPageIndex());
         }
     }
 

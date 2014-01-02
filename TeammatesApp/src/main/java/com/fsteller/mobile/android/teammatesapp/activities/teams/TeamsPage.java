@@ -44,7 +44,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
     //<editor-fold desc="Variables">
 
     private boolean isPortrait = true;
-    private Adapters.TeammatesSimpleCursorAdapter mTeamsAdapter = null;
+    private Adapters.CursorAdapter mTeamsAdapter = null;
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -112,9 +112,10 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-        mCallback.clearItemCollection();
-        mCallback.itemStateChanged(this, (int) id, true);
-        mCallback.actionRequest(this, TC.Activity.ActionRequest.Edit);
+        final int cId = getPageIndex();
+        mCallback.clearItemCollection(cId);
+        mCallback.itemStateChanged(cId, (int) id, true);
+        mCallback.actionRequest(cId, TC.Activity.ActionRequest.Edit);
     }
 
 
@@ -127,7 +128,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
             restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, EMPTY_STRING);
-            mCallback.clearItemCollection();
+            mCallback.clearItemCollection(getPageIndex());
         }
     }
 
@@ -238,7 +239,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
 
     //<editor-fold desc="Inner Classes">
 
-    private final class TeamsPortraitListAdapter extends Adapters.TeammatesSimpleCursorAdapter {
+    private final class TeamsPortraitListAdapter extends Adapters.CursorAdapter {
 
         public TeamsPortraitListAdapter(final Context context) {
             super(context,
@@ -291,7 +292,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
                     @Override
                     public void onClick(View v) {
                         final int position = mListView.getPositionForView(view);
-                        final boolean checked = !mCallback.isItemCollected((Integer) image.getTag());
+                        final boolean checked = !mCallback.isItemCollected(getPageIndex(), (Integer) image.getTag());
                         mListView.setItemChecked(position, checked);
                     }
                 });
@@ -300,7 +301,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
         }
     }
 
-    private final class TeamsLandscapeListAdapter extends Adapters.TeammatesSimpleCursorAdapter {
+    private final class TeamsLandscapeListAdapter extends Adapters.CursorAdapter {
 
         public TeamsLandscapeListAdapter(final Context context) {
             super(context,

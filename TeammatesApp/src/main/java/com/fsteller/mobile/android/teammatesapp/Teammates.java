@@ -12,8 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fsteller.mobile.android.teammatesapp.activities.base.BaseActivity;
-import com.fsteller.mobile.android.teammatesapp.activities.base.ITeammatesCollection;
+import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityBase;
+import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.activities.base.NavigationDrawerFragment;
 import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_About;
@@ -29,7 +29,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsPage;
 
 import java.util.ArrayList;
 
-public class Teammates extends BaseActivity implements ITeammatesCollection, NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Teammates extends ActivityBase implements IPageManager {
 
     //<editor-fold desc="Constants">
 
@@ -93,34 +93,35 @@ public class Teammates extends BaseActivity implements ITeammatesCollection, Nav
         return processMenuRequest(item.getItemId());
     }
     //</editor-fold>
-    //<editor-fold desc="ITeammatesCollection">
+
+    //<editor-fold desc="IPageManager">
 
     @Override
-    public ArrayList<Integer> getCollectionItems() {
-        return null;
+    public void actionRequest(final int collectionId, int requestCode) {
+
+    }
+
+    //<editor-fold desc="ICollection">
+
+    @Override
+    public void clearItemCollection(final Integer CollectionId) {
+
     }
 
     @Override
-    public boolean isItemCollected(Integer itemId) {
+    public boolean isItemCollected(final Integer CollectionId, final Integer itemId) {
         return false;
     }
 
     @Override
-    public void actionRequest(Fragment sender, int requestCode) {
-
-    }
-
-    @Override
-    public void itemStateChanged(Fragment sender, Integer itemId, boolean checked) {
-
-    }
-
-    @Override
-    public void clearItemCollection() {
+    public void itemStateChanged(final Integer CollectionId, final Integer itemId, final boolean checked) {
 
     }
 
     //</editor-fold>
+
+    //</editor-fold>
+
     //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
 
     @Override
@@ -148,8 +149,6 @@ public class Teammates extends BaseActivity implements ITeammatesCollection, Nav
     public void onNavigationDrawerActionCalled(final Actions action) {
         switch (action) {
             case Login:
-                break;
-            case Search:
                 break;
             case Settings:
                 break;

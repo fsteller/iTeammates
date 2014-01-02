@@ -63,15 +63,15 @@ class Constants {
     private final static String CONTACTS_NOTIFICATIONS = "contacts_notifications";
     //</editor-fold>
 
-    //<editor-fold desc="SQL AddItem Tables Sentences Constants">
-    private final static String CREATE_TABLE_TEAMS = "AddItem Table " + TEAMS + " ( "
+    //<editor-fold desc="SQL Create Tables Sentences Constants">
+    private final static String CREATE_TABLE_TEAMS = "Create Table " + TEAMS + " ( "
             + FIELD_ID + " Integer  Not Null Primary Key Autoincrement, "
             + FIELD_NAME + " Text Not Null, "
             + FIELD_CREATED_AT + " Int Not Null, "
             + FIELD_UPDATED_AT + " Int Not Null, "
             + FIELD_IMAGE_REFERENCE + " Text Not Null, "
             + "Unique(" + FIELD_NAME + ") On Conflict Ignore);";
-    private final static String CREATE_TABLE_EVENTS = "AddItem Table " + EVENTS + " ( "
+    private final static String CREATE_TABLE_EVENTS = "Create Table " + EVENTS + " ( "
             + FIELD_ID + " Integer Not Null Primary Key Autoincrement, "
             + FIELD_NAME + " Text Not Null, "
             + FIELD_CREATED_AT + " Int Not Null, "
@@ -83,51 +83,51 @@ class Constants {
             + "Foreign key (" + FIELD_PLACE_ID + ") References " + PLACES + " (" + FIELD_ID + ") On Delete Cascade, "
             + "Foreign key (" + FIELD_SCHEDULE_ID + ") References " + SCHEDULES + " (" + FIELD_ID + ") On Delete Cascade, "
             + "Unique(" + FIELD_NAME + ") On Conflict Ignore);";
-    private final static String CREATE_TABLE_PLACES = "AddItem Table " + PLACES +
+    private final static String CREATE_TABLE_PLACES = "Create Table " + PLACES +
             " ( " + FIELD_ID + " Integer Not Null Primary Key Autoincrement, " + FIELD_DIRECTIONS_DATA + " text );";
-    /*private final static String CREATE_TABLE_CONTACTS = "AddItem Table " + CONTACTS +" ( "
+    /*private final static String CREATE_TABLE_CONTACTS = "Create Table " + CONTACTS +" ( "
             + FIELD_ID + " Integer Not Null Primary Key Autoincrement, "
             + FIELD_CONTACT_TOKEN + " Text Not Null,"
             + " Unique(" + FIELD_CONTACT_TOKEN + ") On Conflict Ignore);";*/
-    private final static String CREATE_TABLE_SCHEDULES = "AddItem Table " + SCHEDULES +
+    private final static String CREATE_TABLE_SCHEDULES = "Create Table " + SCHEDULES +
             " ( " + FIELD_ID + " Integer Not Null Primary Key Autoincrement, " + FIELD_SCHEDULE_DATA + " text );";
-    private final static String CREATE_TABLE_NOTIFICATIONS = "AddItem Table " + NOTIFICATIONS +
+    private final static String CREATE_TABLE_NOTIFICATIONS = "Create Table " + NOTIFICATIONS +
             " ( " + FIELD_ID + " Integer Not Null Primary Key Autoincrement, " + FIELD_BODY + " text," + FIELD_COLOR + " int );";
-    private final static String CREATE_TABLE_CONFIGURATION = "AddItem Table " + CONFIGURATION +
+    private final static String CREATE_TABLE_CONFIGURATION = "Create Table " + CONFIGURATION +
             " ( " + FIELD_ID + " Integer Not Null Primary Key Autoincrement, " + FIELD_ACCOUNT_ID + " text );";
-    /*private final static String CREATE_TABLE_TEAMS_TEAMS = "AddItem Table " + TEAMS_TEAMS
+    /*private final static String CREATE_TABLE_TEAMS_TEAMS = "Create Table " + TEAMS_TEAMS
             + " ( " + FIELD_TEAM_ID + " Integer Not Null, " + FIELD_PARENT_ID +
             " Integer Not Null, Primary Key (" + FIELD_TEAM_ID + ", " + FIELD_PARENT_ID + ")," +
             " Foreign key (" + FIELD_TEAM_ID + ") References " + TEAMS + " (" + FIELD_ID + "), " +
             " Foreign key (" + FIELD_PARENT_ID + ") References " + TEAMS + "  (" + FIELD_ID + "));";*/
-   /* private final static String CREATE_TABLE_CONTACTS = "AddItem Table " + CONTACTS
+   /* private final static String CREATE_TABLE_CONTACTS = "Create Table " + CONTACTS
             + " ( " + FIELD_TEAM_ID + " Integer Not Null, " + FIELD_CONTACT_ID +
             " Integer Not Null, Primary Key (" + FIELD_TEAM_ID + ", " + FIELD_CONTACT_ID + ")" +
             " Foreign key (" + FIELD_TEAM_ID + ") References " + TEAMS + " (" + FIELD_ID + "), " +
             " Foreign key (" + FIELD_CONTACT_ID + ") References " + CONTACTS + " (" + FIELD_ID + "));";*/
-    private final static String CREATE_TABLE_CONTACTS = "AddItem Table " + CONTACTS + " ("
+    private final static String CREATE_TABLE_CONTACTS = "Create Table " + CONTACTS + " ("
             + FIELD_ID + " Integer  Not Null Primary Key Autoincrement, "
             + FIELD_TEAM_ID + " Integer Not Null, "
             + FIELD_CONTACT_TOKEN + " Integer Not Null, "
             + "Unique(" + FIELD_TEAM_ID + ", " + FIELD_CONTACT_TOKEN + ") On Conflict Ignore, "
             + "Foreign key (" + FIELD_TEAM_ID + ") References " + TEAMS + " (" + FIELD_ID + ") On Delete Cascade);";
-    private final static String CREATE_TABLE_EVENTS_CONTACTS = "AddItem Table " + EVENTS_CONTACTS
+    private final static String CREATE_TABLE_EVENTS_CONTACTS = "Create Table " + EVENTS_CONTACTS
             + " ( " + FIELD_EVENT_ID + " Integer Not Null, " + FIELD_CONTACT_ID +
             " Integer Not Null, Primary Key (" + FIELD_EVENT_ID + ", " + FIELD_CONTACT_ID + ")" +
             " Foreign key (" + FIELD_EVENT_ID + ") References " + EVENTS + "(" + FIELD_ID + "), " +
             " Foreign key (" + FIELD_CONTACT_ID + ") References " + CONTACTS + " (" + FIELD_ID + "));";
-    private final static String CREATE_TABLE_TEAMS_NOTIFICATIONS = "AddItem Table " + TEAMS_NOTIFICATIONS
+    private final static String CREATE_TABLE_TEAMS_NOTIFICATIONS = "Create Table " + TEAMS_NOTIFICATIONS
             + " ( " + FIELD_TEAM_ID + " Integer Not Null, " + FIELD_NOTIFICATION_ID +
             " Integer Not Null, Primary Key (" + FIELD_TEAM_ID + ", " + FIELD_NOTIFICATION_ID + ")" +
             " Foreign key (" + FIELD_TEAM_ID + ") References " + TEAMS + " (" + FIELD_ID + "), " +
             " Foreign key (" + FIELD_NOTIFICATION_ID + ") References " + NOTIFICATIONS + " (" + FIELD_ID + "));";
-    private final static String CREATE_TABLE_CONTACTS_NOTIFICATIONS = "AddItem Table " + CONTACTS_NOTIFICATIONS
+    private final static String CREATE_TABLE_CONTACTS_NOTIFICATIONS = "Create Table " + CONTACTS_NOTIFICATIONS
             + " ( " + FIELD_CONTACT_ID + " Integer Not Null, " + FIELD_NOTIFICATION_ID +
             " Integer Not Null, Primary Key (" + FIELD_CONTACT_ID + ", " + FIELD_NOTIFICATION_ID + ")" +
             " Foreign key (" + FIELD_CONTACT_ID + ") References " + CONTACTS + " (" + FIELD_ID + "), " +
             " Foreign key (" + FIELD_NOTIFICATION_ID + ") References " + NOTIFICATIONS + " (" + FIELD_ID + "));";
     //</editor-fold>
-    //<editor-fold desc="SQL AddItem Tables Constraints Sentences Constants">
+    //<editor-fold desc="SQL Create Tables Constraints Sentences Constants">
     //</editor-fold>
     //<editor-fold desc="SQL Delete Tables Sentences Constants">
     private final static String DROP_TABLE_TEAMS = "DROP TABLE IF EXISTS " + TEAMS + ";";

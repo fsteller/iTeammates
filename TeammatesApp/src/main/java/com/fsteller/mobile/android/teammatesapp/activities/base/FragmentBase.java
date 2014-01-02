@@ -15,11 +15,11 @@ import com.fsteller.mobile.android.teammatesapp.R;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public abstract class BaseFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class FragmentBase extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     //<editor-fold desc="Constants">
 
-    protected static final String TAG = BaseFragment.class.getSimpleName();
+    protected static final String TAG = FragmentBase.class.getSimpleName();
     protected static final String EMPTY_STRING = "";
 
     //</editor-fold>
@@ -28,7 +28,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected View mEmptyView = null;
     protected AbsListView mListView = null;
     protected InputMethodManager imm = null;
-    protected ITeammatesCollection mCallback = null;
+    protected IPageManager mCallback = null;
     protected String mSearchTerm = "";
 
     //</editor-fold>
@@ -38,7 +38,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        mCallback = ((ITeammatesCollection) activity);
+        mCallback = ((IPageManager) activity);
     }
 
     @Override
