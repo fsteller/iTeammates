@@ -5,9 +5,15 @@ package com.fsteller.mobile.android.teammatesapp.activities.base;
  */
 public interface ICollection {
 
-    public void clearItemCollection(final Integer collectionId);
+    public void clearCollection(final Integer collectionId);
 
-    public boolean isItemCollected(final Integer collectionId, final Integer itemId);
+    public void addItem(final Integer collectionId, final Integer itemId);
 
     public void itemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked);
+
+
+    public int getSize(final Integer collectionId);
+
+    public boolean isCollected(final Integer collectionId, final Integer itemId);
+
 }

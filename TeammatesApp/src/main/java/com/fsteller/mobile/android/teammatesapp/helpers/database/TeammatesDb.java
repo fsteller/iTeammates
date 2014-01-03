@@ -10,7 +10,7 @@ import android.util.Log;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-class TeammatesDb extends SQLiteOpenHelper {
+public class TeammatesDb extends SQLiteOpenHelper {
 
     private static final String TAG = TeammatesDb.class.getSimpleName();
 

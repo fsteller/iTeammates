@@ -33,7 +33,7 @@ public final class TeammatesContract {
 
     //<editor-fold desc="Interfaces">
 
-    private static interface TeamsColumns extends BaseColumns {
+    public static interface TeamsColumns extends BaseColumns {
         public static final String NAME = Constants.Teams.Fields[1];
         public static final String IMAGE_REF = Constants.Teams.Fields[2];
         public static final String UPDATED_AT = Constants.Teams.Fields[3];
@@ -43,7 +43,7 @@ public final class TeammatesContract {
         public static final List<String> COLUMNS = Arrays.asList((Constants.Teams.Fields));
     }
 
-    private static interface ContactsColumns extends BaseColumns {
+    public static interface ContactsColumns extends BaseColumns {
         public static final String TEAM_ID = Constants.Contacts.Fields[1];
         public static final String TOKEN = Constants.Contacts.Fields[2];
         public static final String DEFAULT_SORT_ORDER = TOKEN + " DESC";
@@ -51,7 +51,7 @@ public final class TeammatesContract {
         public static final List<String> COLUMNS = Arrays.asList((Constants.Contacts.Fields));
     }
 
-    private static interface EventsColumns extends BaseColumns {
+    public static interface EventsColumns extends BaseColumns {
         public static final String NAME = Constants.Events.Fields[1];
         public static final String IMAGE_REF = Constants.Events.Fields[2];
         public static final String UPDATED_AT = Constants.Events.Fields[3];

@@ -1,6 +1,5 @@
 package com.fsteller.mobile.android.teammatesapp.activities.teams;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -8,8 +7,13 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -26,6 +30,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
@@ -34,7 +39,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
     //<editor-fold desc="Constants">
 
-    private static final int INDEX = 0x00001;
+    private static final int INDEX = TC.Activity.Mantinace.TEAMS;
     private static final String TAG = TeamsMaintenance.class.getSimpleName();
 
     //</editor-fold>
@@ -57,6 +62,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     //<editor-fold desc="Overridden Methods">
 
     //<editor-fold desc="Activity">
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,14 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         this.setIsKeyBoardEnabled(false);
         this.setContentView(R.layout.activity_teams_maintenance);
 
+        this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
+        this.collectionKey = (EditText) findViewById(R.id.collection_lookup_key_text);
+        this.collectionName = (EditText) findViewById(R.id.collection_title_text);
+        this.headerImage = (ImageView) findViewById(R.id.header_image);
+        this.mListView = (ListView) findViewById(R.id.list_view);
+
+        this.collectionKey.addTextChangedListener(this);
+
         final TextView headerTitle = (TextView) findViewById(R.id.title_label);
         final ImageButton button = (ImageButton) findViewById(R.id.header_button);
         final TextView headerDescription = (TextView) findViewById(R.id.title_description_label);
@@ -77,22 +91,37 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Raising intent to pick image up...");
-                final Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                final Intent intent = new Intent(Intent.ACTION_GET_CONTENT,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+
+                //intent.setType("image/*");
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 startActivityForResult(Intent.createChooser
                         (intent, getString(R.string.selectPicture)), TC.Activity.ActionRequest.PickImage);
             }
         });
 
-        this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
-        this.collectionKey = (EditText) findViewById(R.id.collection_lookup_key_text);
-        this.collectionName = (EditText) findViewById(R.id.collection_title_text);
-        this.headerImage = (ImageView) findViewById(R.id.header_image);
-        this.mListView = (ListView) findViewById(R.id.list_view);
-
         this.loadData(extras);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.maintenance_team, menu);
+
+        final MenuItem buttonItem = menu.findItem(R.id.action_finish);
+
+        if (buttonItem != null) {
+            final Button buttonView = (Button) buttonItem.getActionView();
+            if (buttonView != null) {
+                buttonView.setOnClickListener(this);
+                buttonView.setText(getResources().getString(R.string.action_finish));
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -106,10 +135,15 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     }
 
     @Override
+    public void onBackPressed() {
+        finalize(RESULT_CANCELED, null);
+    }
+
+    @Override
     protected void onSaveInstanceState(final Bundle outState) {
 
         if (outState != null) {
-            outState.putString(TC.Activity.PARAMS.COLLECTION_ID, getEntityName());
+            outState.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
             outState.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageStringRef());
             outState.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, checkedContacts);
         }
@@ -121,10 +155,22 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         super.onRestoreInstanceState(savedInstanceState);
 
         if (savedInstanceState != null) {
-            setEntityName(savedInstanceState.getString(TC.Activity.PARAMS.COLLECTION_ID));
+            setEntityName(savedInstanceState.getString(TC.Activity.PARAMS.COLLECTION_NAME));
             setImageRef(savedInstanceState.getString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF));
             checkedContacts = savedInstanceState.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
         }
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="TextWatcher">
+
+    @Override
+    public void afterTextChanged(final Editable s) {
+        mSearchTerm = s.toString().trim();
+        restartLoader(mSearchTerm.isEmpty() ?
+                TC.Queries.ContactsQuery.SIMPLE_QUERY_ID :
+                TC.Queries.ContactsQuery.FILTER_QUERY_ID1
+        );
     }
 
     //</editor-fold>
@@ -168,23 +214,61 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     }
 
     //</editor-fold>
+    //<editor-fold desc="Button.OnClickListener">
 
     @Override
-    public void clearItemCollection(final Integer collectionId) {
+    public void onClick(final View v) {
+        finalize(RESULT_OK, getResult());
+    }
+
+    //</editor-fold>
+
+    @Override
+    protected Intent getResult() {
+
+        final Intent result = new Intent();
+        final Bundle extras = new Bundle();
+
+        extras.putInt(TC.Activity.PARAMS.ID, getMaintenanceId());
+        extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
+        extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageStringRef());
+        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, checkedContacts);
+        extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
+        result.putExtra(TC.Activity.PARAMS.ID, extras);
+
+        return result;
+    }
+
+    @Override
+    public void clearCollection(final Integer collectionId) {
         checkedContacts.clear();
     }
 
     @Override
-    public boolean isItemCollected(final Integer collectionId, final Integer itemId) {
-        return checkedContacts.contains(itemId);
+    public void addItem(final Integer collectionId, final Integer itemId) {
+        checkedContacts.add(itemId);
     }
 
     @Override
     public void itemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked) {
+        if (checked && checkedContacts.contains(itemId))
+            checkedContacts.remove(itemId);
+        else
+            checkedContacts.add(itemId);
+    }
 
+    @Override
+    public boolean isCollected(final Integer collectionId, final Integer itemId) {
+        return checkedContacts.contains(itemId);
+    }
+
+    @Override
+    public int getSize(final Integer collectionId) {
+        return checkedContacts.size();
     }
 
     //</editor-fold>
+    //<editor-fold desc="Private Methods">
 
     private void loadData(final Bundle extras) {
 
@@ -204,10 +288,11 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
                             data.moveToFirst();
                             setEntityName(data.getString(TC.Queries.TeamsQuery.NAME));
                             setImageRef(data.getString(TC.Queries.TeamsQuery.IMAGE_REF));
+
                             Log.i(TAG, String.format("Loading '%s' contacts...", getEntityName()));
-                            checkedContacts.add(data.getInt(TC.Queries.TeamsQuery.CONTACT_TOKEN));
+                            addItem(getMaintenanceId(), data.getInt(TC.Queries.TeamsQuery.CONTACT_TOKEN));
                             while (data.moveToNext())
-                                checkedContacts.add(data.getInt(TC.Queries.TeamsQuery.CONTACT_TOKEN));
+                                addItem(getMaintenanceId(), data.getInt(TC.Queries.TeamsQuery.CONTACT_TOKEN));
                         } catch (Exception e) {
                             Log.e(TAG, e.getMessage(), e);
                             e.printStackTrace();
@@ -241,18 +326,20 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         final Uri contentUri = Uri.withAppendedPath(TC.Queries.ContactsQuery.FILTER_URI, Uri.encode(searchTerm));
 
         String selection = TC.Queries.ContactsQuery.SELECTION;
-        String[] params = new String[checkedContacts.size()];
+        String[] params = new String[getSize(getMaintenanceId())];
         for (int i = 0; i < checkedContacts.size(); i++) {
-            selection += String.format("AND %s <> ?", projection[0]);
+            selection += String.format("AND %s <> ?", projection[1]);
             params[i] = checkedContacts.get(i).toString();
         }
 
         return new CursorLoader(this, contentUri, projection, selection, params, sortOrder);
     }
 
-    private final class ContactsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
+    //</editor-fold>
 
-        final ContentResolver cr = getContentResolver();
+    //<editor-fold desc="Inner Class">
+
+    private final class ContactsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
 
         public ContactsAdapter(final Context context) {
             super(context,
@@ -260,8 +347,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
                     R.layout.listview_item_contact,
                     TC.Queries.ContactsQuery.PROJECTION,
                     new int[]{
-                            R.id.contact_label,
-                            R.id.contact_phone,
+                            R.id.contact_name,
+                            R.id.contact_status,
                             R.id.contact_image,
                             R.id.contact_check
                     }
@@ -270,42 +357,44 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
         @Override
         protected View setupView(final View view) {
-
-            final CheckBox checkBox = (CheckBox) view.findViewById(R.id.contact_check);
-            if (checkBox != null)
-                checkBox.setOnCheckedChangeListener(this);
-
+            final ContactItem mContactItem = new ContactItem();
+            mContactItem.contact_name = (TextView) view.findViewById(R.id.contact_name);
+            mContactItem.contact_phone = (TextView) view.findViewById(R.id.contact_status);
+            mContactItem.contact_thumbnail = (ImageView) view.findViewById(R.id.contact_image);
+            mContactItem.check = (CheckBox) view.findViewById(R.id.contact_check);
+            mContactItem.check.setOnCheckedChangeListener(this);
+            view.setTag(mContactItem);
             return view;
         }
 
         @Override
-        public boolean setViewValue(final View view, final Cursor cursor, final int columnIndex) {
+        public void bindView(final View view, final Context context, final Cursor cursor) {
 
-            switch (view.getId()) {
-                case R.id.contact_phone:
-                    setBasicText(((TextView) view), cursor.getString(TC.Queries.ContactsQuery.CONTACT_STAUS));
-                    break;
-                case R.id.contact_label:
-                    setHighlightedText(((TextView) view), cursor.getString(TC.Queries.ContactsQuery.CONTACT_NAME), mSearchTerm);
-                    break;
-                case R.id.contact_image:
-                    setImageView((ImageView) view, mImageLoader, cursor.getString(TC.Queries.ContactsQuery.CONTACT_PHOTO_DATA));
-                    break;
-                case R.id.contact_check:
-                    final int id = cursor.getInt(TC.Queries.CalendarQuery.ID);
-                    ((CheckBox) view).setChecked(checkedContacts.contains(id));
-                    view.setTag(id);
-                    break;
-            }
-            return true;
+            final int id = cursor.getInt(TC.Queries.ContactsQuery.LOOKUP_KEY);
+            final ContactItem mContactItem = (ContactItem) view.getTag();
+
+            setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.ContactsQuery.CONTACT_STAUS));
+            setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.ContactsQuery.CONTACT_NAME), mSearchTerm);
+            setImageView(mContactItem.contact_thumbnail, mImageLoader, cursor.getString(TC.Queries.ContactsQuery.CONTACT_PHOTO_DATA));
+            mContactItem.check.setChecked(isCollected(getMaintenanceId(), id));
+            mContactItem.check.setTag(id);
         }
 
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
             final Integer id = (Integer) buttonView.getTag();
-            itemStateChanged(getIndex(), id, isChecked);
+            itemStateChanged(getMaintenanceId(), id, isChecked);
         }
 
+        private final class ContactItem {
+
+            ImageView contact_thumbnail = null;
+            TextView contact_phone = null;
+            TextView contact_name = null;
+            CheckBox check = null;
+        }
     }
 
+    //</editor-fold>
 }
+

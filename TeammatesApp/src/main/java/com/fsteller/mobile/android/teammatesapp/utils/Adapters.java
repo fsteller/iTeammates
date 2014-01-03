@@ -47,10 +47,14 @@ public final class Adapters {
             setViewBinder(this);
         }
 
-
         @Override
         public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
             return setupView(super.newView(context, cursor, parent));
+        }
+
+        @Override
+        public boolean setViewValue(final View view, final Cursor cursor, final int columnIndex) {
+            return true;
         }
 
         /**

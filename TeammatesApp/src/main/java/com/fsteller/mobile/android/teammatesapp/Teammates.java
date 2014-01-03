@@ -59,6 +59,43 @@ public class Teammates extends ActivityBase implements IPageManager {
 
     //<editor-fold desc="Overridden Methods">
 
+    //<editor-fold desc="IPageManager">
+
+    @Override
+    public void actionRequest(final int collectionId, int requestCode) {
+
+    }
+
+    //<editor-fold desc="ICollection">
+
+    @Override
+    public void clearCollection(final Integer CollectionId) {
+
+    }
+
+    @Override
+    public void addItem(final Integer collectionId, final Integer itemId) {
+
+    }
+
+    @Override
+    public void itemStateChanged(final Integer CollectionId, final Integer itemId, final boolean checked) {
+
+    }
+
+    @Override
+    public int getSize(final Integer collectionId) {
+        return -1;
+    }
+
+    @Override
+    public boolean isCollected(final Integer CollectionId, final Integer itemId) {
+        return false;
+    }
+
+    //</editor-fold>
+
+    //</editor-fold>
     //<editor-fold desc="Activity Methods">
 
     @Override
@@ -92,36 +129,16 @@ public class Teammates extends ActivityBase implements IPageManager {
     public boolean onOptionsItemSelected(final MenuItem item) {
         return processMenuRequest(item.getItemId());
     }
-    //</editor-fold>
-
-    //<editor-fold desc="IPageManager">
 
     @Override
-    public void actionRequest(final int collectionId, int requestCode) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    }
-
-    //<editor-fold desc="ICollection">
-
-    @Override
-    public void clearItemCollection(final Integer CollectionId) {
-
-    }
-
-    @Override
-    public boolean isItemCollected(final Integer CollectionId, final Integer itemId) {
-        return false;
-    }
-
-    @Override
-    public void itemStateChanged(final Integer CollectionId, final Integer itemId, final boolean checked) {
-
+        if (data != null && resultCode != RESULT_CANCELED)
+            resolveDataAction(requestCode, data);
     }
 
     //</editor-fold>
-
-    //</editor-fold>
-
     //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
 
     @Override
@@ -176,6 +193,7 @@ public class Teammates extends ActivityBase implements IPageManager {
 
     //</editor-fold>
     //<editor-fold desc="Private Methods">
+
     private boolean processMenuRequest(final int menuItemId) {
 
         final int requestCode =
@@ -193,6 +211,23 @@ public class Teammates extends ActivityBase implements IPageManager {
                 requestCode == TC.Activity.MenuRequest.Settings) &&
                 invokeDialog(this, requestCode);
     }
+
+    private boolean resolveDataAction(final int requestCode, final Intent data) {
+
+        switch (requestCode) {
+            case TC.Activity.DataActionRequest.Add:
+                return app.addData(data);
+            case TC.Activity.DataActionRequest.Update:
+                return app.updateData(data);
+            case TC.Activity.DataActionRequest.Delete:
+                return app.deleteData(data);
+            default:
+                Log.e(TAG, String.format("Error at resolveDataAction: no action taken for intent(%s).", data));
+                return false;
+        }
+    }
+
+
     //</editor-fold>
     //<editor-fold desc="Static Methods">
 
@@ -200,7 +235,7 @@ public class Teammates extends ActivityBase implements IPageManager {
         final Bundle extras = new Bundle();
 
         extras.putString(TC.Activity.PARAMS.ACCOUNT_ID, accountId);
-        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ID, dataIds);
+        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_NAME, dataIds);
 
         final Intent intent = new Intent(this, childActivities[currentPage]);
         intent.putExtra(TC.Activity.PARAMS.ID, extras);

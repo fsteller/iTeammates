@@ -49,6 +49,7 @@
     <string name="teamsMaintenace_titleLabel">Teams</string>
     <string name="teamsMaintenace_titleDescriptionLabel">Please, provide a team name and optional image&#8230;</string>
     <string name="selectPicture">Please Select a Picture</string>
+    <string name="action_finish">Done</string>
 
 
 </resources>

@@ -3,8 +3,10 @@ package com.fsteller.mobile.android.teammatesapp.activities.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.AbsListView;
+import android.widget.Button;
 
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
@@ -12,9 +14,13 @@ import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public abstract class ActivityMaintenanceBase extends ActivityBase implements Entity, IMaintenance {
+public abstract class ActivityMaintenanceBase extends ActivityBase implements Entity, IMaintenance, TextWatcher, Button.OnClickListener {
+
+    //<editor-fold desc="Constants">
 
     private final static String TAG = ActivityMaintenanceBase.class.getSimpleName();
+    //</editor-fold>
+    //<editor-fold desc="Variables">
 
     private final int index;
     private String name = "";
@@ -24,11 +30,18 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
     protected Adapters.CursorAdapter mCursorAdapter = null;
     protected ImageLoader mImageLoader = null;
 
+    //</editor-fold>
+    //<editor-fold desc="Constructor">
+
     protected ActivityMaintenanceBase(final int index) {
         this.index = index;
     }
 
-    public int getIndex() {
+    //</editor-fold>
+
+    //<editor-fold desc="Public Methods">
+
+    public int getMaintenanceId() {
         return index;
     }
 
@@ -64,9 +77,22 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
         this.imageRef = ref;
     }
 
+    //</editor-fold>
+    //<editor-fold desc="Protected Methods">
     protected void restartLoader(final int queryId) {
         getLoaderManager().restartLoader(queryId, null, this);
     }
+
+    protected void finalize(final int result, final Intent intent) {
+        Log.d(TAG, String.format("Finalizing, resultCode: %s", result));
+        setResult(result, intent);
+        finish();
+    }
+
+    protected abstract Intent getResult();
+
+    //</editor-fold>
+    //<editor-fold desc="Overridden Methods">
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -82,6 +108,20 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
             }
         }
     }
+
+    //<editor-fold desc="TextWatcher">
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    //</editor-fold>
 
     //<editor-fold desc="AbsListView.OnScrollListener">
 
@@ -100,6 +140,8 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
                 mImageLoader.setPauseWork(false);
         }
     }
+
+    //</editor-fold>
 
     //</editor-fold>
 }

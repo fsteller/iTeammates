@@ -56,7 +56,7 @@ public class NotificationsPage extends FragmentPageBase implements AdapterView.O
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
             restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, EMPTY_STRING);
-            mCallback.clearItemCollection(getPageIndex());
+            mCallback.clearCollection(getPageIndex());
         }
     }
 

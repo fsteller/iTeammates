@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:smoothScrollbar="true"
     android:orientation="vertical"
-    android:dividerHeight="12dip"
+    android:dividerHeight="0dip"
     android:id="@id/list_view">
 
 </ListView>

@@ -13,23 +13,41 @@ public interface TC {
 
     static interface ActivityActions {
 
-        public static final int Add = 1101;         //Menu Action
+        public static final int Add = 11001;         //Menu Action
         public static final int Create = Add;       //Menu Action
 
-        public static final int Edit = 1103;        //Menu Action
+        public static final int Edit = 11002;        //Menu Action
         public static final int Update = Edit;      //Menu Action
 
-        public static final int Drop = 1105;        //Menu Action
+        public static final int Drop = 11003;        //Menu Action
         public static final int Delete = Drop;      //Menu Action
 
-        public static final int Search = 1106;      //Menu Action
-        public static final int PickImage = 1107;   //Menu Action
+        public static final int Search = 11004;      //Menu Action
+        public static final int PickImage = 11005;   //Menu Action
 
+        public static final int Teams = 11007;
+        public static final int Events = 11008;
+        public static final int Notification = 11009;
 
-        public static final int Share = 1108;       //Menu Action
-        public static final int Settings = 1109;    //Menu Action
-        public static final int SignIn = 1110;      //Menu Action
-        public static final int About = 1111;       //Menu Action
+        public static final int Share = 11010;       //Menu Action
+        public static final int Settings = 11011;    //Menu Action
+        public static final int SignIn = 11012;      //Menu Action
+        public static final int About = 11013;       //Menu Action
+    }
+
+    public static interface Helper {
+
+        public static final int TeamAddedToDb = 101;
+        public static final int EventAddedToDb = 102;
+        public static final int NotificationAddedToDb = 103;
+
+        public static final int TeamUpdatedOnDb = 201;
+        public static final int EventUpdatedOnDb = 202;
+        public static final int NotificationUpdatedOnDb = 203;
+
+        public static final int TeamDeletedFromDb = 301;
+        public static final int EventDeletedFromDb = 302;
+        public static final int NotificationDeletedFromDb = 303;
     }
 
     public static interface Activity {
@@ -37,9 +55,11 @@ public interface TC {
         public static interface PARAMS {
             public static final String ID = "activity_parameters";
             public static final String ACCOUNT_ID = "activity_account_id";
-            public static final String COLLECTION_ID = "activity_collection_id";
+            public static final String COLLECTION_NAME = "activity_collection_id";
             public static final String COLLECTION_ITEMS = "activity_collection_items";
             public static final String COLLECTION_IMAGE_REF = "activity_collection_image_ref";
+            public static final String COLLECTION_CREATE_DATE = "activity_collection_create_date";
+            public static final String COLLECTION_UPDATE_DATE = "activity_collection_update_date";
         }
 
         public static interface MenuRequest {
@@ -54,6 +74,18 @@ public interface TC {
             public static final int Share = ActivityActions.Share;
             public static final int Delete = ActivityActions.Delete;
             public static final int PickImage = ActivityActions.PickImage;
+        }
+
+        public static interface DataActionRequest {
+            public static final int Add = ActivityActions.Add;
+            public static final int Update = ActivityActions.Update;
+            public static final int Delete = ActivityActions.Delete;
+        }
+
+        public static interface Mantinace {
+            public static final int TEAMS = ActivityActions.Teams;
+            public static final int EVENTS = ActivityActions.Events;
+            public static final int NOTIFICATION = ActivityActions.Notification;
         }
 
         public static interface Dialog {

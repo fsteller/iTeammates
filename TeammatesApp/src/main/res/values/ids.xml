@@ -33,8 +33,9 @@
     <item name="list_view" type="id" />
     <item name="title_description_label" type="id" />
     <item name="contact_image" type="id" />
-    <item name="contact_label" type="id" />
-    <item name="contact_phone" type="id" />
+    <item name="contact_name" type="id" />
+    <item name="contact_status" type="id" />
     <item name="contact_check" type="id" />
     <item name="contact_item" type="id" />
+    <item name="action_finish" type="id" />
 </resources>

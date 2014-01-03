@@ -113,7 +113,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         final int cId = getPageIndex();
-        mCallback.clearItemCollection(cId);
+        mCallback.clearCollection(cId);
         mCallback.itemStateChanged(cId, (int) id, true);
         mCallback.actionRequest(cId, TC.Activity.ActionRequest.Edit);
     }
@@ -128,7 +128,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
             restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, EMPTY_STRING);
-            mCallback.clearItemCollection(getPageIndex());
+            mCallback.clearCollection(getPageIndex());
         }
     }
 
@@ -292,7 +292,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
                     @Override
                     public void onClick(View v) {
                         final int position = mListView.getPositionForView(view);
-                        final boolean checked = !mCallback.isItemCollected(getPageIndex(), (Integer) image.getTag());
+                        final boolean checked = !mCallback.isCollected(getPageIndex(), (Integer) image.getTag());
                         mListView.setItemChecked(position, checked);
                     }
                 });
