@@ -23,17 +23,17 @@ import java.util.Locale;
  */
 public final class Adapters {
 
+    private final static int TXT_LENGTH = 35;
+
     private static boolean isNullOrEmpty(final CharSequence text) {
         return text == null || String.valueOf(text).trim().isEmpty();
     }
 
     public static abstract class CursorAdapter extends SimpleCursorAdapter implements SimpleCursorAdapter.ViewBinder, SectionIndexer {
 
-        protected boolean mCancelWork = false;
         protected static LayoutInflater mInflater; // Stores the layout inflater
         protected static AlphabetIndexer mAlphabetIndexer; // Stores the AlphabetIndexer instance
         protected static TextAppearanceSpan highlightTextSpan; // Stores the highlight text appearance style
-        protected final Object mCancelWorkLock = new Object();
 
         public CursorAdapter(final Context context, final int sortColumnIndex, final int layout, final String[] from, final int[] to) {
             super(context, layout, null, from, to, 0);
@@ -47,34 +47,6 @@ public final class Adapters {
             setViewBinder(this);
         }
 
-        protected abstract View setupView(final View view);
-
-
-        protected static void setImageView(final ImageView view, final ImageLoader mListImageLoader, final String imageData) {
-            if (mListImageLoader != null && !isNullOrEmpty(imageData))
-                mListImageLoader.loadImage(imageData, view);
-            else
-                view.setImageResource(R.drawable.ic_default_picture);
-        }
-
-        protected static void setHighlightedName(final TextView view, final String displayName, final String mSearchTerm) {
-            final int startIndex = indexOfSearchQuery(displayName, mSearchTerm);
-                    /*
-                        If the user didn't do a search, or the search string didn't match a display
-                        name, show the display name without highlighting
-                    */
-            if (startIndex == -1)
-                view.setText(displayName);
-            else {
-                /*
-                    If the search string matched the display name, applies a SpannableString to
-                    highlight the search string with the displayed display name
-                */
-                final SpannableString highlightedName = new SpannableString(displayName);
-                highlightedName.setSpan(highlightTextSpan, startIndex, startIndex + mSearchTerm.length(), 0);
-                view.setText(highlightedName);
-            }
-        }
 
         @Override
         public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
@@ -152,18 +124,43 @@ public final class Adapters {
             return -1;
         }
 
-        public void setCancelWork(final boolean pauseWork) {
-            synchronized (mCancelWorkLock) {
-                mCancelWork = pauseWork;
-                if (!mCancelWork) {
-                    mCancelWorkLock.notifyAll();
-                }
+        protected static void setImageView(final ImageView view, final ImageLoader mListImageLoader, final String imageData) {
+            if (mListImageLoader != null && !isNullOrEmpty(imageData))
+                mListImageLoader.loadImage(imageData, view);
+            else
+                view.setImageResource(R.drawable.ic_default_picture);
+        }
+
+        protected static void setHighlightedText(final TextView view, final String txt, final String mSearchTerm) {
+            final int startIndex = indexOfSearchQuery(txt, mSearchTerm);
+                    /*
+                        If the user didn't do a search, or the search string didn't match a display
+                        name, show the display name without highlighting
+                    */
+            if (startIndex == -1)
+                view.setText(txt);
+            else {
+                /*
+                    If the search string matched the display name, applies a SpannableString to
+                    highlight the search string with the displayed display name
+                */
+                final SpannableString highlightedName = new SpannableString(txt);
+                highlightedName.setSpan(highlightTextSpan, startIndex, startIndex + mSearchTerm.length(), 0);
+                view.setText(highlightedName);
             }
         }
 
-        protected interface OnQueryCallback {
-            public void onQueryCallback(Object result);
+        protected static void setBasicText(final TextView view, final String txt) {
+            if (txt != null) {
+                final int index = txt.contains("\n") ?
+                        txt.indexOf('\n') : txt.length() < TXT_LENGTH ? txt.length() : TXT_LENGTH;
+
+                view.setText(txt.substring(0, index).trim());
+            }
         }
+
+        protected abstract View setupView(final View view);
+
     }
 
 }

@@ -82,7 +82,6 @@ public interface TC {
             // A list of identifiers to make able to have different queries within a loader
             final static int SIMPLE_QUERY_ID = 1001;
             final static int FILTER_QUERY_ID1 = 1002;
-            final static int FILTER_QUERY_ID2 = 1003;
             // A content URI for the teams table
             final static Uri CONTENT_URI = Contacts.CONTENT_URI;
             // The search/filter query Uri
@@ -112,9 +111,10 @@ public interface TC {
                     // In platform version 3.0 and later, the teams table contains
                     // DISPLAY_NAME_PRIMARY, which either contains the contact's displayable name or
                     // some other useful identifier such as an email address. This column isn't
-                    // available in earlier versions of Android, so you must use teams.DISPLAY_NAME
+                    // available in earlier versions of Android, so you must use teams.CONTACT_NAME
                     // instead.
                     Contacts.DISPLAY_NAME_PRIMARY,
+                    Contacts.CONTACT_STATUS,
                     // In Android 3.0 and later, the thumbnail image is pointed to by
                     // PHOTO_THUMBNAIL_URI. In earlier versions, there is no direct pointer; instead,
                     // you generate the pointer from the contact's ID value and constants defined in
@@ -127,9 +127,10 @@ public interface TC {
             final static int ID = 0;
             final static int LOOKUP_KEY = 1;
             final static int HAS_PHONE_NUMBER = 2;
-            final static int DISPLAY_NAME = 3;
-            final static int PHOTO_THUMBNAIL_DATA = 4;
-            final static int SORT_KEY = 5;
+            final static int CONTACT_NAME = 3;
+            final static int CONTACT_STAUS = 4;
+            final static int CONTACT_PHOTO_DATA = 5;
+            final static int SORT_KEY = 6;
         }
 
         public interface CalendarQuery {

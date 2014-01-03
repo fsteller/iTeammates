@@ -259,7 +259,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
         public boolean setViewValue(final View view, final Cursor cursor, final int i) {
             switch (view.getId()) {
                 case R.id.listView_item_title:
-                    setHighlightedName((TextView) view, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
+                    setHighlightedText((TextView) view, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
                     break;
                 case R.id.listView_item_image:
                     view.setTag(cursor.getInt(TC.Queries.TeamsQuery.ID));
@@ -320,7 +320,7 @@ public class TeamsPage extends FragmentPageBase implements AdapterView.OnItemCli
         public boolean setViewValue(final View view, final Cursor cursor, final int i) {
             switch (view.getId()) {
                 case R.id.listView_item_title:
-                    setHighlightedName((TextView) view, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
+                    setHighlightedText((TextView) view, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
                     break;
                 case R.id.listView_item_image:
                     view.setTag(cursor.getInt(TC.Queries.TeamsQuery.ID));

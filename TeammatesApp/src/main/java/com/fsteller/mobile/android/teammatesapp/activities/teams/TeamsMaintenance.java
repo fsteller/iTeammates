@@ -8,7 +8,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -253,6 +252,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
     private final class ContactsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
 
+        final ContentResolver cr = getContentResolver();
+
         public ContactsAdapter(final Context context) {
             super(context,
                     TC.Queries.ContactsQuery.SORT_KEY,
@@ -282,13 +283,13 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
             switch (view.getId()) {
                 case R.id.contact_phone:
-                    setPhoneNumber(((TextView) view), cursor, TC.Queries.CalendarQuery.ID);
+                    setBasicText(((TextView) view), cursor.getString(TC.Queries.ContactsQuery.CONTACT_STAUS));
                     break;
                 case R.id.contact_label:
-                    setHighlightedName(((TextView) view), cursor.getString(TC.Queries.ContactsQuery.DISPLAY_NAME), mSearchTerm);
+                    setHighlightedText(((TextView) view), cursor.getString(TC.Queries.ContactsQuery.CONTACT_NAME), mSearchTerm);
                     break;
                 case R.id.contact_image:
-                    setImageView((ImageView) view, mImageLoader, cursor.getString(TC.Queries.ContactsQuery.PHOTO_THUMBNAIL_DATA));
+                    setImageView((ImageView) view, mImageLoader, cursor.getString(TC.Queries.ContactsQuery.CONTACT_PHOTO_DATA));
                     break;
                 case R.id.contact_check:
                     final int id = cursor.getInt(TC.Queries.CalendarQuery.ID);
@@ -304,49 +305,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
             final Integer id = (Integer) buttonView.getTag();
             itemStateChanged(getIndex(), id, isChecked);
         }
-
-        private void setPhoneNumber(final TextView view, final Cursor cursor, final Integer column) {
-            final int id = cursor.getInt(column);
-            final ContentResolver cr = getContentResolver();
-            getPhoneNumber(cr, id, new OnQueryCallback() {
-                @Override
-                public void onQueryCallback(Object result) {
-                    view.setText(result.toString());
-                }
-            });
-        }
-
-        private void getPhoneNumber(final ContentResolver cr, final Integer id, final OnQueryCallback callback) {
-
-            synchronized (mCancelWorkLock) {
-                if (!mCancelWork)
-                    new Thread() {
-
-                        @Override
-                        public void run() {
-                            String output = "";
-                            if (cr != null) {
-                                final Cursor pCur = cr.query(
-                                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                                        new String[]{id.toString()}, null
-                                );
-
-                                if (pCur != null) {
-                                    pCur.moveToFirst();
-                                    output = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                    while (pCur.moveToNext()) {
-                                        output += ", " + pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                    }
-                                }
-                            }
-                            if (callback != null)
-                                callback.onQueryCallback(output);
-                        }
-                    }.start();
-            }
-        }
-
 
     }
 

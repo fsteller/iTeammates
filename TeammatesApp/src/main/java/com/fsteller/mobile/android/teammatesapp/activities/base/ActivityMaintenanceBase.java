@@ -78,7 +78,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
             Log.i(TAG, String.format("Image picked up (%s)", data.getData()));
             final Uri imageUri = data.getData();
             if (imageUri != null) {
-                //mCallback.setCollectionDrawableUri(imageUri);
+                setImageRef(imageUri);
             }
         }
     }
@@ -98,13 +98,6 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
                 mImageLoader.setPauseWork(true);
             else
                 mImageLoader.setPauseWork(false);
-        }
-
-        if (mCursorAdapter != null) {
-            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING)
-                mCursorAdapter.setCancelWork(true);
-            else
-                mCursorAdapter.setCancelWork(false);
         }
     }
 
