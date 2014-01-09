@@ -33,7 +33,6 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
 
     public NotificationsPage() {
         super(PAGE_INDEX, TC.Broadcast.DB_UPDATE_NOTIFICATIONS_RECEIVE);
-        this.mCallback.addCollection(IPageManager.COLLECTIONS_PAGE);
     }
 
     //</editor-fold>
@@ -42,6 +41,8 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+
+        this.mCallback.addCollection(IPageManager.COLLECTIONS_PAGE);
         final View rootView = inflater.inflate(R.layout.fragment_page_notify, container, false);
         if (rootView != null) {
 

@@ -33,7 +33,6 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
 
     public EventsPage() {
         super(PAGE_INDEX, TC.Broadcast.DB_UPDATE_EVENTS_RECEIVE);
-        this.mCallback.addCollection(IPageManager.EVETS_PAGE);
     }
 
     //</editor-fold>
@@ -42,6 +41,8 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+
+        this.mCallback.addCollection(IPageManager.EVETS_PAGE);
         final View rootView = inflater.inflate(R.layout.fragment_page_events, container, false);
         if (rootView != null) {
 

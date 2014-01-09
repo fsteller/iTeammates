@@ -51,7 +51,6 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
     public TeamsPage() {
         super(PAGE_INDEX, TC.Broadcast.DB_UPDATE_TEAMS_RECEIVE);
-        this.mCallback.addCollection(IPageManager.TEAMS_PAGE);
     }
 
     //</editor-fold>
@@ -66,6 +65,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+
+        this.mCallback.addCollection(IPageManager.TEAMS_PAGE);
         final View rootView = inflater.inflate(R.layout.fragment_page_teams, container, false);
         if (rootView != null) {
             mEmptyView = rootView.findViewById(android.R.id.empty);
