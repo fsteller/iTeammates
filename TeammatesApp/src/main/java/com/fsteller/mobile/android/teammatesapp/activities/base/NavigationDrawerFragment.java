@@ -52,7 +52,7 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
     private NavigationDrawerCallbacks mCallbacks;
 
     /**
-     * Helper component that ties the action bar to the navigation drawer.
+     * DatabaseActions component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
 

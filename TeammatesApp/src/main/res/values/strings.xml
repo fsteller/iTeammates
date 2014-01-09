@@ -50,6 +50,10 @@
     <string name="teamsMaintenace_titleDescriptionLabel">Please, provide a team name and optional image&#8230;</string>
     <string name="selectPicture">Please Select a Picture</string>
     <string name="action_finish">Done</string>
+    <string name="no_entity_name">It is requiered to set a name on this step.</string>
+    <string name="no_selected_contacts">Every team must have a least one member</string>
+    <string name="update_prefix">Last Update: %s</string>
+    <string name="creation_prefix">Created at: %s</string>
 
 
 </resources>

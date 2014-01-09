@@ -9,8 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.TeammatesApplicationCallback;
-import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
 import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesDb;
 
@@ -20,7 +20,7 @@ import java.util.Calendar;
 /**
  * Created by fhernandezs on 03/01/14 for iTeammates.
  */
-public class HelperDatabase {
+public final class HelperDatabase {
 
     //<editor-fold desc="Constants">
     private static final String TAG = HelperDatabase.class.getSimpleName();
@@ -76,7 +76,7 @@ public class HelperDatabase {
                                     .build());
                         try {
                             context.getContentResolver().applyBatch(TeammatesContract.AUTHORITY, ops);
-                            callback(TC.Helper.TeamAddedToDb);
+                            callback(TC.DatabaseActions.TeamAddedToDb);
                             return;
                         } catch (Exception e) {
                             Log.e(TAG, String.format("Error processing INSERT operation with Uri: %s", contactUri), e);
@@ -134,7 +134,7 @@ public class HelperDatabase {
 
                         try {
                             context.getContentResolver().applyBatch(TeammatesContract.AUTHORITY, ops);
-                            callback(TC.Helper.TeamDeletedFromDb);
+                            callback(TC.DatabaseActions.TeamDeletedFromDb);
                         } catch (Exception e) {
                             Log.e(TAG, String.format("Error processing DELETE operation with Uri: %s", TeammatesContract.Teams.CONTENT_URI), e);
                             revertTransaction(null, e);
@@ -182,7 +182,7 @@ public class HelperDatabase {
 
     //</editor-fold>
     public static HelperDatabase getInstance(final Context context) {
-        if (mHelperDatabase != null)
+        if (mHelperDatabase == null)
             mHelperDatabase = new HelperDatabase(context);
         return mHelperDatabase;
     }

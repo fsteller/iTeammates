@@ -12,10 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityBase;
+import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityCollection;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.activities.base.NavigationDrawerFragment;
-import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_About;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_Login;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_Settings;
@@ -29,7 +28,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsPage;
 
 import java.util.ArrayList;
 
-public class Teammates extends ActivityBase implements IPageManager {
+public final class Teammates extends ActivityCollection implements IPageManager {
 
     //<editor-fold desc="Constants">
 
@@ -45,19 +44,29 @@ public class Teammates extends ActivityBase implements IPageManager {
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
-
-
-    private int currentPage = 0;
     private String accountId = null;
+    private CharSequence mTitle;
+    private int currentPage = 0;
 
     //</editor-fold>
 
-    //<editor-fold desc="Overridden Methods">
+    //<editor-fold desc="Public">
+
+    public void onSectionAttached(final int position) {
+        mTitle = getResources().getStringArray(R.array.app_activities)[position];
+    }
+
+    public void restoreActionBar() {
+        final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(mTitle);
+        }
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="Overridden">
 
     //<editor-fold desc="IPageManager">
 
@@ -66,34 +75,15 @@ public class Teammates extends ActivityBase implements IPageManager {
 
     }
 
-    //<editor-fold desc="ICollection">
-
     @Override
-    public void clearCollection(final Integer CollectionId) {
+    public void CollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked) {
+        final boolean isCollected = isItemCollected(collectionId, itemId);
+        if (checked && !isCollected)
+            addItemToCollection(collectionId, itemId);
+        else if (isCollected)
+            removeItemFromCollection(collectionId, itemId);
 
     }
-
-    @Override
-    public void addItem(final Integer collectionId, final Integer itemId) {
-
-    }
-
-    @Override
-    public void itemStateChanged(final Integer CollectionId, final Integer itemId, final boolean checked) {
-
-    }
-
-    @Override
-    public int getSize(final Integer collectionId) {
-        return -1;
-    }
-
-    @Override
-    public boolean isCollected(final Integer CollectionId, final Integer itemId) {
-        return false;
-    }
-
-    //</editor-fold>
 
     //</editor-fold>
     //<editor-fold desc="Activity Methods">
@@ -131,7 +121,7 @@ public class Teammates extends ActivityBase implements IPageManager {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data != null && resultCode != RESULT_CANCELED)
@@ -176,39 +166,23 @@ public class Teammates extends ActivityBase implements IPageManager {
     //</editor-fold>
 
     //</editor-fold>
-    //<editor-fold desc="Public Methods">
-
-    public void onSectionAttached(final int position) {
-        mTitle = getResources().getStringArray(R.array.app_activities)[position];
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(mTitle);
-        }
-    }
-
-    //</editor-fold>
-    //<editor-fold desc="Private Methods">
+    //<editor-fold desc="Private">
 
     private boolean processMenuRequest(final int menuItemId) {
 
         final int requestCode =
                 menuItemId == R.id.action_login ?
-                        TC.Activity.MenuRequest.Login : menuItemId == R.id.action_addItem ?
-                        TC.Activity.MenuRequest.AddItem : menuItemId == R.id.action_settings ?
-                        TC.Activity.MenuRequest.Settings : menuItemId == R.id.action_about ?
-                        TC.Activity.MenuRequest.About : -1;
+                        TC.Activity.MenuActionRequest.Login : menuItemId == R.id.action_addItem ?
+                        TC.Activity.MenuActionRequest.AddItem : menuItemId == R.id.action_settings ?
+                        TC.Activity.MenuActionRequest.Settings : menuItemId == R.id.action_about ?
+                        TC.Activity.MenuActionRequest.About : -1;
 
-        if (requestCode == TC.Activity.MenuRequest.AddItem)
-            return invokeAction(this, TC.Activity.MenuRequest.AddItem, getActivityParams(currentPage, accountId, null));
+        if (requestCode == TC.Activity.MenuActionRequest.AddItem)
+            return invokeAction(this, TC.Activity.MenuActionRequest.AddItem, getActivityParams(currentPage, accountId, null));
 
-        return (requestCode == TC.Activity.MenuRequest.About ||
-                requestCode == TC.Activity.MenuRequest.Login ||
-                requestCode == TC.Activity.MenuRequest.Settings) &&
+        return (requestCode == TC.Activity.MenuActionRequest.About ||
+                requestCode == TC.Activity.MenuActionRequest.Login ||
+                requestCode == TC.Activity.MenuActionRequest.Settings) &&
                 invokeDialog(this, requestCode);
     }
 
@@ -227,9 +201,8 @@ public class Teammates extends ActivityBase implements IPageManager {
         }
     }
 
-
     //</editor-fold>
-    //<editor-fold desc="Static Methods">
+    //<editor-fold desc="Static">
 
     private Intent getActivityParams(final int currentPage, final String accountId, final ArrayList<Integer> dataIds) {
         final Bundle extras = new Bundle();

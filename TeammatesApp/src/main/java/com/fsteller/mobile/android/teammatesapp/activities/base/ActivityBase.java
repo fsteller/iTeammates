@@ -49,11 +49,11 @@ public abstract class ActivityBase extends Activity {
         this.app = null;
     }
 
-    protected void showMessage(final CharSequence msg, final int duration) {
+    protected void showMessage(final String msg, final int duration) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(ActivityBase.this, msg, duration);
+                Toast.makeText(ActivityBase.this, msg, duration).show();
             }
         });
     }
@@ -61,4 +61,9 @@ public abstract class ActivityBase extends Activity {
     public void setIsKeyBoardEnabled(final boolean enable) {
         getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
     }
+
+    protected static boolean isNullOrEmpty(String txt) {
+        return txt == null || txt.isEmpty();
+    }
+
 }

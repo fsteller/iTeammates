@@ -154,13 +154,24 @@ public final class Adapters {
             }
         }
 
-        protected static void setBasicText(final TextView view, final String txt) {
-            if (txt != null) {
-                final int index = txt.contains("\n") ?
-                        txt.indexOf('\n') : txt.length() < TXT_LENGTH ? txt.length() : TXT_LENGTH;
+        protected void setDateText(final TextView view, final String prefix, final long createdAt) {
+            final String dateCreated = DateTime.getDate(createdAt, DateTime.DateFormat);
+            view.setText(String.format(prefix, dateCreated));
+        }
 
-                view.setText(txt.substring(0, index).trim());
+        protected static void setBasicText(final TextView view, final String txt) {
+            String data = "";
+            if (!isNullOrEmpty(txt)) {
+                final int i =
+                        txt.contains("\n") ?
+                                txt.indexOf('\n') < TXT_LENGTH ?
+                                        txt.indexOf('\n') : TXT_LENGTH < txt.length() ?
+                                        TXT_LENGTH : txt.length() : TXT_LENGTH < txt.length() ?
+                                TXT_LENGTH : txt.length();
+                data = txt.substring(0, i);
             }
+            view.setText(data);
+
         }
 
         protected abstract View setupView(final View view);

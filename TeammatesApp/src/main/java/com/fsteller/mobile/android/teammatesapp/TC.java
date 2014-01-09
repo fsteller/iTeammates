@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.activities.base;
+package com.fsteller.mobile.android.teammatesapp;
 
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -35,7 +35,7 @@ public interface TC {
         public static final int About = 11013;       //Menu Action
     }
 
-    public static interface Helper {
+    public static interface DatabaseActions {
 
         public static final int TeamAddedToDb = 101;
         public static final int EventAddedToDb = 102;
@@ -62,14 +62,14 @@ public interface TC {
             public static final String COLLECTION_UPDATE_DATE = "activity_collection_update_date";
         }
 
-        public static interface MenuRequest {
+        public static interface MenuActionRequest {
             public static final int About = ActivityActions.About;
             public static final int AddItem = ActivityActions.Create;
             public static final int Login = ActivityActions.SignIn;
             public static final int Settings = ActivityActions.Settings;
         }
 
-        public static interface ActionRequest {
+        public static interface ActivityActionRequest {
             public static final int Edit = ActivityActions.Edit;
             public static final int Share = ActivityActions.Share;
             public static final int Delete = ActivityActions.Delete;
@@ -82,7 +82,7 @@ public interface TC {
             public static final int Delete = ActivityActions.Delete;
         }
 
-        public static interface Mantinace {
+        public static interface Maintenance {
             public static final int TEAMS = ActivityActions.Teams;
             public static final int EVENTS = ActivityActions.Events;
             public static final int NOTIFICATION = ActivityActions.Notification;

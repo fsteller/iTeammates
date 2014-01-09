@@ -10,13 +10,13 @@ import android.util.Log;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public class TeammatesDb extends SQLiteOpenHelper {
+public final class TeammatesDb extends SQLiteOpenHelper {
 
     private static final String TAG = TeammatesDb.class.getSimpleName();
 
     //<editor-fold desc="Control Variables">
-    private Entity teams = new Teams();
-    //private Entity teammates = new Teammates();
+    private IDbEntity teams = new Teams();
+    //private IEntity teammates = new Teammates();
     private TeamsTeammates teamsTeammates = new TeamsTeammates();
 
     //</editor-fold>
@@ -84,7 +84,7 @@ public class TeammatesDb extends SQLiteOpenHelper {
     //</editor-fold>
     //<editor-fold desc="Public Methods">
 
-    public Entity getDbEntity(DbEntities e) {
+    public IDbEntity getDbEntity(DbEntities e) {
         switch (e) {
             case Teams:
                 return teams;
@@ -125,7 +125,7 @@ public class TeammatesDb extends SQLiteOpenHelper {
 
     //<editor-fold desc="Inner classes">
 
-    private final class Teams implements Entity {
+    private final class Teams implements IDbEntity {
 
         private Teams() {
         }
@@ -161,7 +161,7 @@ public class TeammatesDb extends SQLiteOpenHelper {
     }
 
     /*
-    private final class Teammates implements Entity {
+    private final class Teammates implements IEntity {
 
         @Override
         public Cursor loadAll() {
@@ -184,7 +184,7 @@ public class TeammatesDb extends SQLiteOpenHelper {
         }
     }*/
 
-    private final class TeamsTeammates implements Entity {
+    private final class TeamsTeammates implements IDbEntity {
 
         @Override
         public Cursor loadAll() {

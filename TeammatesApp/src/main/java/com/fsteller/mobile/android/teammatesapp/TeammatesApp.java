@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
 import com.fsteller.mobile.android.teammatesapp.helpers.HelperAccount;
 import com.fsteller.mobile.android.teammatesapp.helpers.HelperDatabase;
 
@@ -26,8 +25,6 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    private HelperAccount mHelperAccount;
-    private HelperDatabase mHelperDatabase;
     private SharedPreferences pref;
 
     //</editor-fold>
@@ -44,8 +41,6 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
         super.onCreate();
 
         // Setup default shared preferences
-        this.mHelperAccount = HelperAccount.getInstance(this);
-        this.mHelperDatabase = HelperDatabase.getInstance(this);
         this.pref = PreferenceManager.getDefaultSharedPreferences(this);
         Log.i(TAG, "onCreated");
     }
@@ -55,26 +50,25 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
         return TAG;
     }
 
-    //<editor-fold desc="TeammatesApplicationCallback Methods">
-
+    //<editor-fold desc="TeammatesApplicationCallback">
 
     @Override
     public boolean addData(final Intent data) {
-
-        Log.d(TAG, String.format("Adding data (%s) to: %s", data, mHelperDatabase));
+        final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.ID);
         if (extras == null)
             return false;
 
+        Log.d(TAG, String.format("Adding data (%s) to: %s", data, mHelperDatabase));
         final int id = extras.getInt(TC.Activity.PARAMS.ID);
         switch (id) {
-            case TC.Activity.Mantinace.TEAMS:
+            case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.addTeam(this, extras);
                 break;
-            case TC.Activity.Mantinace.EVENTS:
+            case TC.Activity.Maintenance.EVENTS:
                 mHelperDatabase.addEvent(this, extras);
                 break;
-            case TC.Activity.Mantinace.NOTIFICATION:
+            case TC.Activity.Maintenance.NOTIFICATION:
                 mHelperDatabase.addNotification(this, extras);
                 break;
             default:
@@ -85,20 +79,21 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     @Override
     public boolean updateData(final Intent data) {
-        Log.d(TAG, String.format("Updating data (%s) on: %s", data, mHelperDatabase));
+        final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.ID);
         if (extras == null)
             return false;
 
+        Log.d(TAG, String.format("Updating data (%s) on: %s", data, mHelperDatabase));
         final int id = extras.getInt(TC.Activity.PARAMS.ID);
         switch (id) {
-            case TC.Activity.Mantinace.TEAMS:
+            case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.updateTeam(this, data);
                 break;
-            case TC.Activity.Mantinace.EVENTS:
+            case TC.Activity.Maintenance.EVENTS:
                 mHelperDatabase.updateEvent(this, data);
                 break;
-            case TC.Activity.Mantinace.NOTIFICATION:
+            case TC.Activity.Maintenance.NOTIFICATION:
                 mHelperDatabase.updateNotification(this, data);
                 break;
             default:
@@ -109,21 +104,22 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     @Override
     public boolean deleteData(final Intent data) {
-        Log.d(TAG, String.format("Deleting data (%s) from: %s", data, mHelperDatabase));
-
+        final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.ID);
+
         if (extras == null)
             return false;
 
+        Log.d(TAG, String.format("Deleting data (%s) from: %s", data, mHelperDatabase));
         final int tag = extras.getInt(TC.Activity.PARAMS.ID, -1);
         switch (tag) {
-            case TC.Activity.Mantinace.TEAMS:
+            case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.deleteTeams(this, extras);
                 break;
-            case TC.Activity.Mantinace.EVENTS:
+            case TC.Activity.Maintenance.EVENTS:
                 mHelperDatabase.deleteEvents(this, extras);
                 break;
-            case TC.Activity.Mantinace.NOTIFICATION:
+            case TC.Activity.Maintenance.NOTIFICATION:
                 mHelperDatabase.deleteNotifications(this, extras);
                 break;
             default:
@@ -142,7 +138,6 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-
     //</editor-fold>
 
     //</editor-fold>
@@ -150,17 +145,11 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     protected HelperDatabase getHelperDatabase() {
 
-        // Setup database helpers
-        if (mHelperDatabase == null)
-            this.mHelperDatabase = HelperDatabase.getInstance(this);
-
-        return mHelperDatabase;
+        return HelperDatabase.getInstance(this);
     }
 
     protected HelperAccount getHelperAccount() {
-        if (mHelperAccount == null)
-            mHelperAccount = HelperAccount.getInstance(this);
-        return mHelperAccount;
+        return HelperAccount.getInstance(this);
     }
 
     //</editor-fold>

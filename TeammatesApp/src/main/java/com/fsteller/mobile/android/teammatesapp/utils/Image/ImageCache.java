@@ -12,7 +12,7 @@ import com.fsteller.mobile.android.teammatesapp.BuildConfig;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public class ImageCache {
+public final class ImageCache {
     private static final String TAG = "ImageCache";
     private LruCache<String, Bitmap> mMemoryCache;
 

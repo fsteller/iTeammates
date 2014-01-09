@@ -14,13 +14,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
+import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase;
-import com.fsteller.mobile.android.teammatesapp.activities.base.TC;
+import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 
 /**
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
-public class EventsPage extends FragmentPageBase implements AdapterView.OnItemClickListener {
+public final class EventsPage extends FragmentPageBase implements AdapterView.OnItemClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -32,6 +33,7 @@ public class EventsPage extends FragmentPageBase implements AdapterView.OnItemCl
 
     public EventsPage() {
         super(PAGE_INDEX, TC.Broadcast.DB_UPDATE_EVENTS_RECEIVE);
+        this.mCallback.addCollection(IPageManager.EVETS_PAGE);
     }
 
     //</editor-fold>

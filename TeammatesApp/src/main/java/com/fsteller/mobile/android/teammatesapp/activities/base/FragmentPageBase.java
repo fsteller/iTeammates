@@ -14,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.SearchView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
+import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 
 /**
@@ -28,7 +29,9 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     //</editor-fold>
     //<editor-fold desc="Variables">
 
+
     protected static ImageLoader mImageLoader = null;
+    protected Adapters.CursorAdapter mCursorAdapter;
     protected final DbUpdateReceiver mReceiver;
     protected final IntentFilter mFilter;
 
@@ -37,8 +40,8 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     //</editor-fold>
     //<editor-fold desc="Constructor">
     protected FragmentPageBase(final int pageIndex, final String actionFilter) {
-        this.mReceiver = new DbUpdateReceiver();
         this.mFilter = new IntentFilter(actionFilter);
+        this.mReceiver = new DbUpdateReceiver();
         this.pageIndex = pageIndex;
     }
 
@@ -111,7 +114,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
             final View cardView = rootView.findViewById(R.id.card);
             if (cardView != null) {
                 cardView.setBackgroundResource(getBackgroundResource(checked));
-                mCallback.itemStateChanged(getPageIndex(), (int) id, checked);
+                mCallback.CollectionItemStateChanged(getPageIndex(), (int) id, checked);
             }
         }
     }

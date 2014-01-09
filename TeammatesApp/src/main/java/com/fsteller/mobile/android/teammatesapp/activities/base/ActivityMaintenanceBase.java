@@ -8,13 +8,14 @@ import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.Button;
 
+import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public abstract class ActivityMaintenanceBase extends ActivityBase implements Entity, IMaintenance, TextWatcher, Button.OnClickListener {
+public abstract class ActivityMaintenanceBase extends ActivityCollection implements IMaintenance, TextWatcher, Button.OnClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -35,6 +36,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
 
     protected ActivityMaintenanceBase(final int index) {
         this.index = index;
+        this.addCollection(getMaintenanceId());
     }
 
     //</editor-fold>
@@ -79,6 +81,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
 
     //</editor-fold>
     //<editor-fold desc="Protected Methods">
+
     protected void restartLoader(final int queryId) {
         getLoaderManager().restartLoader(queryId, null, this);
     }
@@ -91,8 +94,10 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
 
     protected abstract Intent getResult();
 
+    protected abstract boolean checkData(IMaintenance entity);
+
     //</editor-fold>
-    //<editor-fold desc="Overridden Methods">
+    //<editor-fold desc="Overridden">
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -100,7 +105,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
         if (data == null || resultCode == Activity.RESULT_CANCELED)
             return;
 
-        if (requestCode == TC.Activity.ActionRequest.PickImage) {
+        if (requestCode == TC.Activity.ActivityActionRequest.PickImage) {
             Log.i(TAG, String.format("Image picked up (%s)", data.getData()));
             final Uri imageUri = data.getData();
             if (imageUri != null) {
@@ -109,15 +114,25 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements En
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mCursorAdapter = null;
+        this.mImageLoader = null;
+        this.description = null;
+        this.imageRef = null;
+        this.name = null;
+    }
+
     //<editor-fold desc="TextWatcher">
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
 
     }
 

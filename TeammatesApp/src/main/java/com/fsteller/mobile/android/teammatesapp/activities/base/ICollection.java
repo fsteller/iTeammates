@@ -1,19 +1,26 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
+import java.util.List;
+
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
 public interface ICollection {
 
+    public void addCollection(final Integer collectionId);
+
+    public List<Integer> getCollection(final Integer collectionId);
+
     public void clearCollection(final Integer collectionId);
 
-    public void addItem(final Integer collectionId, final Integer itemId);
+    public void addItemToCollection(final Integer collectionId, final Integer itemId);
 
-    public void itemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked);
+    public void removeItemFromCollection(final Integer collectionId, final Integer itemId);
 
+    public boolean isItemCollected(final Integer collectionId, final Integer itemId);
 
-    public int getSize(final Integer collectionId);
+    public int getCollectionSize(final Integer collectionId);
 
-    public boolean isCollected(final Integer collectionId, final Integer itemId);
+    public void CollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked);
 
 }

@@ -7,5 +7,5 @@ import android.widget.AbsListView;
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public interface IMaintenance extends LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener {
+public interface IMaintenance extends IEntity, LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener {
 }

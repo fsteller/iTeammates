@@ -6,8 +6,7 @@ import android.database.Cursor;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-interface Entity {
-
+interface IDbEntity {
     public Cursor loadAll();
 
     public long insert(final ContentValues values);

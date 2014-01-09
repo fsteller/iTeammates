@@ -16,7 +16,7 @@
     <item name="action_share" type="id" />
     <item name="action_delete" type="id" />
     <item name="card" type="id" />
-    <item name="listView_item_date" type="id" />
+    <item name="listView_item_update" type="id" />
     <item name="listView_item_title" type="id" />
     <item name="listView_item_image" type="id" />
     <item name="listView_item_description" type="id" />
@@ -38,4 +38,5 @@
     <item name="contact_check" type="id" />
     <item name="contact_item" type="id" />
     <item name="action_finish" type="id" />
+    <item name="listView_item_creation" type="id" />
 </resources>

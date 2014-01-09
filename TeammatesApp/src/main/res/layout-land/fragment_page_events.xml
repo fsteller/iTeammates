@@ -7,6 +7,24 @@
     android:background="@color/holo_gray_background"
     android:padding="15dip">
 
+
+    <RelativeLayout
+        android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/holo_card_error"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_events"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </RelativeLayout>
+
     <GridView
         android:padding="5dip"
         android:layout_width="match_parent"
@@ -19,24 +37,8 @@
         android:verticalSpacing="10dip"
         android:horizontalSpacing="10dip"
         android:choiceMode="multipleChoice"
-        android:background="@drawable/holo_card_white" />
+        android:background="@drawable/holo_card_white"
+        android:layout_below="@id/android:empty" />
 
-
-    <RelativeLayout
-        android:id="@id/android:empty"
-        android:layout_width="300dip"
-        android:layout_height="100dip"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/holo_card_white">
-
-        <TextView
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/no_events"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </RelativeLayout>
 
 </RelativeLayout>

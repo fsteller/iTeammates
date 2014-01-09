@@ -5,7 +5,7 @@ import android.net.Uri;
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public interface Entity extends ICollection {
+public interface IEntity extends ICollection {
 
     public int getMaintenanceId();
 

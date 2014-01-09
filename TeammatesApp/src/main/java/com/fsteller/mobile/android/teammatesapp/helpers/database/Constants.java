@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-class Constants {
+final class Constants {
 
     //<editor-fold desc="Variables">
     public static final TABLE Teams = new TableTeams();
