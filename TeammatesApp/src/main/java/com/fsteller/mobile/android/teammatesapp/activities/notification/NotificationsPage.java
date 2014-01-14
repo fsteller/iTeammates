@@ -98,6 +98,11 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
     }
 
     @Override
+    public void onDestroyActionMode(final ActionMode mode) {
+
+    }
+
+    @Override
     public boolean onQueryTextChange(String newText) {
         return false;
     }

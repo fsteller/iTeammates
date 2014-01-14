@@ -23,14 +23,14 @@
     </RelativeLayout>
 
     <ListView
-        android:dividerHeight="7dip"
+        android:dividerHeight="1dip"
         android:smoothScrollbar="true"
         android:fadingEdgeLength="5dip"
         android:choiceMode="multipleChoice"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/list_teammates_events"
-        android:background="@drawable/holo_card_white"
+        android:background="@drawable/holo_card_clean"
         android:layout_below="@id/android:empty" />
 
 </RelativeLayout>

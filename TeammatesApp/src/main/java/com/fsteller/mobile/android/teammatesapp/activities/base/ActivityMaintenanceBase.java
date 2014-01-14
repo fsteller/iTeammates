@@ -105,7 +105,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
         if (data == null || resultCode == Activity.RESULT_CANCELED)
             return;
 
-        if (requestCode == TC.Activity.ActivityActionRequest.PickImage) {
+        if (requestCode == TC.Activity.ContextActionRequest.PickImage) {
             Log.i(TAG, String.format("Image picked up (%s)", data.getData()));
             final Uri imageUri = data.getData();
             if (imageUri != null) {
@@ -117,6 +117,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.mCursorAdapter.swapCursor(null);
         this.mCursorAdapter = null;
         this.mImageLoader = null;
         this.description = null;

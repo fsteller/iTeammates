@@ -96,15 +96,17 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
                         android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 
                 intent.setType("image/*");
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 startActivityForResult(Intent.createChooser
-                        (intent, getString(R.string.selectPicture)), TC.Activity.ActivityActionRequest.PickImage);
+                        (intent, getString(R.string.selectPicture)), TC.Activity.ContextActionRequest.PickImage);
             }
         });
 
         this.loadData(extras);
+        this.mListView.setOnScrollListener(TeamsMaintenance.this);
+        this.mCursorAdapter = new ContactsAdapter(TeamsMaintenance.this);
+        this.mListView.setAdapter(mCursorAdapter);
     }
 
     @Override
@@ -222,7 +224,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     @Override
     public void onLoaderReset(final Loader<Cursor> cursorLoader) {
 
-        if (cursorLoader != null)
+        if (cursorLoader != null && mCursorAdapter != null)
             switch (cursorLoader.getId()) {
                 case TC.Queries.ContactsQuery.SIMPLE_QUERY_ID:
                 case TC.Queries.ContactsQuery.FILTER_QUERY_ID1:
@@ -278,7 +280,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         final boolean isCollected = isItemCollected(collectionId, itemId);
         if (checked && !isCollected)
             addItemToCollection(collectionId, itemId);
-        else if (isCollected)
+        else if (isCollected && !checked)
             removeItemFromCollection(collectionId, itemId);
 
     }
@@ -318,9 +320,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
                     }
                 }
 
-                mCursorAdapter = new ContactsAdapter(TeamsMaintenance.this);
-                mListView.setOnScrollListener(TeamsMaintenance.this);
-                mListView.setAdapter(mCursorAdapter);
             }
         }.start();
     }
@@ -347,7 +346,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         int counter = 0;
         String selection = TC.Queries.ContactsQuery.SELECTION;
         for (final Integer i : getCollection(id)) {
-            selection += String.format("AND %s <> ?", projection[1]);
+            selection += String.format("AND %s <> ?", projection[0]);
             params[counter++] = i.toString();
         }
 
@@ -389,14 +388,14 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         @Override
         public void bindView(final View view, final Context context, final Cursor cursor) {
 
-            final int id = cursor.getInt(TC.Queries.ContactsQuery.LOOKUP_KEY);
+            final int id = cursor.getInt(TC.Queries.ContactsQuery.ID);
             final ContactItem mContactItem = (ContactItem) view.getTag();
 
+            mContactItem.check.setTag(id);
+            mContactItem.check.setChecked(isItemCollected(getMaintenanceId(), id));
             setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.ContactsQuery.CONTACT_STAUS));
             setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.ContactsQuery.CONTACT_NAME), mSearchTerm);
             setImageView(mContactItem.contact_thumbnail, mImageLoader, cursor.getString(TC.Queries.ContactsQuery.CONTACT_PHOTO_DATA));
-            mContactItem.check.setChecked(isItemCollected(getMaintenanceId(), id));
-            mContactItem.check.setTag(id);
         }
 
         @Override

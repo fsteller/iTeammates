@@ -62,18 +62,18 @@ public interface TC {
             public static final String COLLECTION_UPDATE_DATE = "activity_collection_update_date";
         }
 
+        public static interface ContextActionRequest {
+            public static final int Edit = ActivityActions.Edit;
+            public static final int Share = ActivityActions.Share;
+            public static final int Delete = ActivityActions.Delete;
+            public static final int PickImage = ActivityActions.PickImage;
+        }
+
         public static interface MenuActionRequest {
             public static final int About = ActivityActions.About;
             public static final int AddItem = ActivityActions.Create;
             public static final int Login = ActivityActions.SignIn;
             public static final int Settings = ActivityActions.Settings;
-        }
-
-        public static interface ActivityActionRequest {
-            public static final int Edit = ActivityActions.Edit;
-            public static final int Share = ActivityActions.Share;
-            public static final int Delete = ActivityActions.Delete;
-            public static final int PickImage = ActivityActions.PickImage;
         }
 
         public static interface DataActionRequest {

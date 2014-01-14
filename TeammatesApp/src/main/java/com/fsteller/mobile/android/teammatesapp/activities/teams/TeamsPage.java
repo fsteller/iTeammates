@@ -28,7 +28,6 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
-import com.fsteller.mobile.android.teammatesapp.utils.DateTime;
 
 
 /**
@@ -116,9 +115,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         final int cId = getPageIndex();
         mCallback.clearCollection(cId);
         mCallback.CollectionItemStateChanged(cId, (int) id, true);
-        mCallback.actionRequest(cId, TC.Activity.ActivityActionRequest.Edit);
+        mCallback.actionRequest(cId, TC.Activity.ContextActionRequest.Edit);
     }
-
 
     //</editor-fold>
     //<editor-fold desc="FragmentPageBase">
@@ -151,13 +149,17 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
     @Override
     public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
-
         mode.finish();
-        final int requestCode =
-                item.getItemId() == R.id.action_share ? TC.Activity.ActivityActionRequest.Share :
-                        item.getItemId() == R.id.action_delete ? TC.Activity.ActivityActionRequest.Delete : -1;
+        final int requestCode = item.getItemId() == R.id.action_share ?
+                TC.Activity.ContextActionRequest.Share : item.getItemId() == R.id.action_delete ?
+                TC.Activity.ContextActionRequest.Delete : -1;
 
         return sendActionRequest(requestCode);
+    }
+
+    @Override
+    public void onDestroyActionMode(final ActionMode mode) {
+        mCallback.clearCollection(getPageIndex());
     }
 
     //</editor-fold>
@@ -256,28 +258,25 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             );
         }
 
-
         @Override
         protected View setupView(final View view) {
 
             final TeamItem mTeamItem = new TeamItem();
-            final View cardView = view.findViewById(R.id.card);
 
+            mTeamItem.cardview = view.findViewById(R.id.card);
             mTeamItem.team_title = (TextView) view.findViewById(R.id.listView_item_title);
             mTeamItem.team_update = (TextView) view.findViewById(R.id.listView_item_update);
             mTeamItem.team_creation = (TextView) view.findViewById(R.id.listView_item_creation);
             mTeamItem.team_thumbnail = (ImageView) view.findViewById(R.id.listView_item_image);
             view.setTag(mTeamItem);
 
-            if (cardView != null)
-                cardView.setBackgroundResource(R.drawable.holo_card_clean);
-
             if (mTeamItem.team_thumbnail != null)
                 mTeamItem.team_thumbnail.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         final int position = mListView.getPositionForView(view);
-                        final boolean checked = !mCallback.isItemCollected(getPageIndex(), (Integer) mTeamItem.team_thumbnail.getTag());
+                        final int id = (Integer) mTeamItem.team_thumbnail.getTag();
+                        final boolean checked = !mCallback.isItemCollected(getPageIndex(), id);
                         mListView.setItemChecked(position, checked);
                     }
                 });
@@ -286,7 +285,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         }
 
         @Override
-        public void bindView(View view, Context context, Cursor cursor) {
+        public void bindView(final View view, final Context context, final Cursor cursor) {
 
             final int id = cursor.getInt(TC.Queries.TeamsQuery.ID);
             final TeamItem teamItem = (TeamItem) view.getTag();
@@ -295,16 +294,20 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeamsQuery.IMAGE_REF));
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeamsQuery.UPDATED_AT));
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT));
+
             teamItem.team_thumbnail.setTag(id);
+            teamItem.cardview.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
         }
 
         private final class TeamItem {
 
+            boolean selected = false;
             TextView team_title = null;
             TextView team_update = null;
             TextView team_creation = null;
             ImageView team_thumbnail = null;
             TextView team_description = null;
+            View cardview = null;
         }
     }
 
@@ -324,32 +327,54 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         }
 
         @Override
-        public boolean setViewValue(final View view, final Cursor cursor, final int i) {
-            switch (view.getId()) {
-                case R.id.listView_item_title:
-                    setHighlightedText((TextView) view, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
-                    break;
-                case R.id.listView_item_image:
-                    view.setTag(cursor.getInt(TC.Queries.TeamsQuery.ID));
-                    setImageView((ImageView) view, mImageLoader, cursor.getString(TC.Queries.TeamsQuery.IMAGE_REF));
-                    break;
-                case R.id.listView_item_update:
-                    final long createdAt = cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT);
-                    final String dateCreated = DateTime.getDate(createdAt, DateTime.DateFormat);
-                    ((TextView) view).setText(String.format(getString(R.string.created_label), dateCreated));
-                    break;
-                case R.id.listView_item_description:
-                    final long updatedAt = cursor.getLong(TC.Queries.TeamsQuery.UPDATED_AT);
-                    final String dateUpdated = DateTime.getDate(updatedAt, DateTime.DateFormat);
-                    ((TextView) view).setText(String.format(getString(R.string.updated_label), dateUpdated));
-                    break;
-            }
-            return true;
+        protected View setupView(final View view) {
+
+            final TeamItem mTeamItem = new TeamItem();
+
+            mTeamItem.cardview = view.findViewById(R.id.card);
+            mTeamItem.team_title = (TextView) view.findViewById(R.id.listView_item_title);
+            mTeamItem.team_update = (TextView) view.findViewById(R.id.listView_item_update);
+            mTeamItem.team_creation = (TextView) view.findViewById(R.id.listView_item_creation);
+            mTeamItem.team_thumbnail = (ImageView) view.findViewById(R.id.listView_item_image);
+            view.setTag(mTeamItem);
+
+            if (mTeamItem.team_thumbnail != null)
+                mTeamItem.team_thumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        final int position = mListView.getPositionForView(view);
+                        final boolean checked = !mCallback.isItemCollected(getPageIndex(), (Integer) mTeamItem.team_thumbnail.getTag());
+                        mListView.setItemChecked(position, checked);
+                    }
+                });
+
+            return view;
         }
 
         @Override
-        protected View setupView(final View view) {
-            return view;
+        public void bindView(final View view, final Context context, final Cursor cursor) {
+
+            final int id = cursor.getInt(TC.Queries.TeamsQuery.ID);
+            final TeamItem teamItem = (TeamItem) view.getTag();
+
+            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
+            setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeamsQuery.IMAGE_REF));
+            setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeamsQuery.UPDATED_AT));
+            setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT));
+
+            teamItem.team_thumbnail.setTag(id);
+            teamItem.cardview.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
+        }
+
+        private final class TeamItem {
+
+            boolean selected = false;
+            TextView team_title = null;
+            TextView team_update = null;
+            TextView team_creation = null;
+            ImageView team_thumbnail = null;
+            TextView team_description = null;
+            View cardview = null;
         }
     }
 

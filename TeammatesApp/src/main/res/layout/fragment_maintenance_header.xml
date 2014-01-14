@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <view
+        <ImageView
             android:layout_margin="2dip"
             android:layout_width="100dp"
             android:layout_height="80dp"
@@ -19,8 +19,7 @@
             android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            class="com.fsteller.mobile.android.teammatesapp.utils.Image.RoundedImageView" />
+            android:layout_alignParentStart="true" />
 
         <ImageButton
             android:id="@id/header_button"

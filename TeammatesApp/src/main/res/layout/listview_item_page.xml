@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="10dip">
+    android:layout_margin="10dip"
+    android:id="@id/card">
 
 
     <ImageView
@@ -12,10 +13,10 @@
         android:scaleType="centerCrop"
         android:layout_gravity="center"
         android:id="@id/listView_item_image"
-        android:layout_centerVertical="true"
+        android:contentDescription="@string/emptyString"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/ic_launcher" />
+        android:layout_alignParentStart="true" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -29,53 +30,57 @@
         android:padding="5dip">
 
         <TextView
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Title"
+            android:gravity="center|start|left"
             android:id="@id/listView_item_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@id/listView_item_description"
-            android:layout_alignEnd="@id/listView_item_description" />
+            android:layout_toLeftOf="@id/listView_item_creation" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Description"
-            android:id="@id/listView_item_description"
-            android:layout_below="@id/listView_item_title"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@id/listView_item_update" />
-
-
-        <TextView
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Creation"
             android:id="@id/listView_item_creation"
-            android:layout_above="@id/listView_item_update"
+            android:layout_alignTop="@id/listView_item_title"
             android:layout_alignLeft="@id/listView_item_update"
-            android:layout_alignStart="@id/listView_item_update"
-            android:layout_alignRight="@id/listView_item_update"
-            android:layout_alignEnd="@id/listView_item_update" />
+            android:layout_alignStart="@id/listView_item_update" />
 
         <TextView
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Last Update"
             android:id="@id/listView_item_update"
-            android:layout_alignTop="@id/listView_item_description"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/listView_item_creation" />
 
 
     </RelativeLayout>
+
+    <TextView
+        android:textSize="14sp"
+        android:paddingTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Description"
+        android:id="@id/listView_item_description"
+        android:layout_below="@id/listView_item_image"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

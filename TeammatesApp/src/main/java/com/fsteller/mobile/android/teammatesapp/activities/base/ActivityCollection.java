@@ -26,7 +26,7 @@ public abstract class ActivityCollection extends ActivityBase implements ICollec
     @Override
     public void clearCollection(final Integer collectionId) {
         if (collections.get(collectionId) != null)
-            collections.remove(collectionId);
+            collections.get(collectionId).clear();
     }
 
     @Override
@@ -60,6 +60,7 @@ public abstract class ActivityCollection extends ActivityBase implements ICollec
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.collections.clear();
         this.collections = null;
     }
 }

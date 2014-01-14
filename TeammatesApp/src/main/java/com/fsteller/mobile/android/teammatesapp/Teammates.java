@@ -72,7 +72,7 @@ public final class Teammates extends ActivityCollection implements IPageManager 
 
     @Override
     public void actionRequest(final int collectionId, int requestCode) {
-
+        processActionRequest(collectionId, requestCode);
     }
 
     @Override
@@ -80,9 +80,8 @@ public final class Teammates extends ActivityCollection implements IPageManager 
         final boolean isCollected = isItemCollected(collectionId, itemId);
         if (checked && !isCollected)
             addItemToCollection(collectionId, itemId);
-        else if (isCollected)
+        else if (isCollected && !checked)
             removeItemFromCollection(collectionId, itemId);
-
     }
 
     //</editor-fold>
@@ -178,12 +177,25 @@ public final class Teammates extends ActivityCollection implements IPageManager 
                         TC.Activity.MenuActionRequest.About : -1;
 
         if (requestCode == TC.Activity.MenuActionRequest.AddItem)
-            return invokeAction(this, TC.Activity.MenuActionRequest.AddItem, getActivityParams(currentPage, accountId, null));
+            return invokeAction(this, TC.Activity.MenuActionRequest.AddItem, getActivityParams(null));
 
         return (requestCode == TC.Activity.MenuActionRequest.About ||
                 requestCode == TC.Activity.MenuActionRequest.Login ||
                 requestCode == TC.Activity.MenuActionRequest.Settings) &&
                 invokeDialog(this, requestCode);
+    }
+
+    private boolean processActionRequest(final int collectionId, final int requestCode) {
+
+        Log.d(TAG, String.format("ActionCode %s on page %s was called for one o mere items", requestCode, currentPage));
+        final ArrayList<Integer> ids = getCollection(collectionId);
+        if (requestCode == TC.Activity.ContextActionRequest.Edit)
+            return invokeAction(this, TC.Activity.ContextActionRequest.Edit, getActivityParams(ids));
+
+        if (requestCode == TC.Activity.ContextActionRequest.Delete)
+            return resolveDataAction(TC.Activity.DataActionRequest.Delete, getActivityParams(ids));
+
+        return requestCode == TC.Activity.ContextActionRequest.Share && invokeDialog(this, TC.Activity.ContextActionRequest.Share);
     }
 
     private boolean resolveDataAction(final int requestCode, final Intent data) {
@@ -204,7 +216,7 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     //</editor-fold>
     //<editor-fold desc="Static">
 
-    private Intent getActivityParams(final int currentPage, final String accountId, final ArrayList<Integer> dataIds) {
+    private Intent getActivityParams(final ArrayList<Integer> dataIds) {
         final Bundle extras = new Bundle();
 
         extras.putString(TC.Activity.PARAMS.ACCOUNT_ID, accountId);

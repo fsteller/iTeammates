@@ -20,6 +20,7 @@
          to change it. -->
     <color name="holo_white">#ffffffff</color>
     <color name="holo_black">#ff000000</color>
+    <color name="holo_transparent">@android:color/transparent</color>
 
     <color name="holo_orange_light">#FFBB33</color>
     <color name="holo_orange_dark">#55FFBB33</color>

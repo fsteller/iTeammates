@@ -87,7 +87,6 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
         }
     }
 
-
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         return false;
@@ -96,6 +95,11 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(final ActionMode mode) {
+
     }
 
     @Override

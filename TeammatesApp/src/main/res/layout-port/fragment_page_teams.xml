@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:id="@id/fragment_teamsPortraitPage"
     android:background="@color/holo_gray_background"
-    android:padding="15dip">
+    android:padding="10dip">
 
     <RelativeLayout
         android:id="@id/android:empty"
@@ -23,13 +23,13 @@
     </RelativeLayout>
 
     <ListView
-        android:dividerHeight="4dip"
+        android:dividerHeight="1dip"
         android:smoothScrollbar="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@id/list_teammates_teams"
         android:choiceMode="multipleChoice"
-        android:background="@drawable/holo_card_white"
+        android:background="@drawable/holo_card_clean"
         android:layout_below="@id/android:empty" />
 
 

@@ -9,11 +9,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
-import android.view.View;
 import android.widget.AbsListView;
 import android.widget.SearchView;
 
-import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 
@@ -77,7 +75,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
         mLBM.unregisterReceiver(mReceiver);
     }
 
-    //<editor-fold desc="AbsListView.OnScrollListener Methods">
+    //<editor-fold desc="AbsListView.OnScrollListener">
 
     @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
@@ -96,7 +94,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     }
 
     //</editor-fold>
-    //<editor-fold desc="SearchView.OnQueryTextListener Implementation">
+    //<editor-fold desc="SearchView.OnQueryTextListener">
 
     @Override
     public boolean onQueryTextSubmit(final String query) {
@@ -105,18 +103,11 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     }
 
     //</editor-fold>
-    //<editor-fold desc="AbsListView.MultiChoiceModeListener Methods">
+    //<editor-fold desc="AbsListView.MultiChoiceModeListener">
 
     @Override
     public void onItemCheckedStateChanged(final ActionMode mode, final int position, final long id, final boolean checked) {
-        final View rootView = mListView.getChildAt(position);
-        if (rootView != null) {
-            final View cardView = rootView.findViewById(R.id.card);
-            if (cardView != null) {
-                cardView.setBackgroundResource(getBackgroundResource(checked));
-                mCallback.CollectionItemStateChanged(getPageIndex(), (int) id, checked);
-            }
-        }
+        mCallback.CollectionItemStateChanged(getPageIndex(), (int) id, checked);
     }
 
     @Override
@@ -124,10 +115,6 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
         return false;
     }
 
-    @Override
-    public void onDestroyActionMode(final ActionMode mode) {
-
-    }
     //</editor-fold>
     //</editor-fold>
     //<editor-fold desc="Protected Methods">
