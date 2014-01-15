@@ -55,7 +55,7 @@ public interface TC {
         public static interface PARAMS {
             public static final String ID = "activity_parameters";
             public static final String ACCOUNT_ID = "activity_account_id";
-            public static final String COLLECTION_NAME = "activity_collection_id";
+            public static final String COLLECTION_NAME = "activity_collection_name";
             public static final String COLLECTION_ITEMS = "activity_collection_items";
             public static final String COLLECTION_IMAGE_REF = "activity_collection_image_ref";
             public static final String COLLECTION_CREATE_DATE = "activity_collection_create_date";

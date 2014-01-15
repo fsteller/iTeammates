@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -80,8 +81,22 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
         this.headerImage = (ImageView) findViewById(R.id.header_image);
         this.mListView = (ListView) findViewById(R.id.list_view);
-
-        this.collectionKey.addTextChangedListener(this);
+        this.collectionName.addTextChangedListener(new AfterTextChangedWatcher() {
+            @Override
+            public void afterTextChanged(final Editable s) {
+                setEntityName(s.toString());
+            }
+        });
+        this.collectionKey.addTextChangedListener(new AfterTextChangedWatcher() {
+            @Override
+            public void afterTextChanged(final Editable s) {
+                mSearchTerm = s.toString().trim();
+                restartLoader(mSearchTerm.isEmpty() ?
+                        TC.Queries.ContactsQuery.SIMPLE_QUERY_ID :
+                        TC.Queries.ContactsQuery.FILTER_QUERY_ID1
+                );
+            }
+        });
 
         final TextView headerTitle = (TextView) findViewById(R.id.title_label);
         final ImageButton button = (ImageButton) findViewById(R.id.header_button);
@@ -181,18 +196,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     }
 
     //</editor-fold>
-    //<editor-fold desc="TextWatcher">
-
-    @Override
-    public void afterTextChanged(final Editable s) {
-        mSearchTerm = s.toString().trim();
-        restartLoader(mSearchTerm.isEmpty() ?
-                TC.Queries.ContactsQuery.SIMPLE_QUERY_ID :
-                TC.Queries.ContactsQuery.FILTER_QUERY_ID1
-        );
-    }
-
-    //</editor-fold>
     //<editor-fold desc="LoaderManager.LoaderCallbacks<Cursor>">
 
     @Override
@@ -261,8 +264,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
     @Override
     protected boolean checkData(final IMaintenance entity) {
-
-        setEntityName(collectionName.getText().toString());
         if (isNullOrEmpty(entity.getEntityName())) {
             showMessage(getResources().getString(R.string.no_entity_name), Toast.LENGTH_SHORT);
             return false;
@@ -356,6 +357,23 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     //</editor-fold>
 
     //<editor-fold desc="Inner Class">
+
+    //<editor-fold desc="TextWatcher">
+
+    private static abstract class AfterTextChangedWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+    }
+
+    //</editor-fold>
 
     private final class ContactsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
 

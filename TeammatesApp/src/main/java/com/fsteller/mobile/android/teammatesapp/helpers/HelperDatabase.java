@@ -49,8 +49,8 @@ public final class HelperDatabase {
             @Override
             public void run() {
 
-                final long datetime = Calendar.getInstance().getTimeInMillis();
                 final ContentValues values = new ContentValues();
+                final long datetime = Calendar.getInstance().getTimeInMillis();
                 final String teamName = data.getString(TC.Activity.PARAMS.COLLECTION_NAME);
                 final String imageRef = data.getString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF);
                 final long createdAt = data.getLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, datetime);

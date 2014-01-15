@@ -239,10 +239,11 @@ public final class Teammates extends ActivityCollection implements IPageManager 
 
     private static boolean invokeDialog(final Activity activity, final int request) {
         final int dialog =
-                request == TC.Activity.Dialog.Settings ? Dialogs.Settings :
-                        request == TC.Activity.Dialog.SignIn ? Dialogs.Login :
-                                request == TC.Activity.Dialog.Share ? Dialogs.Share :
-                                        request == TC.Activity.Dialog.About ? Dialogs.About : -1;
+                request == TC.Activity.Dialog.Settings ?
+                        Dialogs.Settings : request == TC.Activity.Dialog.SignIn ?
+                        Dialogs.Login : request == TC.Activity.Dialog.Share ?
+                        Dialogs.Share : request == TC.Activity.Dialog.About ?
+                        Dialogs.About : -1;
 
         if (dialog != -1) {
             try {

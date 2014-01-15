@@ -3,7 +3,6 @@ package com.fsteller.mobile.android.teammatesapp.activities.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -15,7 +14,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public abstract class ActivityMaintenanceBase extends ActivityCollection implements IMaintenance, TextWatcher, Button.OnClickListener {
+public abstract class ActivityMaintenanceBase extends ActivityCollection implements IMaintenance, Button.OnClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -52,7 +51,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     }
 
     public void setEntityName(final String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
     public String getDescription() {
@@ -60,7 +59,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     }
 
     public void setDescription(final String description) {
-        this.description = description;
+        this.description = description.trim();
     }
 
     public Uri getImageRef() {
@@ -76,7 +75,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     }
 
     public void setImageRef(final String ref) {
-        this.imageRef = ref;
+        this.imageRef = ref.trim();
     }
 
     //</editor-fold>
@@ -124,20 +123,6 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
         this.imageRef = null;
         this.name = null;
     }
-
-    //<editor-fold desc="TextWatcher">
-
-    @Override
-    public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-
-    }
-
-    //</editor-fold>
 
     //<editor-fold desc="AbsListView.OnScrollListener">
 
