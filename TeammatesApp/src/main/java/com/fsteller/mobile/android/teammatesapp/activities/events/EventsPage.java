@@ -25,7 +25,7 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
 
     //<editor-fold desc="Constants">
 
-    private static final int PAGE_INDEX = 0x0001;
+    private static final int PAGE_INDEX = IPageManager.EVETS_PAGE;
     private static final String TAG = EventsPage.class.getSimpleName();
 
     //</editor-fold>

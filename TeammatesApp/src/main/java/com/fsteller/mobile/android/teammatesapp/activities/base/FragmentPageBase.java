@@ -115,6 +115,11 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
         return false;
     }
 
+    @Override
+    public void onDestroyActionMode(final ActionMode mode) {
+        mCallback.clearCollection(getPageIndex());
+    }
+
     //</editor-fold>
     //</editor-fold>
     //<editor-fold desc="Protected Methods">

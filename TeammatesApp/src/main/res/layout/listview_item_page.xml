@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dip"
-    android:id="@id/card">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip"
+                android:id="@id/card">
 
 
     <ImageView
@@ -16,7 +16,7 @@
         android:contentDescription="@string/emptyString"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -26,7 +26,7 @@
         android:layout_alignTop="@id/listView_item_image"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:gravity="center"
+        android:gravity="center|start|left"
         android:padding="5dip">
 
         <TextView
@@ -37,11 +37,9 @@
             android:text="Title"
             android:gravity="center|start|left"
             android:id="@id/listView_item_title"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@id/listView_item_creation" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
 
         <TextView
             android:textSize="12sp"
@@ -50,9 +48,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Creation"
             android:id="@id/listView_item_creation"
-            android:layout_alignTop="@id/listView_item_title"
-            android:layout_alignLeft="@id/listView_item_update"
-            android:layout_alignStart="@id/listView_item_update" />
+            android:layout_below="@id/listView_item_title"
+            android:layout_alignLeft="@id/listView_item_title"
+            android:layout_alignStart="@id/listView_item_title"/>
 
         <TextView
             android:textSize="12sp"
@@ -61,9 +59,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Last Update"
             android:id="@id/listView_item_update"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/listView_item_creation" />
+            android:layout_below="@id/listView_item_creation"
+            android:layout_alignLeft="@id/listView_item_title"
+            android:layout_alignStart="@id/listView_item_title"/>
 
 
     </RelativeLayout>
@@ -80,7 +78,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"/>
 
 
 </RelativeLayout>

@@ -25,7 +25,7 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
 
     //<editor-fold desc="Constants">
 
-    private static final int PAGE_INDEX = 0x0003;
+    private static final int PAGE_INDEX = IPageManager.NOTIFICATIONS_PAGE;
     private static final String TAG = NotificationsPage.class.getSimpleName();
 
     //</editor-fold>
@@ -42,7 +42,7 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        this.mCallback.addCollection(IPageManager.COLLECTIONS_PAGE);
+        this.mCallback.addCollection(IPageManager.NOTIFICATIONS_PAGE);
         final View rootView = inflater.inflate(R.layout.fragment_page_notify, container, false);
         if (rootView != null) {
 

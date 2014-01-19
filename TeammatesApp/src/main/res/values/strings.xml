@@ -43,7 +43,7 @@
     <string name="alphabet">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890</string>
     <string name="created_label">Create at: %s</string>
     <string name="updated_label">Las update on: %s</string>
-    <string name="emptyString" />
+    <string name="emptyString"/>
     <string name="Name">Name</string>
     <string name="Contact">Contact</string>
     <string name="teamsMaintenace_titleLabel">Teams</string>
@@ -54,6 +54,7 @@
     <string name="no_selected_contacts">Every team must have a least one member</string>
     <string name="update_prefix">Last Update: %s</string>
     <string name="creation_prefix">Created at: %s</string>
+    <string name="TeamsPage_actionTutle">Teams Actions</string>
 
 
 </resources>

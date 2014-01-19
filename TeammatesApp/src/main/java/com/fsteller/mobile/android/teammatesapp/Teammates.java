@@ -123,7 +123,7 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        clearCollection(currentPage);
+        clearCollection(getMaintenanceId(currentPage));
         if (data != null && resultCode != RESULT_CANCELED)
             resolveDataAction(requestCode, data);
     }
@@ -178,7 +178,8 @@ public final class Teammates extends ActivityCollection implements IPageManager 
                         TC.Activity.MenuActionRequest.About : -1;
 
         if (requestCode == TC.Activity.MenuActionRequest.AddItem)
-            return invokeAction(this, TC.Activity.MenuActionRequest.AddItem, getActivityParams(null));
+            return invokeAction(this, TC.Activity.MenuActionRequest.AddItem,
+                    getActivityParams(getMaintenanceId(currentPage), null));
 
         return (requestCode == TC.Activity.MenuActionRequest.About ||
                 requestCode == TC.Activity.MenuActionRequest.Login ||
@@ -192,10 +193,10 @@ public final class Teammates extends ActivityCollection implements IPageManager 
         Log.d(TAG, String.format("ActionCode %s on page %s was called for one o mere items", requestCode, currentPage));
 
         if (requestCode == TC.Activity.ContextActionRequest.Edit)
-            return invokeAction(this, TC.Activity.ContextActionRequest.Edit, getActivityParams(ids));
+            return invokeAction(this, TC.Activity.ContextActionRequest.Edit, getActivityParams(collectionId, ids));
 
         if (requestCode == TC.Activity.ContextActionRequest.Delete)
-            return resolveDataAction(TC.Activity.DataActionRequest.Delete, getActivityParams(ids));
+            return resolveDataAction(TC.Activity.DataActionRequest.Delete, getActivityParams(collectionId, ids));
 
         return requestCode == TC.Activity.ContextActionRequest.Share && invokeDialog(this, TC.Activity.ContextActionRequest.Share);
     }
@@ -218,17 +219,30 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     //</editor-fold>
     //<editor-fold desc="Static">
 
-    private Intent getActivityParams(final ArrayList<Integer> dataIds) {
+    private Intent getActivityParams(final int collectionId, final ArrayList<Integer> dataIds) {
         final Bundle extras = new Bundle();
 
+        extras.putInt(TC.Activity.PARAMS.ID, collectionId);
         extras.putString(TC.Activity.PARAMS.ACCOUNT_ID, accountId);
         extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, dataIds);
 
         final Intent intent = new Intent(this, childActivities[currentPage]);
-        intent.putExtra(TC.Activity.PARAMS.ID, currentPage);
         intent.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
 
         return intent;
+    }
+
+    private static int getMaintenanceId(int pageId) {
+        switch (pageId) {
+            case 0:
+                return TC.Activity.Maintenance.EVENTS;
+            case 1:
+                return TC.Activity.Maintenance.TEAMS;
+            case 2:
+                return TC.Activity.Maintenance.NOTIFICATION;
+            default:
+                return -1;
+        }
     }
 
     private static boolean invokeAction(final Activity activity, final int requestCode, final Intent intent) {

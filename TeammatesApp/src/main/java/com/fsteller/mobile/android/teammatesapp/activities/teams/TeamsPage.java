@@ -39,7 +39,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
     //<editor-fold desc="Constants">
 
-    private static final int PAGE_INDEX = 0x0002;
+    private static final int PAGE_INDEX = IPageManager.TEAMS_PAGE;
     private static final String TAG = TeamsPage.class.getSimpleName();
 
     //</editor-fold>
@@ -119,7 +119,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         final int cId = getPageIndex();
         mCallback.clearCollection(cId);
-        mCallback.CollectionItemStateChanged(cId, (Integer) view.getTag(), true);
+        mCallback.CollectionItemStateChanged(cId, ((TeamItem) view.getTag()).id, true);
         mCallback.actionRequest(cId, TC.Activity.ContextActionRequest.Edit);
     }
 
@@ -142,29 +142,25 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     }
 
     //</editor-fold>
-    //<editor-fold desc="AbsListView.MultiChoiceModeListener Methods">
+    //<editor-fold desc="AbsListView.MultiChoiceModeListener">
 
     @Override
     public boolean onCreateActionMode(final ActionMode mode, final Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
-        if (inflater != null)
+        if (inflater != null) {
+            mode.setTitle(R.string.TeamsPage_actionTutle);
             inflater.inflate(R.menu.teammates_context, menu);
+        }
         return true;
     }
 
     @Override
     public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
-        mode.finish();
         final int requestCode = item.getItemId() == R.id.action_share ?
                 TC.Activity.ContextActionRequest.Share : item.getItemId() == R.id.action_delete ?
                 TC.Activity.ContextActionRequest.Delete : -1;
 
         return sendActionRequest(requestCode);
-    }
-
-    @Override
-    public void onDestroyActionMode(final ActionMode mode) {
-        mCallback.clearCollection(getPageIndex());
     }
 
     //</editor-fold>
@@ -268,7 +264,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
             final TeamItem mTeamItem = new TeamItem();
 
-            mTeamItem.cardview = view.findViewById(R.id.card);
+            mTeamItem.cardView = view.findViewById(R.id.card);
             mTeamItem.team_title = (TextView) view.findViewById(R.id.listView_item_title);
             mTeamItem.team_update = (TextView) view.findViewById(R.id.listView_item_update);
             mTeamItem.team_creation = (TextView) view.findViewById(R.id.listView_item_creation);
@@ -300,20 +296,11 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeamsQuery.UPDATED_AT));
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT));
 
-            view.setTag(id);
+            teamItem.id = id;
             teamItem.team_thumbnail.setTag(id);
-            teamItem.cardview.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
+            teamItem.cardView.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
         }
 
-        private final class TeamItem {
-
-            TextView team_title = null;
-            TextView team_update = null;
-            TextView team_creation = null;
-            ImageView team_thumbnail = null;
-            TextView team_description = null;
-            View cardview = null;
-        }
     }
 
     private final class TeamsLandscapeListAdapter extends Adapters.CursorAdapter {
@@ -336,7 +323,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
             final TeamItem mTeamItem = new TeamItem();
 
-            mTeamItem.cardview = view.findViewById(R.id.card);
+            mTeamItem.cardView = view.findViewById(R.id.card);
             mTeamItem.team_title = (TextView) view.findViewById(R.id.listView_item_title);
             mTeamItem.team_update = (TextView) view.findViewById(R.id.listView_item_update);
             mTeamItem.team_creation = (TextView) view.findViewById(R.id.listView_item_creation);
@@ -368,18 +355,20 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT));
 
             teamItem.team_thumbnail.setTag(id);
-            teamItem.cardview.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
+            teamItem.cardView.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
         }
 
-        private final class TeamItem {
+    }
 
-            TextView team_title = null;
-            TextView team_update = null;
-            TextView team_creation = null;
-            ImageView team_thumbnail = null;
-            TextView team_description = null;
-            View cardview = null;
-        }
+    private static final class TeamItem {
+
+        int id = -1;
+        TextView team_title = null;
+        TextView team_update = null;
+        TextView team_creation = null;
+        ImageView team_thumbnail = null;
+        TextView team_description = null;
+        View cardView = null;
     }
 
     //</editor-fold>

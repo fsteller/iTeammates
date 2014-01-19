@@ -98,8 +98,11 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
+        if (savedInstanceState != null)
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
     }
 
     @Override

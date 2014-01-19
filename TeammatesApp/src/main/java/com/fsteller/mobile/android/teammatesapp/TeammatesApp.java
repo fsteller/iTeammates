@@ -55,13 +55,14 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     @Override
     public boolean addData(final Intent data) {
         final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
-        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.ID);
+        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.EXTRAS);
+
         if (extras == null)
             return false;
 
         Log.d(TAG, String.format("Adding data (%s) to: %s", data, mHelperDatabase));
-        final int id = extras.getInt(TC.Activity.PARAMS.ID);
-        switch (id) {
+        final int tag = extras.getInt(TC.Activity.PARAMS.ID, -1);
+        switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.addTeam(this, extras);
                 break;
@@ -80,13 +81,14 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     @Override
     public boolean updateData(final Intent data) {
         final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
-        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.ID);
+        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.EXTRAS);
+
         if (extras == null)
             return false;
 
-        Log.d(TAG, String.format("Updating data (%s) on: %s", data, mHelperDatabase));
-        final int id = extras.getInt(TC.Activity.PARAMS.ID);
-        switch (id) {
+        Log.d(TAG, String.format("Updating data (%s) from: %s", data, mHelperDatabase));
+        final int tag = extras.getInt(TC.Activity.PARAMS.ID, -1);
+        switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.updateTeam(this, data);
                 break;
@@ -105,7 +107,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     @Override
     public boolean deleteData(final Intent data) {
         final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
-        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.ID);
+        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.EXTRAS);
 
         if (extras == null)
             return false;

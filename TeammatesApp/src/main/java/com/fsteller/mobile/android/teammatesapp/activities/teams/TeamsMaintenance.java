@@ -143,6 +143,17 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     }
 
     @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -257,7 +268,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageStringRef());
         extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(getMaintenanceId()));
         extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
-        result.putExtra(TC.Activity.PARAMS.ID, extras);
+        result.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
 
         return result;
     }
