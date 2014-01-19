@@ -1,5 +1,6 @@
 package com.fsteller.mobile.android.teammatesapp.activities.teams;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
+import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 
 
 /**
@@ -68,10 +70,13 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         this.mCallback.addCollection(IPageManager.TEAMS_PAGE);
         final View rootView = inflater.inflate(R.layout.fragment_page_teams, container, false);
         if (rootView != null) {
+
+            rootView.setOnClickListener(mHideInputClass);
             mEmptyView = rootView.findViewById(android.R.id.empty);
             mListView = (AbsListView) rootView.findViewById(R.id.list_teammates_teams);
             isPortrait = (rootView.findViewById(R.id.fragment_teamsPortraitPage) != null);
-            imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (getActivity() != null)
+                imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         }
         Log.d(TAG, "onCreated");
         return rootView;
@@ -80,17 +85,17 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        final Activity mActivity = getActivity();
 
         setHasOptionsMenu(true);
         mCursorAdapter = isPortrait ?
-                new TeamsPortraitListAdapter(getActivity()) :
-                new TeamsLandscapeListAdapter(getActivity());
-
+                new TeamsPortraitListAdapter(mActivity) :
+                new TeamsLandscapeListAdapter(mActivity);
         mListView.setAdapter(mCursorAdapter);
-        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        mListView.setMultiChoiceModeListener(this);
         mListView.setOnItemClickListener(this);
-
+        mListView.setMultiChoiceModeListener(this);
+        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mImageLoader = ImageUtils.setupImageLoader(mActivity, R.drawable.ic_default_picture);
         Log.d(TAG, "onActivityCreated");
     }
 
@@ -114,7 +119,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         final int cId = getPageIndex();
         mCallback.clearCollection(cId);
-        mCallback.CollectionItemStateChanged(cId, (int) id, true);
+        mCallback.CollectionItemStateChanged(cId, (Integer) view.getTag(), true);
         mCallback.actionRequest(cId, TC.Activity.ContextActionRequest.Edit);
     }
 
@@ -295,13 +300,13 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeamsQuery.UPDATED_AT));
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT));
 
+            view.setTag(id);
             teamItem.team_thumbnail.setTag(id);
             teamItem.cardview.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
         }
 
         private final class TeamItem {
 
-            boolean selected = false;
             TextView team_title = null;
             TextView team_update = null;
             TextView team_creation = null;
@@ -368,7 +373,6 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
         private final class TeamItem {
 
-            boolean selected = false;
             TextView team_title = null;
             TextView team_update = null;
             TextView team_creation = null;

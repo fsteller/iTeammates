@@ -70,9 +70,10 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         super.onCreate(savedInstanceState);
 
         final Intent mIntent = getIntent();
-        final Bundle extras = mIntent != null && mIntent.hasCategory(TC.Activity.PARAMS.ID) ?
-                mIntent.getBundleExtra(TC.Activity.PARAMS.ID) : savedInstanceState;
+        final Bundle extras = mIntent != null && mIntent.hasExtra(TC.Activity.PARAMS.EXTRAS) ?
+                mIntent.getBundleExtra(TC.Activity.PARAMS.EXTRAS) : savedInstanceState;
 
+        this.loadData(extras);
         this.setIsKeyBoardEnabled(false);
         this.setContentView(R.layout.activity_teams_maintenance);
 
@@ -118,7 +119,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
             }
         });
 
-        this.loadData(extras);
         this.mListView.setOnScrollListener(TeamsMaintenance.this);
         this.mCursorAdapter = new ContactsAdapter(TeamsMaintenance.this);
         this.mListView.setAdapter(mCursorAdapter);
@@ -291,23 +291,24 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
     private void loadData(final Bundle extras) {
 
+        if (extras == null)
+            return;
+
         new Thread() {
             @Override
             public void run() {
                 //Loads data form a database stored team
                 Log.i(TAG, "Loading team data...");
-                final int teamId = extras != null ? extras.getInt(TC.Activity.PARAMS.ID, -1) : -1;
-
-                if (teamId > 0) {
+                final ArrayList<Integer> teamsIds = extras.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
+                if (teamsIds != null && teamsIds.size() > 0) {
                     final String[] projection = TC.Queries.TeamsQuery.TEAMS_CONTACT_PROJECTION;
-                    final Uri teamsContactsUri = TeammatesContract.Teams.Contacts.getTeamContactUri(teamId);
+                    final Uri teamsContactsUri = TeammatesContract.Teams.Contacts.getTeamContactUri(teamsIds.get(0));
                     final Cursor data = getContentResolver().query(teamsContactsUri, projection, null, null, null);
                     if (data != null) {
                         try {
                             data.moveToFirst();
                             setEntityName(data.getString(TC.Queries.TeamsQuery.NAME));
                             setImageRef(data.getString(TC.Queries.TeamsQuery.IMAGE_REF));
-
                             Log.i(TAG, String.format("Loading '%s' contacts...", getEntityName()));
                             addItemToCollection(getMaintenanceId(), data.getInt(TC.Queries.TeamsQuery.CONTACT_TOKEN));
                             while (data.moveToNext())

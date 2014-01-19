@@ -123,6 +123,7 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        clearCollection(currentPage);
         if (data != null && resultCode != RESULT_CANCELED)
             resolveDataAction(requestCode, data);
     }
@@ -187,8 +188,9 @@ public final class Teammates extends ActivityCollection implements IPageManager 
 
     private boolean processActionRequest(final int collectionId, final int requestCode) {
 
-        Log.d(TAG, String.format("ActionCode %s on page %s was called for one o mere items", requestCode, currentPage));
         final ArrayList<Integer> ids = getCollection(collectionId);
+        Log.d(TAG, String.format("ActionCode %s on page %s was called for one o mere items", requestCode, currentPage));
+
         if (requestCode == TC.Activity.ContextActionRequest.Edit)
             return invokeAction(this, TC.Activity.ContextActionRequest.Edit, getActivityParams(ids));
 
@@ -220,10 +222,11 @@ public final class Teammates extends ActivityCollection implements IPageManager 
         final Bundle extras = new Bundle();
 
         extras.putString(TC.Activity.PARAMS.ACCOUNT_ID, accountId);
-        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_NAME, dataIds);
+        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, dataIds);
 
         final Intent intent = new Intent(this, childActivities[currentPage]);
-        intent.putExtra(TC.Activity.PARAMS.ID, extras);
+        intent.putExtra(TC.Activity.PARAMS.ID, currentPage);
+        intent.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
 
         return intent;
     }

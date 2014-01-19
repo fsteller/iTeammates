@@ -15,7 +15,7 @@ import com.fsteller.mobile.android.teammatesapp.R;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public abstract class FragmentBase extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class FragmentBase extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //<editor-fold desc="Constants">
 
@@ -29,6 +29,8 @@ public abstract class FragmentBase extends Fragment implements View.OnClickListe
     protected AbsListView mListView = null;
     protected InputMethodManager imm = null;
     protected IPageManager mCallback = null;
+
+    protected final HideInputClass mHideInputClass = new HideInputClass();
     protected String mSearchTerm = "";
 
     //</editor-fold>
@@ -45,11 +47,6 @@ public abstract class FragmentBase extends Fragment implements View.OnClickListe
     public void onDetach() {
         super.onDetach();
         mCallback = null;
-    }
-
-    @Override
-    public void onClick(final View v) {
-        hideInputMethod(v);
     }
 
     @Override
@@ -72,12 +69,19 @@ public abstract class FragmentBase extends Fragment implements View.OnClickListe
     }
 
     //</editor-fold>
-    //<editor-fold desc="private Methods">
 
-    private void hideInputMethod(final View v) {
-        if (imm != null && !(v instanceof EditText))
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    //<editor-fold desc="Inner Classes">
+
+    private final class HideInputClass implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (imm != null && !(v instanceof EditText))
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 
     //</editor-fold>
+
+
 }
