@@ -75,7 +75,11 @@ public abstract class FragmentBase extends Fragment implements LoaderManager.Loa
     private final class HideInputClass implements View.OnClickListener {
 
         @Override
-        public void onClick(View v) {
+        public void onClick(final View v) {
+            hideInputMethod(v);
+        }
+
+        public void hideInputMethod(final View v) {
             if (imm != null && !(v instanceof EditText))
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }

@@ -122,7 +122,20 @@ public final class TeammatesProvider extends ContentProvider {
 
     @Override
     public int update(final Uri uri, final ContentValues values, final String selection, final String[] selectionArgs) {
-        return 0;
+        Log.d(TAG, "delete(" + uri + "," + selection + "," + Arrays.toString(selectionArgs) + ")");
+
+        switch (URI_MATCHER.match(uri)) {
+            case TEAMS:
+            case TEAM_ID:
+            case TEAM_FILTER:
+                return mUpdate(uri, TeammatesContract.Teams.PATH, values, selection, selectionArgs);
+            case TEAM_CONTACTS:
+            case TEAM_CONTACT_ID:
+                return mUpdate(uri, TeammatesContract.Teams.Contacts.CONTENT_DIRECTORY, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException(String.
+                        format("Error: uri(%s) doesn't support Delete operation.", uri));
+        }
     }
 
     @Override
@@ -192,7 +205,7 @@ public final class TeammatesProvider extends ContentProvider {
         return cursor;
     }
 
-    private int update(final Uri uri, final String tableName, final ContentValues values, final String selection, final String[] selectionArgs) {
+    private int mUpdate(final Uri uri, final String tableName, final ContentValues values, final String selection, final String[] selectionArgs) {
         Log.d(TAG, "update(" + uri + "," + values + "," + selection + "," + Arrays.toString(selectionArgs) + ")");
 
         int count = 0;

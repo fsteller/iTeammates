@@ -1,8 +1,11 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.fsteller.mobile.android.teammatesapp.BuildConfig;
@@ -16,6 +19,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 public abstract class ActivityBase extends Activity {
 
     protected TeammatesApp app;
+    protected InputMethodManager imm = null;
     protected static final int SOFT_INPUT_MODE_VISIBLE = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
     protected static final int SOFT_INPUT_MODE_HIDDEN = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
@@ -28,7 +32,8 @@ public abstract class ActivityBase extends Activity {
             VersionTools.enableStrictMode();
 
         this.app = (TeammatesApp) getApplication();
-        this.getWindow().setSoftInputMode(SOFT_INPUT_MODE_HIDDEN);
+        this.imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        this.setIsKeyBoardEnabled(true);
     }
 
     @Override
@@ -49,6 +54,10 @@ public abstract class ActivityBase extends Activity {
         this.app = null;
     }
 
+    protected void hideSoftKeyboard(final View view) {
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     protected void showMessage(final String msg, final int duration) {
         runOnUiThread(new Runnable() {
             @Override
@@ -65,5 +74,6 @@ public abstract class ActivityBase extends Activity {
     protected static boolean isNullOrEmpty(String txt) {
         return txt == null || txt.isEmpty();
     }
+
 
 }

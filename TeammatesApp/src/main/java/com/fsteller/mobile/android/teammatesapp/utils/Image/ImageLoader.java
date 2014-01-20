@@ -205,7 +205,7 @@ public abstract class ImageLoader {
     /**
      * Set placeholder bitmap that shows when the the background thread is running.
      *
-     * @param resId Resource ID of loading image.
+     * @param resId Resource COLLECTION_ID of loading image.
      */
     public void setLoadingImage(final int resId) {
         mLoadingBitmap = BitmapFactory.decodeResource(mResources, resId);

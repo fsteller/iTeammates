@@ -4,7 +4,6 @@ import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +43,9 @@ public final class HelperDatabase {
     //<editor-fold desc="Add to database Methods">
 
     public void addTeam(final Context context, final Bundle data) {
+
+        if (data == null)
+            return;
 
         new Thread() {
             @Override
@@ -92,24 +94,109 @@ public final class HelperDatabase {
     }
 
     public void addEvent(final Context context, final Bundle data) {
+
+        if (data == null)
+            return;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+            }
+        }.start();
     }
 
     public void addNotification(final Context context, final Bundle data) {
+
+        if (data == null)
+            return;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+            }
+        }.start();
     }
 
     //</editor-fold>
     //<editor-fold desc="Update on database Methods">
 
-    public void updateTeam(final Context context, final Intent data) {
+    public void updateTeam(final Context context, final Bundle data) {
 
+        if (data == null)
+            return;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+                final ContentValues values = new ContentValues();
+                final long datetime = Calendar.getInstance().getTimeInMillis();
+                final String selection = String.format("%s=?", TeammatesContract.Teams._ID);
+
+                final int id = data.getInt(TC.Activity.PARAMS.ID);
+                final String teamName = data.getString(TC.Activity.PARAMS.COLLECTION_NAME);
+                final String imageRef = data.getString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF);
+                final long updatedAt = data.getLong(TC.Activity.PARAMS.COLLECTION_UPDATE_DATE, datetime);
+                final ArrayList<Integer> contacts = data.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
+
+                values.put(TeammatesContract.Teams.NAME, teamName);
+                values.put(TeammatesContract.Teams.IMAGE_REF, imageRef);
+                values.put(TeammatesContract.Teams.UPDATED_AT, updatedAt);
+
+                final String[] args = new String[]{String.valueOf(id)};
+                int updated = context.getContentResolver().update(TeammatesContract.Teams.CONTENT_URI, values, selection, args);
+
+                if (updated > 0) {
+                    final Uri uri = TeammatesContract.Teams.Contacts.getTeamContactUri(id);
+                    final String where = String.format("%s=?", TeammatesContract.Teams.Contacts.TEAM_ID);
+
+                    if (uri != null && contacts != null) {
+                        context.getContentResolver().delete(uri, where, args);
+                        final ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+                        for (int contact : contacts)
+                            ops.add(ContentProviderOperation.newInsert(uri)
+                                    .withValue(TeammatesContract.Teams.Contacts.TEAM_ID, id)
+                                    .withValue(TeammatesContract.Teams.Contacts.TOKEN, contact)
+                                    .build());
+                        try {
+                            context.getContentResolver().applyBatch(TeammatesContract.AUTHORITY, ops);
+                            callback(TC.DatabaseActions.TeamAddedToDb);
+                        } catch (Exception e) {
+                            Log.e(TAG, String.format("Error processing INSERT operation with Uri: %s", uri), e);
+                            revertTransaction(uri, e);
+                        }
+                    }
+                }
+            }
+        }.start();
     }
 
-    public void updateEvent(final Context context, final Intent data) {
+    public void updateEvent(final Context context, final Bundle data) {
 
+        if (data == null)
+            return;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+            }
+        }.start();
     }
 
-    public void updateNotification(final Context context, final Intent data) {
+    public void updateNotification(final Context context, final Bundle data) {
 
+        if (data == null)
+            return;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+            }
+        }.start();
     }
 
     //</editor-fold>
@@ -148,10 +235,28 @@ public final class HelperDatabase {
 
     public void deleteEvents(final Context teammatesApplication, final Bundle data) {
 
+        if (data == null)
+            return;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+            }
+        }.start();
     }
 
     public void deleteNotifications(final Context teammatesApplication, final Bundle data) {
 
+        if (data == null)
+            return;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+            }
+        }.start();
     }
 
     //</editor-fold>

@@ -24,7 +24,7 @@ final class Constants {
     public final static int DB_VERSION = 1;
     public final static String DB_NAME = "teammates.database";
     //</editor-fold>
-    //<editor-fold desc="ID Fields Names Constants">
+    //<editor-fold desc="COLLECTION_ID Fields Names Constants">
     private final static String FIELD_TEAM_ID = "team_id";
     private final static String FIELD_EVENT_ID = "event_id";
     private final static String FIELD_PLACE_ID = "place_id";

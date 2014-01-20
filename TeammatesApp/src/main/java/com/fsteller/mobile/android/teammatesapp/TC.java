@@ -56,6 +56,7 @@ public interface TC {
             public static final String ID = "activity_id";
             public static final String EXTRAS = "activity_Extras";
             public static final String ACCOUNT_ID = "activity_account_id";
+            public static final String COLLECTION_ID = "activity_collection_id";
             public static final String COLLECTION_NAME = "activity_collection_name";
             public static final String COLLECTION_ITEMS = "activity_collection_items";
             public static final String COLLECTION_IMAGE_REF = "activity_collection_image_ref";
@@ -150,7 +151,7 @@ public interface TC {
                     Contacts.CONTACT_STATUS,
                     // In Android 3.0 and later, the thumbnail image is pointed to by
                     // PHOTO_THUMBNAIL_URI. In earlier versions, there is no direct pointer; instead,
-                    // you generate the pointer from the contact's ID value and constants defined in
+                    // you generate the pointer from the contact's COLLECTION_ID value and constants defined in
                     // android.provider.ContactsContract.teams.
                     Contacts.PHOTO_THUMBNAIL_URI,
                     // The sort order column for the returned Cursor, used by the AlphabetIndexer

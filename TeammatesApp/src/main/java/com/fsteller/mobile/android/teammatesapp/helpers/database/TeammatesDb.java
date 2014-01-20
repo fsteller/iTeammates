@@ -30,7 +30,7 @@ public final class TeammatesDb extends SQLiteOpenHelper {
 
     //<editor-fold desc="Overridden Methods">
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(final SQLiteDatabase db) {
         Log.i(TAG, "Broadcast: creating tables structures...");
         db.execSQL(Constants.Teams.CreateTable);
         db.execSQL(Constants.Events.CreateTable);
@@ -48,7 +48,7 @@ public final class TeammatesDb extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i2) {
+    public void onUpgrade(final SQLiteDatabase db, final int i, final int i2) {
         Log.i(TAG, "Broadcast: upgrading database...");
         Log.i(TAG, "Broadcast: deleting structures...");
 
@@ -68,7 +68,7 @@ public final class TeammatesDb extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onOpen(SQLiteDatabase db) {
+    public void onOpen(final SQLiteDatabase db) {
         super.onOpen(db);
         if (!db.isReadOnly()) {
             // Enable foreign key constraints

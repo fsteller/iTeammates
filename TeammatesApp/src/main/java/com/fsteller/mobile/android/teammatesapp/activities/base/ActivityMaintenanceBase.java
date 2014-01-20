@@ -23,6 +23,8 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     //<editor-fold desc="Variables">
 
     private final int index;
+
+    private int id;
     private String name = "";
     private String imageRef = "";
     private String description = "";
@@ -41,6 +43,14 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     //</editor-fold>
 
     //<editor-fold desc="Public Methods">
+
+    public int getEntityId() {
+        return id;
+    }
+
+    public void setEntityId(final Integer id) {
+        this.id = id;
+    }
 
     public int getMaintenanceId() {
         return index;
@@ -140,6 +150,8 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
             else
                 mImageLoader.setPauseWork(false);
         }
+
+        hideSoftKeyboard(view);
     }
 
     //</editor-fold>

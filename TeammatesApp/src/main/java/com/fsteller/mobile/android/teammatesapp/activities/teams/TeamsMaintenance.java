@@ -263,7 +263,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         final Intent result = new Intent();
         final Bundle extras = new Bundle();
 
-        extras.putInt(TC.Activity.PARAMS.ID, getMaintenanceId());
+        extras.putInt(TC.Activity.PARAMS.ID, getEntityId());
+        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, getMaintenanceId());
         extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
         extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageStringRef());
         extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(getMaintenanceId()));
@@ -312,12 +313,17 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
                 Log.i(TAG, "Loading team data...");
                 final ArrayList<Integer> teamsIds = extras.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
                 if (teamsIds != null && teamsIds.size() > 0) {
+
+                    final int id = teamsIds.get(0);
                     final String[] projection = TC.Queries.TeamsQuery.TEAMS_CONTACT_PROJECTION;
-                    final Uri teamsContactsUri = TeammatesContract.Teams.Contacts.getTeamContactUri(teamsIds.get(0));
+                    final Uri teamsContactsUri = TeammatesContract.Teams.Contacts.getTeamContactUri(id);
                     final Cursor data = getContentResolver().query(teamsContactsUri, projection, null, null, null);
+
                     if (data != null) {
                         try {
                             data.moveToFirst();
+
+                            setEntityId(id);
                             setEntityName(data.getString(TC.Queries.TeamsQuery.NAME));
                             setImageRef(data.getString(TC.Queries.TeamsQuery.IMAGE_REF));
                             Log.i(TAG, String.format("Loading '%s' contacts...", getEntityName()));
@@ -337,16 +343,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         }.start();
     }
 
-    private Loader<Cursor> getContacts() {
-
-        final Uri contentUri = TC.Queries.ContactsQuery.CONTENT_URI;
-        final String selection = TC.Queries.ContactsQuery.SELECTION;
-        final String sortOrder = TC.Queries.ContactsQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.ContactsQuery.PROJECTION;
-
-        return new CursorLoader(this, contentUri, projection, selection, null, sortOrder);
-    }
-
     private Loader<Cursor> getContactsFilteredBySearchTerm(final String searchTerm) {
 
         final int id = getMaintenanceId();
@@ -364,6 +360,16 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         }
 
         return new CursorLoader(this, contentUri, projection, selection, params, sortOrder);
+    }
+
+    private Loader<Cursor> getContacts() {
+
+        final Uri contentUri = TC.Queries.ContactsQuery.CONTENT_URI;
+        final String selection = TC.Queries.ContactsQuery.SELECTION;
+        final String sortOrder = TC.Queries.ContactsQuery.SORT_ORDER;
+        final String[] projection = TC.Queries.ContactsQuery.PROJECTION;
+
+        return new CursorLoader(this, contentUri, projection, selection, null, sortOrder);
     }
 
     //</editor-fold>

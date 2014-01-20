@@ -61,7 +61,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
             return false;
 
         Log.d(TAG, String.format("Adding data (%s) to: %s", data, mHelperDatabase));
-        final int tag = extras.getInt(TC.Activity.PARAMS.ID, -1);
+        final int tag = extras.getInt(TC.Activity.PARAMS.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.addTeam(this, extras);
@@ -87,16 +87,16 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
             return false;
 
         Log.d(TAG, String.format("Updating data (%s) from: %s", data, mHelperDatabase));
-        final int tag = extras.getInt(TC.Activity.PARAMS.ID, -1);
+        final int tag = extras.getInt(TC.Activity.PARAMS.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
-                mHelperDatabase.updateTeam(this, data);
+                mHelperDatabase.updateTeam(this, extras);
                 break;
             case TC.Activity.Maintenance.EVENTS:
-                mHelperDatabase.updateEvent(this, data);
+                mHelperDatabase.updateEvent(this, extras);
                 break;
             case TC.Activity.Maintenance.NOTIFICATION:
-                mHelperDatabase.updateNotification(this, data);
+                mHelperDatabase.updateNotification(this, extras);
                 break;
             default:
                 return false;
@@ -113,7 +113,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
             return false;
 
         Log.d(TAG, String.format("Deleting data (%s) from: %s", data, mHelperDatabase));
-        final int tag = extras.getInt(TC.Activity.PARAMS.ID, -1);
+        final int tag = extras.getInt(TC.Activity.PARAMS.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.deleteTeams(this, extras);
@@ -136,7 +136,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
         final Intent intent = new Intent(receiverPermission);
 
         intent.putExtra(TC.Broadcast.BROADCAST_ACTION, action);
-        intent.putStringArrayListExtra(TC.Activity.PARAMS.ID, params);
+        intent.putStringArrayListExtra(TC.Activity.PARAMS.COLLECTION_ID, params);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

@@ -160,7 +160,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
                 TC.Activity.ContextActionRequest.Share : item.getItemId() == R.id.action_delete ?
                 TC.Activity.ContextActionRequest.Delete : -1;
 
-        return sendActionRequest(requestCode);
+        return sendActionRequest(getPageIndex(), requestCode);
     }
 
     //</editor-fold>
@@ -179,7 +179,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             case TC.Queries.TeamsQuery.FILTER_QUERY_ID1:
                 return getQueryFilteredByTearSearch(mSearchTerm);
             default:
-                Log.e(TAG, "onCreateLoader - incorrect ID provided (" + id + ")");
+                Log.e(TAG, "onCreateLoader - incorrect COLLECTION_ID provided (" + id + ")");
                 return null;
         }
     }

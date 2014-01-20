@@ -138,10 +138,10 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
 
     protected abstract void processBroadcast(final Intent intent);
 
-    protected boolean sendActionRequest(final int requestCode) {
+    protected boolean sendActionRequest(final int collectionId, final int requestCode) {
         final boolean result = requestCode > 0;
         if (result)
-            mCallback.actionRequest(getPageIndex(), requestCode);
+            mCallback.actionRequest(collectionId, requestCode);
         return result;
     }
 

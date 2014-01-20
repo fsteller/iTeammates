@@ -71,8 +71,8 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     //<editor-fold desc="IPageManager">
 
     @Override
-    public void actionRequest(final int collectionId, int requestCode) {
-        processActionRequest(collectionId, requestCode);
+    public void actionRequest(final int collectionId, final int requestCode) {
+        contextActionRequest(collectionId, requestCode);
     }
 
     @Override
@@ -187,16 +187,16 @@ public final class Teammates extends ActivityCollection implements IPageManager 
                 invokeDialog(this, requestCode);
     }
 
-    private boolean processActionRequest(final int collectionId, final int requestCode) {
+    private boolean contextActionRequest(final int collectionId, final int requestCode) {
 
         final ArrayList<Integer> ids = getCollection(collectionId);
         Log.d(TAG, String.format("ActionCode %s on page %s was called for one o mere items", requestCode, currentPage));
 
-        if (requestCode == TC.Activity.ContextActionRequest.Edit)
-            return invokeAction(this, TC.Activity.ContextActionRequest.Edit, getActivityParams(collectionId, ids));
-
         if (requestCode == TC.Activity.ContextActionRequest.Delete)
             return resolveDataAction(TC.Activity.DataActionRequest.Delete, getActivityParams(collectionId, ids));
+
+        if (requestCode == TC.Activity.ContextActionRequest.Edit)
+            return invokeAction(this, TC.Activity.ContextActionRequest.Edit, getActivityParams(collectionId, ids));
 
         return requestCode == TC.Activity.ContextActionRequest.Share && invokeDialog(this, TC.Activity.ContextActionRequest.Share);
     }
@@ -222,7 +222,7 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     private Intent getActivityParams(final int collectionId, final ArrayList<Integer> dataIds) {
         final Bundle extras = new Bundle();
 
-        extras.putInt(TC.Activity.PARAMS.ID, collectionId);
+        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, collectionId);
         extras.putString(TC.Activity.PARAMS.ACCOUNT_ID, accountId);
         extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, dataIds);
 
