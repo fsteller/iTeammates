@@ -77,6 +77,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             isPortrait = (rootView.findViewById(R.id.fragment_teamsPortraitPage) != null);
             if (getActivity() != null)
                 imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            hideSoftKeyboard(rootView);
         }
         Log.d(TAG, "onCreated");
         return rootView;
@@ -88,9 +90,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         final Activity mActivity = getActivity();
 
         setHasOptionsMenu(true);
-        mCursorAdapter = isPortrait ?
-                new TeamsPortraitListAdapter(mActivity) :
-                new TeamsLandscapeListAdapter(mActivity);
+        mCursorAdapter = new TeamsPortraitListAdapter(mActivity, isPortrait ?
+                R.layout.listview_item_page : R.layout.gridview_item_page);
         mListView.setAdapter(mCursorAdapter);
         mListView.setOnItemClickListener(this);
         mListView.setMultiChoiceModeListener(this);
@@ -244,10 +245,9 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
     private final class TeamsPortraitListAdapter extends Adapters.CursorAdapter {
 
-        public TeamsPortraitListAdapter(final Context context) {
+        public TeamsPortraitListAdapter(final Context context, final int layout) {
             super(context,
-                    TC.Queries.TeamsQuery.SORT_KEY,
-                    R.layout.listview_item_page,
+                    TC.Queries.TeamsQuery.SORT_KEY, layout,
                     TC.Queries.TeamsQuery.TEAMS_PROJECTION,
                     new int[]{
                             R.id.listView_item_creation,
@@ -300,64 +300,6 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             teamItem.team_thumbnail.setTag(id);
             teamItem.cardView.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
         }
-
-    }
-
-    private final class TeamsLandscapeListAdapter extends Adapters.CursorAdapter {
-
-        public TeamsLandscapeListAdapter(final Context context) {
-            super(context,
-                    TC.Queries.TeamsQuery.SORT_KEY,
-                    R.layout.gridview_item_page,
-                    TC.Queries.TeamsQuery.TEAMS_PROJECTION,
-                    new int[]{
-                            R.id.listView_item_update,
-                            R.id.listView_item_image,
-                            R.id.listView_item_title,
-                            R.id.listView_item_description
-                    });
-        }
-
-        @Override
-        protected View setupView(final View view) {
-
-            final TeamItem mTeamItem = new TeamItem();
-
-            mTeamItem.cardView = view.findViewById(R.id.card);
-            mTeamItem.team_title = (TextView) view.findViewById(R.id.listView_item_title);
-            mTeamItem.team_update = (TextView) view.findViewById(R.id.listView_item_update);
-            mTeamItem.team_creation = (TextView) view.findViewById(R.id.listView_item_creation);
-            mTeamItem.team_thumbnail = (ImageView) view.findViewById(R.id.listView_item_image);
-            view.setTag(mTeamItem);
-
-            if (mTeamItem.team_thumbnail != null)
-                mTeamItem.team_thumbnail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        final int position = mListView.getPositionForView(view);
-                        final boolean checked = !mCallback.isItemCollected(getPageIndex(), (Integer) mTeamItem.team_thumbnail.getTag());
-                        mListView.setItemChecked(position, checked);
-                    }
-                });
-
-            return view;
-        }
-
-        @Override
-        public void bindView(final View view, final Context context, final Cursor cursor) {
-
-            final int id = cursor.getInt(TC.Queries.TeamsQuery.ID);
-            final TeamItem teamItem = (TeamItem) view.getTag();
-
-            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
-            setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeamsQuery.IMAGE_REF));
-            setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeamsQuery.UPDATED_AT));
-            setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT));
-
-            teamItem.team_thumbnail.setTag(id);
-            teamItem.cardView.setBackgroundResource(getBackgroundResource(mCallback.isItemCollected(getPageIndex(), id)));
-        }
-
     }
 
     private static final class TeamItem {

@@ -102,6 +102,11 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         final TextView headerTitle = (TextView) findViewById(R.id.title_label);
         final ImageButton button = (ImageButton) findViewById(R.id.header_button);
         final TextView headerDescription = (TextView) findViewById(R.id.title_description_label);
+
+        button.setOnClickListener(mHideSoftInputClass);
+        headerTitle.setOnClickListener(mHideSoftInputClass);
+        headerDescription.setOnClickListener(mHideSoftInputClass);
+
         headerTitle.setText(getResources().getString(R.string.teamsMaintenace_titleLabel));
         headerDescription.setText(getResources().getString(R.string.teamsMaintenace_titleDescriptionLabel));
         button.setOnClickListener(new View.OnClickListener() {

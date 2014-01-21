@@ -18,11 +18,20 @@ import com.google.analytics.tracking.android.EasyTracker;
  */
 public abstract class ActivityBase extends Activity {
 
-    protected TeammatesApp app;
-    protected InputMethodManager imm = null;
+    //<editor-fold desc="Constants">
+
     protected static final int SOFT_INPUT_MODE_VISIBLE = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
     protected static final int SOFT_INPUT_MODE_HIDDEN = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
+    //</editor-fold>
+    //<editor-fold desc="Variables">
 
+    protected TeammatesApp app;
+    protected InputMethodManager imm = null;
+    protected final HideSoftInputClass mHideSoftInputClass = new HideSoftInputClass();
+
+    //</editor-fold>
+
+    //<editor-fold desc="Overridden">
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -54,6 +63,20 @@ public abstract class ActivityBase extends Activity {
         this.app = null;
     }
 
+    //</editor-fold>
+    //<editor-fold desc="Public">
+
+    public void setIsKeyBoardEnabled(final boolean enable) {
+        getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="Protected">
+
+    protected static boolean isNullOrEmpty(String txt) {
+        return txt == null || txt.isEmpty();
+    }
+
     protected void hideSoftKeyboard(final View view) {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
@@ -67,13 +90,17 @@ public abstract class ActivityBase extends Activity {
         });
     }
 
-    public void setIsKeyBoardEnabled(final boolean enable) {
-        getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
+    //</editor-fold>
+
+    //<editor-fold desc="Inner Classes">
+
+    private final class HideSoftInputClass implements View.OnClickListener {
+
+        @Override
+        public void onClick(final View v) {
+            hideSoftKeyboard(v);
+        }
     }
 
-    protected static boolean isNullOrEmpty(String txt) {
-        return txt == null || txt.isEmpty();
-    }
-
-
+    //</editor-fold>
 }

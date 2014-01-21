@@ -11,8 +11,15 @@ import java.util.List;
  */
 public abstract class ActivityCollection extends ActivityBase implements ICollection {
 
+    //<editor-fold desc="Constants">
+
     private static final String TAG = ActivityCollection.class.getSimpleName();
+
+    //</editor-fold>
+    //<editor-fold desc="Variables">
     private SparseArray<ArrayList<Integer>> collections = new SparseArray<ArrayList<Integer>>();
+
+    //</editor-fold>
 
     //<editor-fold desc="ICollection">
 
@@ -65,6 +72,7 @@ public abstract class ActivityCollection extends ActivityBase implements ICollec
     }
 
     //</editor-fold>
+    //<editor-fold desc="Overridden">
 
     @Override
     protected void onDestroy() {
@@ -72,4 +80,6 @@ public abstract class ActivityCollection extends ActivityBase implements ICollec
         this.collections.clear();
         this.collections = null;
     }
+
+    //</editor-fold>
 }

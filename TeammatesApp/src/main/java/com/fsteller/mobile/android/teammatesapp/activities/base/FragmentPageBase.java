@@ -86,6 +86,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
             else
                 mImageLoader.setPauseWork(false);
         }
+        hideSoftKeyboard(view);
     }
 
     @Override

@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.EditText;
 
 import com.fsteller.mobile.android.teammatesapp.R;
 
@@ -68,6 +67,10 @@ public abstract class FragmentBase extends Fragment implements LoaderManager.Loa
                 R.drawable.holo_card_white;
     }
 
+    protected void hideSoftKeyboard(final View view) {
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Inner Classes">
@@ -76,12 +79,7 @@ public abstract class FragmentBase extends Fragment implements LoaderManager.Loa
 
         @Override
         public void onClick(final View v) {
-            hideInputMethod(v);
-        }
-
-        public void hideInputMethod(final View v) {
-            if (imm != null && !(v instanceof EditText))
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            hideSoftKeyboard(v);
         }
     }
 
