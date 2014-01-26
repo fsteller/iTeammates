@@ -11,6 +11,11 @@ import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContra
  */
 public interface TC {
 
+    public static final int Teams = 0xf007;
+    public static final int Events = 0xf008;
+    public static final int Notification = 0xf009;
+
+
     static interface ActivityActions {
 
         public static final int Add = 11001;         //Menu Action
@@ -25,9 +30,6 @@ public interface TC {
         public static final int Search = 11004;      //Menu Action
         public static final int PickImage = 11005;   //Menu Action
 
-        public static final int Teams = 11007;
-        public static final int Events = 11008;
-        public static final int Notification = 11009;
 
         public static final int Share = 11010;       //Menu Action
         public static final int Settings = 11011;    //Menu Action
@@ -85,9 +87,9 @@ public interface TC {
         }
 
         public static interface Maintenance {
-            public static final int TEAMS = ActivityActions.Teams;
-            public static final int EVENTS = ActivityActions.Events;
-            public static final int NOTIFICATION = ActivityActions.Notification;
+            public static final int TEAMS = Teams;
+            public static final int EVENTS = Events;
+            public static final int NOTIFICATION = Notification;
         }
 
         public static interface Dialog {

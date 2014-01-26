@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="fragment_teamsLandscapePage" type="id" />
-    <item name="list_teammates_teams" type="id" />
-    <item name="fragment_eventsPage" type="id" />
-    <item name="fragment_notifyPage" type="id" />
-    <item name="fragment_teamsPortraitPage" type="id" />
-    <item name="action_search" type="id" />
-    <item name="action_addItem" type="id" />
-    <item name="action_login" type="id" />
-    <item name="action_settings" type="id" />
-    <item name="navigation_list" type="id" />
-    <item name="navigation_drawer" type="id" />
-    <item name="container" type="id" />
-    <item name="drawer_layout" type="id" />
-    <item name="action_share" type="id" />
-    <item name="action_delete" type="id" />
-    <item name="card" type="id" />
-    <item name="listView_item_update" type="id" />
-    <item name="listView_item_title" type="id" />
-    <item name="listView_item_image" type="id" />
-    <item name="listView_item_description" type="id" />
-    <item name="action_about" type="id" />
-    <item name="header_image" type="id" />
-    <item name="header_button" type="id" />
-    <item name="title_label" type="id" />
-    <item name="header_control" type="id" />
-    <item name="header_control_label" type="id" />
-    <item name="collection_title_label" type="id" />
-    <item name="collection_title_text" type="id" />
-    <item name="collection_lookup_key_label" type="id" />
-    <item name="collection_lookup_key_text" type="id" />
-    <item name="list_view" type="id" />
-    <item name="title_description_label" type="id" />
-    <item name="contact_image" type="id" />
-    <item name="contact_name" type="id" />
-    <item name="contact_status" type="id" />
-    <item name="contact_check" type="id" />
-    <item name="contact_item" type="id" />
-    <item name="action_finish" type="id" />
-    <item name="listView_item_creation" type="id" />
+    <item name="fragment_teamsLandscapePage" type="id"/>
+    <item name="fragment_eventsPage" type="id"/>
+    <item name="fragment_notifyPage" type="id"/>
+    <item name="fragment_teamsPortraitPage" type="id"/>
+    <item name="action_search" type="id"/>
+    <item name="action_addItem" type="id"/>
+    <item name="action_login" type="id"/>
+    <item name="action_settings" type="id"/>
+    <item name="navigation_list" type="id"/>
+    <item name="navigation_drawer" type="id"/>
+    <item name="container" type="id"/>
+    <item name="drawer_layout" type="id"/>
+    <item name="action_share" type="id"/>
+    <item name="action_delete" type="id"/>
+    <item name="card" type="id"/>
+    <item name="listView_item_update" type="id"/>
+    <item name="listView_item_title" type="id"/>
+    <item name="listView_item_image" type="id"/>
+    <item name="listView_item_description" type="id"/>
+    <item name="action_about" type="id"/>
+    <item name="header_image" type="id"/>
+    <item name="header_button" type="id"/>
+    <item name="title_label" type="id"/>
+    <item name="header_spinner" type="id"/>
+    <item name="header_control_label" type="id"/>
+    <item name="collection_title_label" type="id"/>
+    <item name="collection_title_text" type="id"/>
+    <item name="collection_lookup_key_label" type="id"/>
+    <item name="collection_lookup_key_text" type="id"/>
+    <item name="list_view" type="id"/>
+    <item name="title_description_label" type="id"/>
+    <item name="contact_image" type="id"/>
+    <item name="contact_name" type="id"/>
+    <item name="contact_status" type="id"/>
+    <item name="contact_check" type="id"/>
+    <item name="contact_item" type="id"/>
+    <item name="listView_item_creation" type="id"/>
+    <item name="collection_description_text" type="id"/>
+    <item name="collection_description_label" type="id"/>
+    <item name="list_teammates_page" type="id"/>
+    <item name="event_maintenance" type="id"/>
+    <item name="activity_events" type="id"/>
+    <item name="action_next" type="id"/>
+    <item name="action_finish" type="id"/>
+    <item name="spinner_item_color" type="id"/>
+    <item name="spinner_item_description" type="id"/>
+    <item name="spinner_item_title" type="id"/>
 </resources>

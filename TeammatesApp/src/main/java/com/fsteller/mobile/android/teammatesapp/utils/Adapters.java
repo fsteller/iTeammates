@@ -14,6 +14,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
+import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 
 import java.util.Locale;
@@ -56,6 +57,7 @@ public final class Adapters {
         public boolean setViewValue(final View view, final Cursor cursor, final int columnIndex) {
             return true;
         }
+
 
         /**
          * Overrides swapCursor to move the new Cursor into the AlphabetIndex as well as the
@@ -177,5 +179,44 @@ public final class Adapters {
         protected abstract View setupView(final View view);
 
     }
+
+    public static final class CalendarAdapter extends Adapters.CursorAdapter {
+
+        public CalendarAdapter(final Context context) {
+            super(context,
+                    TC.Queries.CalendarQuery.SORT_KEY,
+                    R.layout.spinner_item,
+                    TC.Queries.CalendarQuery.PROJECTION,
+                    new int[]{
+                            R.id.spinner_item_title,
+                            R.id.spinner_item_description,
+                            R.id.spinner_item_color
+                    }
+            );
+        }
+
+        @Override
+        protected View setupView(final View view) {
+            return view;
+        }
+
+        @Override
+        public boolean setViewValue(final View view, final Cursor cursor, final int id) {
+            switch (view.getId()) {
+                case R.id.spinner_item_title:
+                    ((TextView) view).setText(cursor.getString(TC.Queries.CalendarQuery.DISPLAY_NAME));
+                    break;
+                case R.id.spinner_item_description:
+                    ((TextView) view).setText(cursor.getString(TC.Queries.CalendarQuery.ACCOUNT_NAME));
+                    break;
+                case R.id.spinner_item_color:
+                    view.setBackgroundColor(cursor.getInt(TC.Queries.CalendarQuery.CALENDAR_COLOR));
+                    break;
+            }
+            return true;
+        }
+
+    }
+
 
 }

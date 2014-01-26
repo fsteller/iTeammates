@@ -79,7 +79,7 @@ public final class ImageUtils {
         return (int) typedValue.getDimension(metrics);
     }
 
-    public static final class ImageProcessor implements BitmapProcessor {
+    protected static final class ImageProcessor implements BitmapProcessor {
 
         private static ImageProcessor instance = null;
 

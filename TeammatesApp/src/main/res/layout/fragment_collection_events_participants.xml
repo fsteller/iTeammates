@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@color/teammates_control_transparent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:background="@color/teammates_header_background"
+        android:padding="@dimen/default_padding"
+        android:layout_width="match_parent"
+        android:layout_height="152dp">
+
+        <TextView
+            android:text="@string/Name"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@id/collection_title_label"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@id/collection_title_text"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:id="@id/collection_title_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@id/collection_description_text"
+            android:layout_alignStart="@id/collection_description_text"/>
+
+        <TextView
+            android:text="@string/Description"
+            android:gravity="center_vertical"
+            android:id="@id/collection_description_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/collection_title_label"
+            android:layout_alignBottom="@id/collection_description_text"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:id="@id/collection_description_text"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@id/collection_lookup_key_label"/>
+
+        <TextView
+            android:text="@string/LookupKey"
+            android:gravity="center_vertical"
+            android:id="@id/collection_lookup_key_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@id/collection_lookup_key_text"
+            android:layout_below="@id/collection_description_label"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:drawableEnd="@android:drawable/ic_menu_search"
+            android:drawableRight="@android:drawable/ic_menu_search"
+            android:id="@id/collection_lookup_key_text"
+            android:layout_below="@id/collection_description_text"
+            android:layout_alignRight="@id/collection_title_text"
+            android:layout_alignEnd="@id/collection_title_text"
+            android:layout_alignLeft="@id/collection_description_text"
+            android:layout_alignStart="@id/collection_description_text"/>
+
+
+    </RelativeLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/fragment_listview"/>
+
+
+</LinearLayout>

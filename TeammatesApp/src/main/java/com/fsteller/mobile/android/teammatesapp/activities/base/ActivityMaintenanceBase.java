@@ -1,11 +1,10 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.AbsListView;
-import android.widget.Button;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
@@ -14,11 +13,12 @@ import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public abstract class ActivityMaintenanceBase extends ActivityCollection implements IMaintenance, Button.OnClickListener {
+public abstract class ActivityMaintenanceBase extends ActivityCollection implements IMaintenance {
 
     //<editor-fold desc="Constants">
 
     private final static String TAG = ActivityMaintenanceBase.class.getSimpleName();
+
     //</editor-fold>
     //<editor-fold desc="Variables">
 
@@ -28,6 +28,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     private String name = "";
     private String imageRef = "";
     private String description = "";
+    private boolean isRequieredToBeSaved = false;
 
     protected Adapters.CursorAdapter mCursorAdapter = null;
     protected ImageLoader mImageLoader = null;
@@ -44,12 +45,17 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     //<editor-fold desc="Public Methods">
 
+    public boolean getIsRequiredToBeSaved() {
+        return isRequieredToBeSaved;
+    }
+
     public int getEntityId() {
         return id;
     }
 
     public void setEntityId(final Integer id) {
         this.id = id;
+        this.isRequieredToBeSaved = true;
     }
 
     public int getMaintenanceId() {
@@ -62,6 +68,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     public void setEntityName(final String name) {
         this.name = name.trim();
+        this.isRequieredToBeSaved = true;
     }
 
     public String getDescription() {
@@ -70,29 +77,32 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     public void setDescription(final String description) {
         this.description = description.trim();
+        this.isRequieredToBeSaved = true;
     }
 
     public Uri getImageRef() {
         return Uri.parse(this.imageRef);
     }
 
-    public String getImageStringRef() {
+    public String getImageRefAsString() {
         return this.imageRef;
     }
 
     public void setImageRef(final Uri ref) {
         this.imageRef = ref.toString();
+        this.isRequieredToBeSaved = true;
     }
 
     public void setImageRef(final String ref) {
         this.imageRef = ref.trim();
+        this.isRequieredToBeSaved = true;
     }
 
     //</editor-fold>
     //<editor-fold desc="Protected Methods">
 
-    protected void restartLoader(final int queryId) {
-        getLoaderManager().restartLoader(queryId, null, this);
+    protected void restartLoader(final int queryId, LoaderManager.LoaderCallbacks callbacks) {
+        getLoaderManager().restartLoader(queryId, null, callbacks);
     }
 
     protected void finalize(final int result, final Intent intent) {
@@ -126,35 +136,16 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.mCursorAdapter.swapCursor(null);
-        this.mCursorAdapter = null;
-        this.mImageLoader = null;
-        this.description = null;
-        this.imageRef = null;
-        this.name = null;
-    }
+        if (mCursorAdapter != null)
+            mCursorAdapter.swapCursor(null);
 
-    //<editor-fold desc="AbsListView.OnScrollListener">
-
-    @Override
-    public void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
-
-    }
-
-    @Override
-    public void onScrollStateChanged(final AbsListView view, final int scrollState) {
-        // Pause image loader to ensure smoother scrolling when flinging
-        if (mImageLoader != null) {
-            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING)
-                mImageLoader.setPauseWork(true);
-            else
-                mImageLoader.setPauseWork(false);
-        }
-
-        hideSoftKeyboard(view);
+        mCursorAdapter = null;
+        mImageLoader = null;
+        description = null;
+        imageRef = null;
+        name = null;
     }
 
     //</editor-fold>
 
-    //</editor-fold>
 }

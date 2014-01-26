@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/teammates_header_background"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+              android:background="@color/teammates_header_background"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
 
 
     <RelativeLayout
@@ -19,7 +19,7 @@
             android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"/>
 
         <ImageButton
             android:id="@id/header_button"
@@ -30,7 +30,7 @@
             android:layout_alignBottom="@id/header_image"
             android:layout_alignStart="@id/header_image"
             android:layout_alignLeft="@id/header_image"
-            android:contentDescription="@string/emptyString" />
+            android:contentDescription="@string/emptyString"/>
 
     </RelativeLayout>
 
@@ -47,7 +47,7 @@
             android:textStyle="bold"
             android:id="@id/title_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:text="@string/emptyString"
@@ -57,7 +57,7 @@
             android:layout_below="@id/title_label"
             android:id="@id/title_description_label"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"/>
 
         <TextView
             android:text="@string/emptyString"
@@ -68,14 +68,14 @@
             android:id="@id/header_control_label"
             android:layout_below="@id/title_description_label"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"/>
 
-        <FrameLayout
+        <Spinner
             android:visibility="gone"
-            android:id="@id/header_control"
+            android:id="@id/header_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/header_control_label" />
+            android:layout_below="@id/header_control_label"/>
 
     </RelativeLayout>
 </LinearLayout>

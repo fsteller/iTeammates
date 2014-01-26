@@ -17,6 +17,7 @@ public abstract class ActivityCollection extends ActivityBase implements ICollec
 
     //</editor-fold>
     //<editor-fold desc="Variables">
+
     private SparseArray<ArrayList<Integer>> collections = new SparseArray<ArrayList<Integer>>();
 
     //</editor-fold>

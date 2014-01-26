@@ -19,7 +19,7 @@ public interface IEntity extends ICollection {
 
     public Uri getImageRef();
 
-    public String getImageStringRef();
+    public String getImageRefAsString();
 
     public void setImageRef(final Uri ref);
 

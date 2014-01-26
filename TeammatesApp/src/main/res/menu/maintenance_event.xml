@@ -1,8 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:id="@id/action_finish"
-        android:title="@string/action_finish"
+        android:id="@id/action_next"
+        android:title="@string/action_next"
         android:actionViewClass="android.widget.Button"
-        android:showAsAction="withText|always" />
+        android:showAsAction="withText|always"/>
 
 </menu>

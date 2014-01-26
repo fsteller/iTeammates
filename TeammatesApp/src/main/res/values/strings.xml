@@ -31,7 +31,7 @@
     <!-- TeamsMaintenance Page Fragment -->
     <string name="no_teams">No teams to show</string>
 
-    <!-- Events Page Fragment -->
+    <!-- EventsMaintenance Page Fragment -->
     <string name="no_events">No events to show</string>
 
     <!-- Notifications Page Fragment -->
@@ -45,16 +45,28 @@
     <string name="updated_label">Las update on: %s</string>
     <string name="emptyString"/>
     <string name="Name">Name</string>
-    <string name="Contact">Contact</string>
-    <string name="teamsMaintenace_titleLabel">Teams</string>
-    <string name="teamsMaintenace_titleDescriptionLabel">Please, provide a team name and optional image&#8230;</string>
+    <string name="LookupKey">Lookup Key</string>
+    <string name="teamsMaintenance_titleLabel">Teams</string>
+    <string name="teamsMaintenance_titleDescriptionLabel">Please, provide a team name and an optional image&#8230;</string>
     <string name="selectPicture">Please Select a Picture</string>
     <string name="action_finish">Done</string>
-    <string name="no_entity_name">It is requiered to set a name on this step.</string>
+    <string name="no_entity_name">It is required to set a name on this step.</string>
     <string name="no_selected_contacts">Every team must have a least one member</string>
     <string name="update_prefix">Last Update: %s</string>
     <string name="creation_prefix">Created at: %s</string>
-    <string name="TeamsPage_actionTutle">Teams Actions</string>
+    <string name="TeamsPage_actionTitle">Teams Actions</string>
+    <string name="eventsMaintenance_titleLabel">Events</string>
+    <string name="eventsMaintenance_titleDescriptionLabel">Please, provide an event name, a description, and an optional image&#8230;</string>
+    <string name="Description">Description</string>
+    <string name="action_next">Next</string>
+    <string name="eventsMaintenance_titleControlLabel">Calendar</string>
+    <string name="eventsMaintenance_lookupHint">Lookup key</string>
+    <string name="eventsMaintenance_lookupLabel">Participant Name</string>
+    <string name="eventsMaintenance_lookupTitle1_hint">Type name</string>
+    <string name="eventsMaintenance_lookupTitle1_label">Event Name</string>
+    <string name="eventsMaintenance_DescriptionLabel">Description</string>
+    <string name="eventsMaintenance_descriptionHint">Type Description</string>
+    <string name="no_participants">There is no participants able</string>
 
 
 </resources>

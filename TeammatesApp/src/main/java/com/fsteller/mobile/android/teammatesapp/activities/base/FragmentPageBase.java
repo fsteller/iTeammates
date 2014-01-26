@@ -27,7 +27,6 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-
     protected static ImageLoader mImageLoader = null;
     protected Adapters.CursorAdapter mCursorAdapter;
     protected final DbUpdateReceiver mReceiver;

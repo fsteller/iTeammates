@@ -19,7 +19,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragmen
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_Login;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_Settings;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_Share;
-import com.fsteller.mobile.android.teammatesapp.activities.events.Events;
+import com.fsteller.mobile.android.teammatesapp.activities.events.EventsMaintenance;
 import com.fsteller.mobile.android.teammatesapp.activities.events.EventsPage;
 import com.fsteller.mobile.android.teammatesapp.activities.notification.Notifications;
 import com.fsteller.mobile.android.teammatesapp.activities.notification.NotificationsPage;
@@ -33,7 +33,7 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     //<editor-fold desc="Constants">
 
     private static final String TAG = Teammates.class.getSimpleName();
-    private static final Class[] childActivities = new Class[]{Events.class, TeamsMaintenance.class, Notifications.class};
+    private static final Class[] childActivities = new Class[]{EventsMaintenance.class, TeamsMaintenance.class, Notifications.class};
     private static final Class[] mFragmentPages = new Class[]{EventsPage.class, TeamsPage.class, NotificationsPage.class};
     private static final Class[] childDialogs = new Class[]{DialogFragment_Settings.class, DialogFragment_Login.class, DialogFragment_Share.class, DialogFragment_About.class};
 
@@ -147,9 +147,6 @@ public final class Teammates extends ActivityCollection implements IPageManager 
             Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
-
-        //final FragmentManager fragmentManager = getFragmentManager();
-        //fragmentManager.beginTransaction().replace(R.id.container,PlaceholderFragment.newInstance(position + 1)).commit();
     }
 
     @Override

@@ -25,7 +25,7 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
 
     //<editor-fold desc="Constants">
 
-    private static final int PAGE_INDEX = IPageManager.EVETS_PAGE;
+    private static final int PAGE_INDEX = IPageManager.EVENTS_PAGE;
     private static final String TAG = EventsPage.class.getSimpleName();
 
     //</editor-fold>
@@ -42,7 +42,7 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        this.mCallback.addCollection(IPageManager.EVETS_PAGE);
+        this.mCallback.addCollection(IPageManager.EVENTS_PAGE);
         final View rootView = inflater.inflate(R.layout.fragment_page_events, container, false);
         if (rootView != null) {
 

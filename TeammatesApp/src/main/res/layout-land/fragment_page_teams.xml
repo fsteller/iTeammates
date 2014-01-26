@@ -5,7 +5,7 @@
                 android:layout_height="fill_parent"
                 android:id="@id/fragment_eventsPage"
                 android:background="@color/holo_gray_background"
-                android:padding="15dip">
+                android:padding="10dip">
 
     <RelativeLayout
         android:id="@id/android:empty"
@@ -25,7 +25,7 @@
     <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@id/list_teammates_teams"
+        android:id="@id/list_teammates_page"
         android:smoothScrollbar="true"
         android:numColumns="2"
         android:scrollbars="none"

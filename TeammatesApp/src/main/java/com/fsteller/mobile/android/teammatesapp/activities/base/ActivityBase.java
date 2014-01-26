@@ -31,6 +31,13 @@ public abstract class ActivityBase extends Activity {
 
     //</editor-fold>
 
+    //<editor-fold desc="Public">
+
+    public void setIsKeyBoardEnabled(final boolean enable) {
+        getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
+    }
+
+    //</editor-fold>
     //<editor-fold desc="Overridden">
 
     @Override
@@ -61,13 +68,6 @@ public abstract class ActivityBase extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         this.app = null;
-    }
-
-    //</editor-fold>
-    //<editor-fold desc="Public">
-
-    public void setIsKeyBoardEnabled(final boolean enable) {
-        getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
     }
 
     //</editor-fold>

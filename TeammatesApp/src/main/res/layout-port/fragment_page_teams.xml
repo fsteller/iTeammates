@@ -27,7 +27,7 @@
         android:dividerHeight="1dip"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@id/list_teammates_teams"
+        android:id="@id/list_teammates_page"
         android:choiceMode="multipleChoice"
         android:background="@drawable/holo_card_clean"
         android:layout_below="@id/android:empty"/>

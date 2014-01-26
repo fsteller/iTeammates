@@ -73,7 +73,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
             rootView.setOnClickListener(mHideInputClass);
             mEmptyView = rootView.findViewById(android.R.id.empty);
-            mListView = (AbsListView) rootView.findViewById(R.id.list_teammates_teams);
+            mListView = (AbsListView) rootView.findViewById(R.id.list_teammates_page);
             isPortrait = (rootView.findViewById(R.id.fragment_teamsPortraitPage) != null);
             if (getActivity() != null)
                 imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -149,7 +149,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     public boolean onCreateActionMode(final ActionMode mode, final Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
         if (inflater != null) {
-            mode.setTitle(R.string.TeamsPage_actionTutle);
+            mode.setTitle(R.string.TeamsPage_actionTitle);
             inflater.inflate(R.menu.teammates_context, menu);
         }
         return true;

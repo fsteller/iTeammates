@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+
+
+    <FrameLayout
+        android:id="@id/spinner_item_color"
+        android:layout_width="3dip"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@id/spinner_item_description"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/emptyString"
+        android:id="@id/spinner_item_title"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dip"
+        android:textSize="12dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/emptyString"
+        android:id="@id/spinner_item_description"
+        android:layout_below="@id/spinner_item_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dip"
+        android:textSize="8dip"/>
+</RelativeLayout>

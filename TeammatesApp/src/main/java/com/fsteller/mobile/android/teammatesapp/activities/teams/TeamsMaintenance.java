@@ -1,5 +1,6 @@
 package com.fsteller.mobile.android.teammatesapp.activities.teams;
 
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -8,12 +9,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -31,6 +32,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.base.IMaintenance;
 import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
+import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,7 +40,7 @@ import java.util.Calendar;
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
-public final class TeamsMaintenance extends ActivityMaintenanceBase {
+public final class TeamsMaintenance extends ActivityMaintenanceBase implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener, Button.OnClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -56,12 +58,14 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
+
     public TeamsMaintenance() {
         super(INDEX);
     }
+
     //</editor-fold>
 
-    //<editor-fold desc="Overridden Methods">
+    //<editor-fold desc="Overridden">
 
     //<editor-fold desc="Activity">
 
@@ -74,7 +78,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
                 mIntent.getBundleExtra(TC.Activity.PARAMS.EXTRAS) : savedInstanceState;
 
         this.loadData(extras);
-        this.setIsKeyBoardEnabled(false);
         this.setContentView(R.layout.activity_teams_maintenance);
 
         this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
@@ -82,19 +85,20 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
         this.headerImage = (ImageView) findViewById(R.id.header_image);
         this.mListView = (ListView) findViewById(R.id.list_view);
-        this.collectionName.addTextChangedListener(new AfterTextChangedWatcher() {
+        this.collectionName.addTextChangedListener(new Text.AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
                 setEntityName(s.toString());
             }
         });
-        this.collectionKey.addTextChangedListener(new AfterTextChangedWatcher() {
+        this.collectionKey.addTextChangedListener(new Text.AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
                 mSearchTerm = s.toString().trim();
                 restartLoader(mSearchTerm.isEmpty() ?
                         TC.Queries.ContactsQuery.SIMPLE_QUERY_ID :
-                        TC.Queries.ContactsQuery.FILTER_QUERY_ID1
+                        TC.Queries.ContactsQuery.FILTER_QUERY_ID1,
+                        TeamsMaintenance.this
                 );
             }
         });
@@ -107,8 +111,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         headerTitle.setOnClickListener(mHideSoftInputClass);
         headerDescription.setOnClickListener(mHideSoftInputClass);
 
-        headerTitle.setText(getResources().getString(R.string.teamsMaintenace_titleLabel));
-        headerDescription.setText(getResources().getString(R.string.teamsMaintenace_titleDescriptionLabel));
+        headerTitle.setText(getResources().getString(R.string.teamsMaintenance_titleLabel));
+        headerDescription.setText(getResources().getString(R.string.teamsMaintenance_titleDescriptionLabel));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,8 +128,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
             }
         });
 
-        this.mListView.setOnScrollListener(TeamsMaintenance.this);
-        this.mCursorAdapter = new ContactsAdapter(TeamsMaintenance.this);
+        this.mListView.setOnScrollListener(this);
+        this.mCursorAdapter = new ContactsAdapter(this);
         this.mListView.setAdapter(mCursorAdapter);
     }
 
@@ -162,7 +166,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     protected void onResume() {
         super.onResume();
 
-        this.restartLoader(TC.Queries.ContactsQuery.SIMPLE_QUERY_ID);
+        this.restartLoader(TC.Queries.ContactsQuery.SIMPLE_QUERY_ID, this);
         this.mImageLoader.loadImage(getImageRef(), headerImage);
         this.collectionName.setText(getEntityName());
         this.collectionKey.setText(mSearchTerm);
@@ -178,7 +182,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
 
         if (outState != null) {
             outState.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
-            outState.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageStringRef());
+            outState.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageRefAsString());
             outState.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(getMaintenanceId()));
         }
         super.onSaveInstanceState(outState);
@@ -209,6 +213,50 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
         this.collectionKey = null;
         this.headerImage = null;
         this.mListView = null;
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="ActivityMaintenanceBase">
+
+    @Override
+    protected Intent getResult() {
+
+        final Intent result = new Intent();
+        final Bundle extras = new Bundle();
+
+        extras.putInt(TC.Activity.PARAMS.ID, getEntityId());
+        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, getMaintenanceId());
+        extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
+        extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageRefAsString());
+        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(getMaintenanceId()));
+        extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
+        result.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
+
+        return result;
+    }
+
+    @Override
+    protected boolean checkData(final IMaintenance entity) {
+        if (isNullOrEmpty(entity.getEntityName())) {
+            showMessage(getResources().getString(R.string.no_entity_name), Toast.LENGTH_SHORT);
+            return false;
+        }
+
+        if (getCollectionSize(getMaintenanceId()) < 1) {
+            showMessage(getResources().getString(R.string.no_selected_contacts), Toast.LENGTH_SHORT);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void CollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked) {
+        final boolean isCollected = isItemCollected(collectionId, itemId);
+        if (checked && !isCollected)
+            addItemToCollection(collectionId, itemId);
+        else if (isCollected && !checked)
+            removeItemFromCollection(collectionId, itemId);
+
     }
 
     //</editor-fold>
@@ -252,57 +300,35 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     }
 
     //</editor-fold>
+    //<editor-fold desc="AbsListView.OnScrollListener">
+
+    @Override
+    public void onScrollStateChanged(final AbsListView view, final int scrollState) {
+        // Pause image loader to ensure smoother scrolling when flinging
+        if (mImageLoader != null) {
+            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING)
+                mImageLoader.setPauseWork(true);
+            else
+                mImageLoader.setPauseWork(false);
+        }
+        hideSoftKeyboard(view);
+    }
+
+    @Override
+    public void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
+
+    }
+
+    //</editor-fold>
     //<editor-fold desc="Button.OnClickListener">
 
     @Override
     public void onClick(final View v) {
         if (checkData(this))
-            finalize(RESULT_OK, getResult());
+            finalize(RESULT_OK, getIsRequiredToBeSaved() ? getResult() : null);
     }
 
     //</editor-fold>
-
-    @Override
-    protected Intent getResult() {
-
-        final Intent result = new Intent();
-        final Bundle extras = new Bundle();
-
-        extras.putInt(TC.Activity.PARAMS.ID, getEntityId());
-        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, getMaintenanceId());
-        extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
-        extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageStringRef());
-        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(getMaintenanceId()));
-        extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
-        result.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
-
-        return result;
-    }
-
-    @Override
-    protected boolean checkData(final IMaintenance entity) {
-        if (isNullOrEmpty(entity.getEntityName())) {
-            showMessage(getResources().getString(R.string.no_entity_name), Toast.LENGTH_SHORT);
-            return false;
-        }
-
-        if (getCollectionSize(getMaintenanceId()) < 1) {
-            showMessage(getResources().getString(R.string.no_selected_contacts), Toast.LENGTH_SHORT);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void CollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked) {
-        final boolean isCollected = isItemCollected(collectionId, itemId);
-        if (checked && !isCollected)
-            addItemToCollection(collectionId, itemId);
-        else if (isCollected && !checked)
-            removeItemFromCollection(collectionId, itemId);
-
-    }
-
     //</editor-fold>
     //<editor-fold desc="Private Methods">
 
@@ -380,23 +406,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase {
     //</editor-fold>
 
     //<editor-fold desc="Inner Class">
-
-    //<editor-fold desc="TextWatcher">
-
-    private static abstract class AfterTextChangedWatcher implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-    }
-
-    //</editor-fold>
 
     private final class ContactsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
 
