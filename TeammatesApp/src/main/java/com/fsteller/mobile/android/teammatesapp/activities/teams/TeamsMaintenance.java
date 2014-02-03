@@ -55,6 +55,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     private EditText collectionKey = null;
     private ImageView headerImage = null;
     private ListView mListView = null;
+    private View emptyView = null;
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -80,6 +81,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         this.loadData(extras);
         this.setContentView(R.layout.activity_teams_maintenance);
 
+
         this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
         this.collectionKey = (EditText) findViewById(R.id.collection_lookup_key_text);
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
@@ -96,8 +98,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
             public void afterTextChanged(final Editable s) {
                 mSearchTerm = s.toString().trim();
                 restartLoader(mSearchTerm.isEmpty() ?
-                        TC.Queries.ContactsQuery.SIMPLE_QUERY_ID :
-                        TC.Queries.ContactsQuery.FILTER_QUERY_ID1,
+                        TC.Queries.PhoneContacts.SIMPLE_QUERY_ID :
+                        TC.Queries.PhoneContacts.FILTER_QUERY_ID1,
                         TeamsMaintenance.this
                 );
             }
@@ -166,7 +168,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     protected void onResume() {
         super.onResume();
 
-        this.restartLoader(TC.Queries.ContactsQuery.SIMPLE_QUERY_ID, this);
+        this.restartLoader(TC.Queries.PhoneContacts.SIMPLE_QUERY_ID, this);
         this.mImageLoader.loadImage(getImageRef(), headerImage);
         this.collectionName.setText(getEntityName());
         this.collectionKey.setText(mSearchTerm);
@@ -265,9 +267,9 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
         switch (id) {
-            case TC.Queries.ContactsQuery.SIMPLE_QUERY_ID:
+            case TC.Queries.PhoneContacts.SIMPLE_QUERY_ID:
                 return getContacts();
-            case TC.Queries.ContactsQuery.FILTER_QUERY_ID1:
+            case TC.Queries.PhoneContacts.FILTER_QUERY_ID1:
                 return getContactsFilteredBySearchTerm(mSearchTerm);
             default:
                 Log.e(TAG, String.format("OnCreateLoader - Unknown id provided (%s)", id));
@@ -281,10 +283,11 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         if (mCursorAdapter != null) {
             mCursorAdapter.swapCursor(null);
             switch (cursorLoader.getId()) {
-                case TC.Queries.ContactsQuery.SIMPLE_QUERY_ID:
-                case TC.Queries.ContactsQuery.FILTER_QUERY_ID1:
+                case TC.Queries.PhoneContacts.SIMPLE_QUERY_ID:
+                case TC.Queries.PhoneContacts.FILTER_QUERY_ID1:
                     mCursorAdapter.swapCursor(data);
             }
+            emptyView.setVisibility(View.GONE);
         }
     }
 
@@ -293,8 +296,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
 
         if (cursorLoader != null && mCursorAdapter != null)
             switch (cursorLoader.getId()) {
-                case TC.Queries.ContactsQuery.SIMPLE_QUERY_ID:
-                case TC.Queries.ContactsQuery.FILTER_QUERY_ID1:
+                case TC.Queries.PhoneContacts.SIMPLE_QUERY_ID:
+                case TC.Queries.PhoneContacts.FILTER_QUERY_ID1:
                     mCursorAdapter.swapCursor(null);
             }
     }
@@ -346,7 +349,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
                 if (teamsIds != null && teamsIds.size() > 0) {
 
                     final int id = teamsIds.get(0);
-                    final String[] projection = TC.Queries.TeamsQuery.TEAMS_CONTACT_PROJECTION;
+                    final String[] projection = TC.Queries.TeammatesTeams.TEAM_CONTACT_PROJECTION;
                     final Uri teamsContactsUri = TeammatesContract.Teams.Contacts.getTeamContactUri(id);
                     final Cursor data = getContentResolver().query(teamsContactsUri, projection, null, null, null);
 
@@ -355,12 +358,12 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
                             data.moveToFirst();
 
                             setEntityId(id);
-                            setEntityName(data.getString(TC.Queries.TeamsQuery.NAME));
-                            setImageRef(data.getString(TC.Queries.TeamsQuery.IMAGE_REF));
+                            setEntityName(data.getString(TC.Queries.TeammatesTeams.NAME));
+                            setImageRef(data.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
                             Log.i(TAG, String.format("Loading '%s' contacts...", getEntityName()));
-                            addItemToCollection(getMaintenanceId(), data.getInt(TC.Queries.TeamsQuery.CONTACT_TOKEN));
+                            addItemToCollection(getMaintenanceId(), data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
                             while (data.moveToNext())
-                                addItemToCollection(getMaintenanceId(), data.getInt(TC.Queries.TeamsQuery.CONTACT_TOKEN));
+                                addItemToCollection(getMaintenanceId(), data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
                         } catch (Exception e) {
                             Log.e(TAG, e.getMessage(), e);
                             e.printStackTrace();
@@ -379,12 +382,12 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         final int id = getMaintenanceId();
         final int size = getCollectionSize(id);
         final String[] params = new String[size];
-        final String sortOrder = TC.Queries.ContactsQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.ContactsQuery.PROJECTION;
-        final Uri contentUri = Uri.withAppendedPath(TC.Queries.ContactsQuery.FILTER_URI, Uri.encode(searchTerm));
+        final String sortOrder = TC.Queries.PhoneContacts.SORT_ORDER;
+        final String[] projection = TC.Queries.PhoneContacts.PROJECTION;
+        final Uri contentUri = Uri.withAppendedPath(TC.Queries.PhoneContacts.FILTER_URI, Uri.encode(searchTerm));
 
         int counter = 0;
-        String selection = TC.Queries.ContactsQuery.SELECTION;
+        String selection = TC.Queries.PhoneContacts.SELECTION;
         for (final Integer i : getCollection(id)) {
             selection += String.format("AND %s <> ?", projection[0]);
             params[counter++] = i.toString();
@@ -395,10 +398,10 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
 
     private Loader<Cursor> getContacts() {
 
-        final Uri contentUri = TC.Queries.ContactsQuery.CONTENT_URI;
-        final String selection = TC.Queries.ContactsQuery.SELECTION;
-        final String sortOrder = TC.Queries.ContactsQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.ContactsQuery.PROJECTION;
+        final Uri contentUri = TC.Queries.PhoneContacts.CONTENT_URI;
+        final String selection = TC.Queries.PhoneContacts.SELECTION;
+        final String sortOrder = TC.Queries.PhoneContacts.SORT_ORDER;
+        final String[] projection = TC.Queries.PhoneContacts.PROJECTION;
 
         return new CursorLoader(this, contentUri, projection, selection, null, sortOrder);
     }
@@ -411,9 +414,9 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
 
         public ContactsAdapter(final Context context) {
             super(context,
-                    TC.Queries.ContactsQuery.SORT_KEY,
+                    TC.Queries.PhoneContacts.SORT_KEY,
                     R.layout.listview_item_contact,
-                    TC.Queries.ContactsQuery.PROJECTION,
+                    TC.Queries.PhoneContacts.PROJECTION,
                     new int[]{
                             R.id.contact_name,
                             R.id.contact_status,
@@ -438,14 +441,14 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         @Override
         public void bindView(final View view, final Context context, final Cursor cursor) {
 
-            final int id = cursor.getInt(TC.Queries.ContactsQuery.ID);
+            final int id = cursor.getInt(TC.Queries.PhoneContacts.ID);
             final ContactItem mContactItem = (ContactItem) view.getTag();
 
             mContactItem.check.setTag(id);
             mContactItem.check.setChecked(isItemCollected(getMaintenanceId(), id));
-            setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.ContactsQuery.CONTACT_STAUS));
-            setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.ContactsQuery.CONTACT_NAME), mSearchTerm);
-            setImageView(mContactItem.contact_thumbnail, mImageLoader, cursor.getString(TC.Queries.ContactsQuery.CONTACT_PHOTO_DATA));
+            setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.PhoneContacts.CONTACT_STATUS));
+            setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.PhoneContacts.CONTACT_NAME), mSearchTerm);
+            setImageView(mContactItem.contact_thumbnail, mImageLoader, cursor.getString(TC.Queries.PhoneContacts.CONTACT_PHOTO_DATA));
         }
 
         @Override

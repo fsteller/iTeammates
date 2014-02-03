@@ -184,9 +184,9 @@ public final class Adapters {
 
         public CalendarAdapter(final Context context) {
             super(context,
-                    TC.Queries.CalendarQuery.SORT_KEY,
+                    TC.Queries.PhoneCalendar.SORT_KEY,
                     R.layout.spinner_item,
-                    TC.Queries.CalendarQuery.PROJECTION,
+                    TC.Queries.PhoneCalendar.PROJECTION,
                     new int[]{
                             R.id.spinner_item_title,
                             R.id.spinner_item_description,
@@ -204,13 +204,13 @@ public final class Adapters {
         public boolean setViewValue(final View view, final Cursor cursor, final int id) {
             switch (view.getId()) {
                 case R.id.spinner_item_title:
-                    ((TextView) view).setText(cursor.getString(TC.Queries.CalendarQuery.DISPLAY_NAME));
+                    ((TextView) view).setText(cursor.getString(TC.Queries.PhoneCalendar.DISPLAY_NAME));
                     break;
                 case R.id.spinner_item_description:
-                    ((TextView) view).setText(cursor.getString(TC.Queries.CalendarQuery.ACCOUNT_NAME));
+                    ((TextView) view).setText(cursor.getString(TC.Queries.PhoneCalendar.ACCOUNT_NAME));
                     break;
                 case R.id.spinner_item_color:
-                    view.setBackgroundColor(cursor.getInt(TC.Queries.CalendarQuery.CALENDAR_COLOR));
+                    view.setBackgroundColor(cursor.getInt(TC.Queries.PhoneCalendar.CALENDAR_COLOR));
                     break;
             }
             return true;

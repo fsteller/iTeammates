@@ -110,14 +110,46 @@ public interface TC {
 
     public static interface Queries {
 
-        /**
-         * This interface defines constants for the Cursor and CursorLoader, based on constants defined
-         * in the {@link android.provider.ContactsContract.Contacts} class.
-         */
-        public interface ContactsQuery {
+        final static int _PhoneCalendar = 0xf1000;
+        final static int _PhoneContacts = 0xf2000;
+        final static int _TeammatesTeams = 0xf3000;
+        final static int _TeammatesTeamsAndPhoneContacts = 0xf4000;
+        final static int _EventsQuery = 0xf5000;
+
+        public interface PhoneCalendar {
+
             // A list of identifiers to make able to have different queries within a loader
-            final static int SIMPLE_QUERY_ID = 1001;
-            final static int FILTER_QUERY_ID1 = 1002;
+            final static int SIMPLE_QUERY_ID = _PhoneCalendar;
+            //final static int FILTER_QUERY_ID1 = 2;
+            //final static int FILTER_QUERY_ID2 = 3;
+            final static Uri CONTENT_URI = CalendarContract.Calendars.CONTENT_URI;
+            //final static Uri FILTER_URI = CalendarContract.Calendars.CONTENT_FILTER_URI;
+            final static String SELECTION_BY_TYPE = "((" +
+                    CalendarContract.Calendars.ACCOUNT_TYPE + " = ?))";
+            final static String SORT_ORDER = CalendarContract.Calendars.CALENDAR_DISPLAY_NAME;
+
+            // Projection array. Creating indices for this array instead of doing
+            // dynamic lookups improves performance.
+            public static final String[] PROJECTION = new String[]{
+                    CalendarContract.Calendars._ID,                           // 0
+                    CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
+                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
+                    CalendarContract.Calendars.CALENDAR_COLOR,                // 3
+                    CalendarContract.Calendars.OWNER_ACCOUNT                  // 4
+            };
+            // The indices for the projection array above.
+            final static int ID = 0;
+            final static int ACCOUNT_NAME = 1;
+            final static int DISPLAY_NAME = 2;
+            final static int CALENDAR_COLOR = 3;
+            final static int OWNER_ACCOUNT = 4;
+            final static int SORT_KEY = 2;
+        }
+
+        public interface PhoneContacts {
+            // A list of identifiers to make able to have different queries within a loader
+            final static int SIMPLE_QUERY_ID = _PhoneContacts + 1;
+            final static int FILTER_QUERY_ID1 = _PhoneContacts + 2;
             // A content URI for the teams table
             final static Uri CONTENT_URI = Contacts.CONTENT_URI;
             // The search/filter query Uri
@@ -164,50 +196,20 @@ public interface TC {
             final static int LOOKUP_KEY = 1;
             final static int HAS_PHONE_NUMBER = 2;
             final static int CONTACT_NAME = 3;
-            final static int CONTACT_STAUS = 4;
+            final static int CONTACT_STATUS = 4;
             final static int CONTACT_PHOTO_DATA = 5;
             final static int SORT_KEY = 6;
         }
 
-        public interface CalendarQuery {
-
-            // A list of identifiers to make able to have different queries within a loader
-            final static int SIMPLE_QUERY_ID = 2001;
-            //final static int FILTER_QUERY_ID1 = 2;
-            //final static int FILTER_QUERY_ID2 = 3;
-            final static Uri CONTENT_URI = CalendarContract.Calendars.CONTENT_URI;
-            //final static Uri FILTER_URI = CalendarContract.Calendars.CONTENT_FILTER_URI;
-            final static String SELECTION_BY_TYPE = "((" +
-                    CalendarContract.Calendars.ACCOUNT_TYPE + " = ?))";
-            final static String SORT_ORDER = CalendarContract.Calendars.CALENDAR_DISPLAY_NAME;
-
-            // Projection array. Creating indices for this array instead of doing
-            // dynamic lookups improves performance.
-            public static final String[] PROJECTION = new String[]{
-                    CalendarContract.Calendars._ID,                           // 0
-                    CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-                    CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-                    CalendarContract.Calendars.CALENDAR_COLOR,                // 3
-                    CalendarContract.Calendars.OWNER_ACCOUNT                  // 4
-            };
-            // The indices for the projection array above.
-            final static int ID = 0;
-            final static int ACCOUNT_NAME = 1;
-            final static int DISPLAY_NAME = 2;
-            final static int CALENDAR_COLOR = 3;
-            final static int OWNER_ACCOUNT = 4;
-            final static int SORT_KEY = 2;
-        }
-
-        public interface TeamsQuery {
-
-            final static int SIMPLE_QUERY_ID = 3001;
-            final static int FILTER_QUERY_ID1 = 3002;
-            final static int FILTER_QUERY_ID2 = 3003;
+        public interface TeammatesTeams {
+            final static int SIMPLE_QUERY_ID = _TeammatesTeams + 1;
+            final static int FILTER_QUERY_ID1 = _TeammatesTeams + 2;
+            final static int FILTER_QUERY_ID2 = _TeammatesTeams + 3;
             final static Uri CONTENT_URI = TeammatesContract.Teams.CONTENT_URI;
             final static Uri FILTER_URI = TeammatesContract.Teams.CONTENT_FILTER_URI;
             final static String SELECTION = TeammatesContract.Teams.NAME + "<>''";
             final static String SORT_ORDER = TeammatesContract.Teams.DEFAULT_SORT_ORDER;
+
             final static String[] TEAMS_PROJECTION = {
                     TeammatesContract.Teams._ID,
                     TeammatesContract.Teams.NAME,
@@ -216,7 +218,7 @@ public interface TC {
                     TeammatesContract.Teams.CREATED_AT,
             };
 
-            final static String[] TEAMS_CONTACT_PROJECTION = {
+            final static String[] TEAM_CONTACT_PROJECTION = {
                     TeammatesContract.Teams.Contacts.TEAM_ID,
                     TeammatesContract.Teams.NAME,
                     TeammatesContract.Teams.IMAGE_REF,
@@ -236,10 +238,16 @@ public interface TC {
             final static int SORT_KEY = 1;
         }
 
+        public interface TeammatesTeamsAndPhoneContacts {
+
+            final static int SIMPLE_QUERY_ID = _TeammatesTeamsAndPhoneContacts;
+
+        }
+
         public interface EventsQuery {
-            final static int SIMPLE_QUERY_ID = 4001;
-            final static int FILTER_QUERY_ID1 = 4002;
-            final static int FILTER_QUERY_ID2 = 4003;
+            final static int SIMPLE_QUERY_ID = _EventsQuery;
+            final static int FILTER_QUERY_ID1 = _EventsQuery + 1;
+            final static int FILTER_QUERY_ID2 = _EventsQuery + 2;
 
             final static Uri CONTENT_URI = TeammatesContract.Events.CONTENT_URI;
             final static Uri FILTER_URI = TeammatesContract.Events.CONTENT_FILTER_URI;

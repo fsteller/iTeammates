@@ -58,7 +58,7 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, EMPTY_STRING);
+            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, EMPTY_STRING);
             mCallback.clearCollection(getPageIndex());
         }
     }

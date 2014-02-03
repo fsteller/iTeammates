@@ -79,7 +79,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             calendarAdapter = new Adapters.CalendarAdapter(mActivity);
             imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             mImageLoader.loadImage(mCallback.getImageRef(), titleImage);
-            emptyView.setVisibility(View.GONE);
             headerSpinner.setAdapter(calendarAdapter);
             headerSpinner.setVisibility(View.VISIBLE);
             headerSpinner.setOnItemSelectedListener(this);
@@ -87,7 +86,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             mListView.setAdapter(teamsAdapter);
         }
 
-        restartLoader(TC.Queries.CalendarQuery.SIMPLE_QUERY_ID);
+        restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID);
         Log.d(TAG, "onActivityCreated");
     }
 
@@ -140,8 +139,8 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                 public void afterTextChanged(final Editable s) {
                     setSearchTerm(s.toString().trim());
                     restartLoader(getSearchTerm().isEmpty() ?
-                            TC.Queries.ContactsQuery.SIMPLE_QUERY_ID :
-                            TC.Queries.ContactsQuery.FILTER_QUERY_ID1
+                            TC.Queries.PhoneContacts.SIMPLE_QUERY_ID :
+                            TC.Queries.PhoneContacts.FILTER_QUERY_ID1
                     );
                 }
             });
@@ -202,19 +201,20 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     @Override
     public void onNothingSelected(final AdapterView<?> parent) {
     }
+
     //</editor-fold>
     //<editor-fold desc="LoaderManager.LoaderCallbacks<Cursor>">
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
         /*
             Creates and return a CursorLoader that will take care of
             creating a Cursor for the data being displayed.
         */
         switch (id) {
-            case TC.Queries.CalendarQuery.SIMPLE_QUERY_ID:
+            case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 return getCalendars("fsteller@gmail.com"); //TODO: replace fo a call to a real account id
-            case TC.Queries.TeamsQuery.FILTER_QUERY_ID1:
+            case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
                 return getTeamFilteredBySelectedTeams(mCallback.getCollection(TEAMS));
             default:
                 Log.e(TAG, "onCreateLoader - incorrect ID provided (" + id + ")");
@@ -224,15 +224,16 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     @Override
     public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
-/*
+        /*
             Swap the new cursor in.
             (The framework will take care of closing the old cursor once we return.)
         */
         switch (loader.getId()) {
-            case TC.Queries.CalendarQuery.SIMPLE_QUERY_ID:
+            case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 calendarAdapter.swapCursor(data);
                 break;
-            case TC.Queries.TeamsQuery.FILTER_QUERY_ID1:
+            case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
+                emptyView.setVisibility(View.GONE);
                 teamsAdapter.swapCursor(data);
                 break;
         }
@@ -245,10 +246,10 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             This allows the cursor resources to be freed.
         */
         switch (loader.getId()) {
-            case TC.Queries.CalendarQuery.SIMPLE_QUERY_ID:
+            case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 calendarAdapter.swapCursor(null);
                 break;
-            case TC.Queries.TeamsQuery.FILTER_QUERY_ID1:
+            case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
                 teamsAdapter.swapCursor(null);
                 break;
         }
@@ -265,10 +266,10 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     }
 
     private Loader<Cursor> getTeamFilteredByTermSearch(final String searchTerm) {
-        String selection = TC.Queries.TeamsQuery.SELECTION;
-        final String sortOrder = TC.Queries.TeamsQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.TeamsQuery.TEAMS_PROJECTION;
-        final Uri contentUri = Uri.withAppendedPath(TC.Queries.TeamsQuery.FILTER_URI, Uri.encode(searchTerm));
+        String selection = TC.Queries.TeammatesTeams.SELECTION;
+        final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
+        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
+        final Uri contentUri = Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm));
         final List<Integer> selectedParticipants = mCallback.getCollection(TEAMS);
         if (selectedParticipants != null)
             for (final int sp : selectedParticipants)
@@ -277,16 +278,16 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                    Returns a new CursorLoader for querying the teams table. No arguments are used
                    for the selection clause. The search string is either encoded onto the content URI,
                    or no contacts search string is used. The other search criteria are constants. See
-                   the ContactsQuery interface.
+                   the PhoneContacts interface.
                 */
         return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
     }
 
     private Loader<Cursor> getTeamFilteredBySelectedTeams(final List<Integer> selectedTeams) {
-        String selection = TC.Queries.TeamsQuery.SELECTION;
-        final Uri contentUri = TC.Queries.TeamsQuery.CONTENT_URI;
-        final String sortOrder = TC.Queries.TeamsQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.TeamsQuery.TEAMS_PROJECTION;
+        String selection = TC.Queries.TeammatesTeams.SELECTION;
+        final Uri contentUri = TC.Queries.TeammatesTeams.CONTENT_URI;
+        final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
+        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
 
         if (selectedTeams.size() > 0) {
             selection += "AND (";
@@ -302,16 +303,16 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                Returns a new CursorLoader for querying the teams table. No arguments are used
                for the selection clause. The search string is either encoded onto the content URI,
                or no contacts search string is used. The other search criteria are constants. See
-               the ContactsQuery interface.
+               the PhoneContacts interface.
         */
         return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
     }
 
     private Loader<Cursor> getCalendars(final String accountType) {
-        final Uri contentUri = TC.Queries.CalendarQuery.CONTENT_URI;
-        final String selection = TC.Queries.CalendarQuery.SELECTION_BY_TYPE;
-        final String sortOrder = TC.Queries.CalendarQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.CalendarQuery.PROJECTION;
+        final Uri contentUri = TC.Queries.PhoneCalendar.CONTENT_URI;
+        final String selection = TC.Queries.PhoneCalendar.SELECTION_BY_TYPE;
+        final String sortOrder = TC.Queries.PhoneCalendar.SORT_ORDER;
+        final String[] projection = TC.Queries.PhoneCalendar.PROJECTION;
         final String[] selectionArgs = new String[]{accountType};
         return new CursorLoader(getActivity(), contentUri, projection, selection, selectionArgs, sortOrder);
     }
@@ -322,12 +323,11 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     private final class EventsParticipantsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
 
-
         public EventsParticipantsAdapter(final Context context) {
             super(context,
-                    TC.Queries.ContactsQuery.SORT_KEY,
+                    TC.Queries.PhoneContacts.SORT_KEY,
                     R.layout.listview_item_contact,
-                    TC.Queries.ContactsQuery.PROJECTION,
+                    TC.Queries.PhoneContacts.PROJECTION,
                     new int[]{
                             R.id.contact_name,
                             R.id.contact_status,
@@ -337,14 +337,13 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             );
         }
 
-
         @Override
-        protected View setupView(View view) {
-            return null;
+        protected View setupView(final View view) {
+            return view;
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
 
         }
     }

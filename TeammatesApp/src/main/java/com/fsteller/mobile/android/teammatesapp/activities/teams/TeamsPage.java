@@ -61,7 +61,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     @Override
     public void onResume() {
         super.onResume();
-        restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, mSearchTerm);
+        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, mSearchTerm);
     }
 
     @Override
@@ -138,7 +138,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         */
 
         if (newFilter != null && !newFilter.trim().equals(mSearchTerm))
-            restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, newFilter);
+            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, newFilter);
         return true;
     }
 
@@ -173,11 +173,11 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             Creates and return a CursorLoader that will take care of
             creating a Cursor for the data being displayed.
         */
-        Log.d(TAG, String.format("Creating loader, for TeamsQuery with searchTerm = '%s', id = %s", mSearchTerm, id));
+        Log.d(TAG, String.format("Creating loader, for TeammatesTeams with searchTerm = '%s', id = %s", mSearchTerm, id));
         switch (id) {
-            case TC.Queries.TeamsQuery.SIMPLE_QUERY_ID:
+            case TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID:
                 return getQueryTeams();
-            case TC.Queries.TeamsQuery.FILTER_QUERY_ID1:
+            case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
                 return getQueryFilteredByTearSearch(mSearchTerm);
             default:
                 Log.e(TAG, "onCreateLoader - incorrect COLLECTION_ID provided (" + id + ")");
@@ -188,9 +188,9 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     @Override
     public void onLoadFinished(final Loader<Cursor> cursorLoader, final Cursor data) {
         super.onLoadFinished(cursorLoader, data);
-        if (cursorLoader.getId() == TC.Queries.TeamsQuery.SIMPLE_QUERY_ID ||
-                cursorLoader.getId() == TC.Queries.TeamsQuery.FILTER_QUERY_ID1 ||
-                cursorLoader.getId() == TC.Queries.TeamsQuery.FILTER_QUERY_ID2) {
+        if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
+                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1 ||
+                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID2) {
             mCursorAdapter.swapCursor(data);
         }
     }
@@ -201,8 +201,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             When the loader is being reset, clear the cursor from the adapter.
             This allows the cursor resources to be freed.
         */
-        if (cursorLoader.getId() == TC.Queries.TeamsQuery.SIMPLE_QUERY_ID ||
-                cursorLoader.getId() == TC.Queries.TeamsQuery.FILTER_QUERY_ID1)
+        if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
+                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1)
             mCursorAdapter.swapCursor(null);
     }
 
@@ -212,7 +212,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeamsQuery.FILTER_QUERY_ID1, EMPTY_STRING);
+            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, EMPTY_STRING);
         }
     }
 
@@ -222,19 +222,19 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     //<editor-fold desc="Private Methods">
 
     private Loader<Cursor> getQueryTeams() {
-        final String selection = TC.Queries.TeamsQuery.SELECTION;
-        final Uri contentUri = TC.Queries.TeamsQuery.CONTENT_URI;
-        final String sortOrder = TC.Queries.TeamsQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.TeamsQuery.TEAMS_PROJECTION;
+        final String selection = TC.Queries.TeammatesTeams.SELECTION;
+        final Uri contentUri = TC.Queries.TeammatesTeams.CONTENT_URI;
+        final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
+        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
 
         return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
     }
 
     private Loader<Cursor> getQueryFilteredByTearSearch(final String searchTerm) {
-        final String selection = TC.Queries.TeamsQuery.SELECTION;
-        final Uri contentUri = Uri.withAppendedPath(TC.Queries.TeamsQuery.FILTER_URI, Uri.encode(searchTerm));
-        final String sortOrder = TC.Queries.TeamsQuery.SORT_ORDER;
-        final String[] projection = TC.Queries.TeamsQuery.TEAMS_PROJECTION;
+        final String selection = TC.Queries.TeammatesTeams.SELECTION;
+        final Uri contentUri = Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm));
+        final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
+        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
 
         return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
     }
@@ -247,8 +247,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
         public TeamsPortraitListAdapter(final Context context, final int layout) {
             super(context,
-                    TC.Queries.TeamsQuery.SORT_KEY, layout,
-                    TC.Queries.TeamsQuery.TEAMS_PROJECTION,
+                    TC.Queries.TeammatesTeams.SORT_KEY, layout,
+                    TC.Queries.TeammatesTeams.TEAMS_PROJECTION,
                     new int[]{
                             R.id.listView_item_creation,
                             R.id.listView_item_update,
@@ -288,13 +288,13 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         @Override
         public void bindView(final View view, final Context context, final Cursor cursor) {
 
-            final int id = cursor.getInt(TC.Queries.TeamsQuery.ID);
+            final int id = cursor.getInt(TC.Queries.TeammatesTeams.ID);
             final TeamItem teamItem = (TeamItem) view.getTag();
 
-            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeamsQuery.NAME), mSearchTerm);
-            setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeamsQuery.IMAGE_REF));
-            setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeamsQuery.UPDATED_AT));
-            setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeamsQuery.CREATED_AT));
+            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mSearchTerm);
+            setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
+            setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
+            setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeammatesTeams.CREATED_AT));
 
             teamItem.id = id;
             teamItem.team_thumbnail.setTag(id);
