@@ -28,7 +28,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     private String name = "";
     private String imageRef = "";
     private String description = "";
-    private boolean isRequieredToBeSaved = false;
+    private boolean isRequiredToBeSaved = false;
 
     protected Adapters.CursorAdapter mCursorAdapter = null;
     protected ImageLoader mImageLoader = null;
@@ -46,7 +46,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     //<editor-fold desc="Public Methods">
 
     public boolean getIsRequiredToBeSaved() {
-        return isRequieredToBeSaved;
+        return isRequiredToBeSaved;
     }
 
     public int getEntityId() {
@@ -55,7 +55,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     public void setEntityId(final Integer id) {
         this.id = id;
-        this.isRequieredToBeSaved = true;
+        this.isRequiredToBeSaved = true;
     }
 
     public int getMaintenanceId() {
@@ -68,7 +68,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     public void setEntityName(final String name) {
         this.name = name.trim();
-        this.isRequieredToBeSaved = true;
+        this.isRequiredToBeSaved = true;
     }
 
     public String getDescription() {
@@ -77,7 +77,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     public void setDescription(final String description) {
         this.description = description.trim();
-        this.isRequieredToBeSaved = true;
+        this.isRequiredToBeSaved = true;
     }
 
     public Uri getImageRef() {
@@ -90,12 +90,12 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     public void setImageRef(final Uri ref) {
         this.imageRef = ref.toString();
-        this.isRequieredToBeSaved = true;
+        this.isRequiredToBeSaved = true;
     }
 
     public void setImageRef(final String ref) {
         this.imageRef = ref.trim();
-        this.isRequieredToBeSaved = true;
+        this.isRequiredToBeSaved = true;
     }
 
     //</editor-fold>

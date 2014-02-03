@@ -81,12 +81,13 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         this.loadData(extras);
         this.setContentView(R.layout.activity_teams_maintenance);
 
-
         this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
         this.collectionKey = (EditText) findViewById(R.id.collection_lookup_key_text);
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
         this.headerImage = (ImageView) findViewById(R.id.header_image);
         this.mListView = (ListView) findViewById(R.id.list_view);
+        this.emptyView = findViewById(android.R.id.empty);
+
         this.collectionName.addTextChangedListener(new Text.AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
