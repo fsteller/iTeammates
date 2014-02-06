@@ -215,7 +215,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 return getCalendars("fsteller@gmail.com"); //TODO: replace fo a call to a real account id
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
-                return getTeamFilteredBySelectedTeams(mCallback.getCollection(TEAMS));
+                return getTeamFilteredByTermSearch(getSearchTerm());
             default:
                 Log.e(TAG, "onCreateLoader - incorrect ID provided (" + id + ")");
                 return null;
@@ -270,16 +270,12 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
         final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
         final Uri contentUri = Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm));
-        final List<Integer> selectedParticipants = mCallback.getCollection(TEAMS);
-        if (selectedParticipants != null)
-            for (final int sp : selectedParticipants)
-                selection += String.format("AND %s<>'%s'", TeammatesContract.Teams._ID, sp);
-                /*
-                   Returns a new CursorLoader for querying the teams table. No arguments are used
-                   for the selection clause. The search string is either encoded onto the content URI,
-                   or no contacts search string is used. The other search criteria are constants. See
-                   the PhoneContacts interface.
-                */
+       /*
+           Returns a new CursorLoader for querying the teams table. No arguments are used
+           for the selection clause. The search string is either encoded onto the content URI,
+           or no contacts search string is used. The other search criteria are constants. See
+           the PhoneContacts interface.
+        */
         return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
     }
 
@@ -310,7 +306,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     private Loader<Cursor> getCalendars(final String accountType) {
         final Uri contentUri = TC.Queries.PhoneCalendar.CONTENT_URI;
-        final String selection = TC.Queries.PhoneCalendar.SELECTION_BY_TYPE;
+        final String selection = TC.Queries.PhoneCalendar.SELECTION;
         final String sortOrder = TC.Queries.PhoneCalendar.SORT_ORDER;
         final String[] projection = TC.Queries.PhoneCalendar.PROJECTION;
         final String[] selectionArgs = new String[]{accountType};

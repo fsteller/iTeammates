@@ -124,12 +124,12 @@ public interface TC {
             //final static int FILTER_QUERY_ID2 = 3;
             final static Uri CONTENT_URI = CalendarContract.Calendars.CONTENT_URI;
             //final static Uri FILTER_URI = CalendarContract.Calendars.CONTENT_FILTER_URI;
-            final static String SELECTION_BY_TYPE = "((" +
-                    CalendarContract.Calendars.ACCOUNT_TYPE + " = ?))";
+            final static String SELECTION = "(("
+                    + CalendarContract.Calendars.ACCOUNT_TYPE + " = 'com.google') AND ("
+                    + CalendarContract.Calendars.ACCOUNT_NAME + " = ?))";
+            // By default the order should be the calendar display name
             final static String SORT_ORDER = CalendarContract.Calendars.CALENDAR_DISPLAY_NAME;
-
-            // Projection array. Creating indices for this array instead of doing
-            // dynamic lookups improves performance.
+            // Projection array. Creating indices for this array instead of doin dynamic lookups improves performance.
             public static final String[] PROJECTION = new String[]{
                     CalendarContract.Calendars._ID,                           // 0
                     CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
