@@ -15,6 +15,20 @@ public interface TC {
     public static final int Events = 0xf008;
     public static final int Notification = 0xf009;
 
+    static interface Entity {
+        final static String Name = "entity_name";
+        final static String ImageRef = "entity_image_reference";
+    }
+
+    static interface TeamEntity extends Entity {
+
+    }
+
+    static interface EventEntity extends Entity {
+        final static String Description = "entity_description";
+        final static String CalendarId = "entity_calendar_id";
+    }
+
 
     static interface ActivityActions {
 
