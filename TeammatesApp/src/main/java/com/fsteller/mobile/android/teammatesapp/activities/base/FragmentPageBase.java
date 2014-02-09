@@ -1,5 +1,6 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,8 +13,8 @@ import android.view.Menu;
 import android.widget.AbsListView;
 import android.widget.SearchView;
 
+import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 
 /**
  * Created by fhernandezs on 24/12/13 for iTeammates.
@@ -27,11 +28,10 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    protected static ImageLoader mImageLoader = null;
-    protected Adapters.CursorAdapter mCursorAdapter;
-    protected final DbUpdateReceiver mReceiver;
     protected final IntentFilter mFilter;
-
+    protected final DbUpdateReceiver mReceiver;
+    protected Adapters.CursorAdapter mCursorAdapter;
+    protected IPageManager mCallback = null;
     private int pageIndex = -1;
 
     //</editor-fold>
@@ -60,18 +60,25 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
         super.onPause();
 
         /*
-            In the case onPause() is called during a fling the image loader is
-            un-paused to let any remaining background work complete.
-        */
-        if (mImageLoader != null)
-            mImageLoader.setPauseWork(false);
-        /*
             In the case onPause() is called broadcast receivers must be unregistered
             to avoid issues
         */
         Log.i(TAG, String.format("Un-register DbUpdateReceiver[%s]", mFilter));
         final LocalBroadcastManager mLBM = LocalBroadcastManager.getInstance(getActivity());
         mLBM.unregisterReceiver(mReceiver);
+    }
+
+
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        mCallback = ((IPageManager) activity);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallback = null;
     }
 
     //<editor-fold desc="AbsListView.OnScrollListener">
@@ -143,6 +150,12 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
         if (result)
             mCallback.actionRequest(collectionId, requestCode);
         return result;
+    }
+
+    protected static int getBackgroundResource(final boolean checked) {
+        return checked ?
+                R.drawable.holo_card_selected :
+                R.drawable.holo_card_white;
     }
 
     //</editor-fold>

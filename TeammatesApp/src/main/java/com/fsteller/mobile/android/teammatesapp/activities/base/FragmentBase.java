@@ -1,15 +1,15 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
-import android.content.Loader;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 
-import com.fsteller.mobile.android.teammatesapp.R;
+import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
+import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
@@ -27,48 +27,47 @@ public abstract class FragmentBase extends Fragment implements LoaderManager.Loa
     protected View mEmptyView = null;
     protected AbsListView mListView = null;
     protected InputMethodManager imm = null;
-    protected IPageManager mCallback = null;
+    protected static ImageLoader mImageLoader = null;
 
     protected final HideInputClass mHideInputClass = new HideInputClass();
     protected String mSearchTerm = "";
 
     //</editor-fold>
 
-    //<editor-fold desc="Overridden Methods">
+    //<editor-fold desc="Overridden">
 
     @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
-        mCallback = ((IPageManager) activity);
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (mImageLoader == null)
+            mImageLoader = ImageUtils.setupImageLoader(getActivity(), getFragmentDefaultImage());
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallback = null;
-    }
+    public void onPause() {
+        super.onPause();
+        /*
+            In the case onPause() is called during a fling the image loader is
+            un-paused to let any remaining background work complete.
+        */
+        if (mImageLoader != null)
+            mImageLoader.setPauseWork(false);
 
-    @Override
-    public void onLoadFinished(final Loader<Cursor> cursorLoader, final Cursor data) {
-        if (mEmptyView != null)
-            mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
     }
 
     //</editor-fold>
     //<editor-fold desc="Protected Methods">
 
-    protected static boolean isNullOrEmpty(final CharSequence text) {
-        return text == null || String.valueOf(text).trim().isEmpty();
-    }
-
-    protected static int getBackgroundResource(final boolean checked) {
-        return checked ?
-                R.drawable.holo_card_selected :
-                R.drawable.holo_card_white;
-    }
+    protected abstract int getFragmentDefaultImage();
 
     protected void hideSoftKeyboard(final View view) {
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (imm != null)
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    protected static boolean isNullOrEmpty(final CharSequence text) {
+        return text == null || String.valueOf(text).trim().isEmpty();
     }
 
     //</editor-fold>
@@ -84,6 +83,4 @@ public abstract class FragmentBase extends Fragment implements LoaderManager.Loa
     }
 
     //</editor-fold>
-
-
 }

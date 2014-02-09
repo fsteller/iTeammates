@@ -1,25 +1,18 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
 
-import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 
 import java.util.List;
 
 /**
  * Created by fhernandezs on 23/01/14.
  */
-public abstract class FragmentMaintenancePageBase extends Fragment implements MaintenancePage {
+public abstract class FragmentMaintenancePageBase extends FragmentBase implements IMaintenancePage {
 
     //<editor-fold desc="Constants">
 
@@ -27,24 +20,12 @@ public abstract class FragmentMaintenancePageBase extends Fragment implements Ma
 
     //</editor-fold>
     //<editor-fold desc="Variables">
-    private String mSearchTerm = null;
 
-    protected View mEmptyView = null;
-    protected AbsListView mListView = null;
-    protected InputMethodManager imm = null;
     protected IMaintenance mCallback = null;
 
-    protected final HideInputClass mHideInputClass = new HideInputClass();
-    protected static ImageLoader mImageLoader = null;
     //</editor-fold>
 
     //<editor-fold desc="Overridden">
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallback = null;
-    }
 
     @Override
     public void onAttach(final Activity activity) {
@@ -53,11 +34,9 @@ public abstract class FragmentMaintenancePageBase extends Fragment implements Ma
     }
 
     @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if (mImageLoader == null)
-            mImageLoader = ImageUtils.setupImageLoader(getActivity(), R.drawable.ic_default_picture);
+    public void onDetach() {
+        super.onDetach();
+        mCallback = null;
     }
 
     @Override
@@ -75,7 +54,7 @@ public abstract class FragmentMaintenancePageBase extends Fragment implements Ma
         }
     }
 
-    //<editor-fold desc="MaintenancePage">
+    //<editor-fold desc="IMaintenancePage">
 
     @Override
     public void setSearchTerm(final String newTerm) {
@@ -131,18 +110,6 @@ public abstract class FragmentMaintenancePageBase extends Fragment implements Ma
 
     //</editor-fold>
     //</editor-fold>
-    //</editor-fold>
-    //<editor-fold desc="Protected">
-
-    protected void hideSoftKeyboard(final View view) {
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    protected static boolean isNullOrEmpty(String txt) {
-        return txt == null || txt.isEmpty();
-    }
-
-
     //</editor-fold>
 
     //<editor-fold desc="Inner Classes">

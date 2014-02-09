@@ -69,6 +69,11 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
     }
 
     @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
@@ -107,5 +112,10 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
         return false;
     }
 
+
+    @Override
+    protected int getFragmentDefaultImage() {
+        return R.drawable.ic_default_picture;
+    }
 
 }

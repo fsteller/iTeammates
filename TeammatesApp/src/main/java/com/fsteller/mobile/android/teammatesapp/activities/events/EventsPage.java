@@ -60,6 +60,11 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
     }
 
     @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
@@ -74,6 +79,11 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
     }
 
     //</editor-fold>
+
+    @Override
+    protected int getFragmentDefaultImage() {
+        return R.drawable.ic_default_picture;
+    }
 
     //</editor-fold>
     //</editor-fold>

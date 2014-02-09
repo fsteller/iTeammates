@@ -29,7 +29,6 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 
 
 /**
@@ -96,7 +95,6 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         mListView.setOnItemClickListener(this);
         mListView.setMultiChoiceModeListener(this);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        mImageLoader = ImageUtils.setupImageLoader(mActivity, R.drawable.ic_default_picture);
         Log.d(TAG, "onActivityCreated");
     }
 
@@ -187,10 +185,10 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
 
     @Override
     public void onLoadFinished(final Loader<Cursor> cursorLoader, final Cursor data) {
-        super.onLoadFinished(cursorLoader, data);
         if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
                 cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1 ||
                 cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID2) {
+            mEmptyView.setVisibility(View.GONE);
             mCursorAdapter.swapCursor(data);
         }
     }
@@ -202,8 +200,10 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             This allows the cursor resources to be freed.
         */
         if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
-                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1)
+                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1) {
+            mEmptyView.setVisibility(View.VISIBLE);
             mCursorAdapter.swapCursor(null);
+        }
     }
 
     //</editor-fold>
@@ -214,6 +214,11 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
             restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, EMPTY_STRING);
         }
+    }
+
+    @Override
+    protected int getFragmentDefaultImage() {
+        return R.drawable.ic_default_picture;
     }
 
     //</editor-fold>

@@ -28,15 +28,15 @@ import android.widget.TextView;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
+import com.fsteller.mobile.android.teammatesapp.activities.base.IMaintenancePage;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
-import com.fsteller.mobile.android.teammatesapp.activities.base.MaintenancePage;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
 /**
  * Created by fhernandezs on 23/01/14.
  */
-public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements MaintenancePage, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements IMaintenancePage, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     //<editor-fold desc="Constants">
 
@@ -61,11 +61,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     //<editor-fold desc="Overridden">
     //<editor-fold desc="Fragment">
-
-    @Override
-    public int getPageIndex() {
-        return PAGE_INDEX;
-    }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -259,6 +254,12 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     }
 
     //</editor-fold>
+
+    @Override
+    protected int getFragmentDefaultImage() {
+        return R.drawable.ic_default_picture;
+    }
+
     //</editor-fold>
     //<editor-fold desc="Private Methods">
 
