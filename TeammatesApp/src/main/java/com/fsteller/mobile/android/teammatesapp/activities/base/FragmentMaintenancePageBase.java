@@ -138,6 +138,11 @@ public abstract class FragmentMaintenancePageBase extends Fragment implements Ma
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    protected static boolean isNullOrEmpty(String txt) {
+        return txt == null || txt.isEmpty();
+    }
+
+
     //</editor-fold>
 
     //<editor-fold desc="Inner Classes">

@@ -225,7 +225,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         final String selection = TC.Queries.TeammatesTeams.SELECTION;
         final Uri contentUri = TC.Queries.TeammatesTeams.CONTENT_URI;
         final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
-        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
+        final String[] projection = TC.Queries.TeammatesTeams.PROJECTION;
 
         return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
     }
@@ -234,7 +234,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         final String selection = TC.Queries.TeammatesTeams.SELECTION;
         final Uri contentUri = Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm));
         final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
-        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
+        final String[] projection = TC.Queries.TeammatesTeams.PROJECTION;
 
         return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
     }
@@ -248,7 +248,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         public TeamsPortraitListAdapter(final Context context, final int layout) {
             super(context,
                     TC.Queries.TeammatesTeams.SORT_KEY, layout,
-                    TC.Queries.TeammatesTeams.TEAMS_PROJECTION,
+                    TC.Queries.TeammatesTeams.PROJECTION,
                     new int[]{
                             R.id.listView_item_creation,
                             R.id.listView_item_update,

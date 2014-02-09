@@ -433,8 +433,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
             mContactItem.contact_name = (TextView) view.findViewById(R.id.contact_name);
             mContactItem.contact_phone = (TextView) view.findViewById(R.id.contact_status);
             mContactItem.contact_thumbnail = (ImageView) view.findViewById(R.id.contact_image);
-            mContactItem.check = (CheckBox) view.findViewById(R.id.contact_check);
-            mContactItem.check.setOnCheckedChangeListener(this);
+            mContactItem.contact_check = (CheckBox) view.findViewById(R.id.contact_check);
+            mContactItem.contact_check.setOnCheckedChangeListener(this);
             view.setTag(mContactItem);
             return view;
         }
@@ -445,8 +445,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
             final int id = cursor.getInt(TC.Queries.PhoneContacts.ID);
             final ContactItem mContactItem = (ContactItem) view.getTag();
 
-            mContactItem.check.setTag(id);
-            mContactItem.check.setChecked(isItemCollected(getMaintenanceId(), id));
+            mContactItem.contact_check.setTag(id);
+            mContactItem.contact_check.setChecked(isItemCollected(getMaintenanceId(), id));
             setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.PhoneContacts.CONTACT_STATUS));
             setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.PhoneContacts.CONTACT_NAME), mSearchTerm);
             setImageView(mContactItem.contact_thumbnail, mImageLoader, cursor.getString(TC.Queries.PhoneContacts.CONTACT_PHOTO_DATA));
@@ -463,7 +463,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
             ImageView contact_thumbnail = null;
             TextView contact_phone = null;
             TextView contact_name = null;
-            CheckBox check = null;
+            CheckBox contact_check = null;
         }
     }
 

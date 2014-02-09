@@ -2,10 +2,22 @@ package com.fsteller.mobile.android.teammatesapp.utils;
 
 import android.text.TextWatcher;
 
+import java.util.ArrayList;
+
 /**
  * Created by fhernandezs on 23/01/14.
  */
 public class Text {
+
+    public static String[] mergeArrays(final String[]... arrayParams) {
+        final ArrayList<String> result = new ArrayList<String>();
+
+        for (String[] params : arrayParams)
+            for (String s : params)
+                if (!result.contains(s))
+                    result.add(s);
+        return result.toArray(new String[result.size()]);
+    }
 
     //<editor-fold desc="TextWatcher">
 

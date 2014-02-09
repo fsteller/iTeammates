@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,11 +30,8 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.activities.base.MaintenancePage;
-import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
-
-import java.util.List;
 
 /**
  * Created by fhernandezs on 23/01/14.
@@ -80,13 +78,11 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
             mImageLoader.loadImage(mCallback.getImageRef(), titleImage);
             headerSpinner.setAdapter(calendarAdapter);
-            headerSpinner.setVisibility(View.VISIBLE);
             headerSpinner.setOnItemSelectedListener(this);
             mListView.setOnScrollListener(this);
             mListView.setAdapter(teamsAdapter);
         }
 
-        restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID);
         Log.d(TAG, "onActivityCreated");
     }
 
@@ -138,10 +134,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                 @Override
                 public void afterTextChanged(final Editable s) {
                     setSearchTerm(s.toString().trim());
-                    restartLoader(getSearchTerm().isEmpty() ?
-                            TC.Queries.PhoneContacts.SIMPLE_QUERY_ID :
-                            TC.Queries.PhoneContacts.FILTER_QUERY_ID1
-                    );
+                    restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1);
                 }
             });
 
@@ -161,6 +154,13 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         }
         Log.d(TAG, "onCreated");
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID);
+        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1);
     }
 
     //</editor-fold>
@@ -215,7 +215,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 return getCalendars("fsteller@gmail.com"); //TODO: replace fo a call to a real account id
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
-                return getTeamFilteredByTermSearch(getSearchTerm());
+                return getParticipantsFilteredByTermSearch(getSearchTerm());
             default:
                 Log.e(TAG, "onCreateLoader - incorrect ID provided (" + id + ")");
                 return null;
@@ -230,6 +230,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         */
         switch (loader.getId()) {
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
+                headerSpinner.setVisibility(View.VISIBLE);
                 calendarAdapter.swapCursor(data);
                 break;
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
@@ -247,9 +248,11 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         */
         switch (loader.getId()) {
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
+                headerSpinner.setVisibility(View.GONE);
                 calendarAdapter.swapCursor(null);
                 break;
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
+                emptyView.setVisibility(View.VISIBLE);
                 teamsAdapter.swapCursor(null);
                 break;
         }
@@ -265,43 +268,55 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             mLoaderManager.restartLoader(queryFilter, null, this);
     }
 
-    private Loader<Cursor> getTeamFilteredByTermSearch(final String searchTerm) {
-        String selection = TC.Queries.TeammatesTeams.SELECTION;
-        final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
-        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
-        final Uri contentUri = Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm));
-       /*
+/*
+    private Cursor getParticipantsFilteredByTermSearch(final String searchTerm) {
+
+        Cursor result = null;
+        final Activity mActivity = getActivity();
+        final Uri teamsUri = Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm));
+        final Uri contactsUri = Uri.withAppendedPath(TC.Queries.PhoneContacts.FILTER_URI, Uri.encode(searchTerm));
+
+        if (mActivity != null && teamsUri != null && contactsUri != null) {
+            final String teamsSelection = TC.Queries.TeammatesTeams.SELECTION;
+            final String teamsSortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
+            final String[] teamsProjection = TC.Queries.TeammatesTeams.PROJECTION;
+
+
+            final String contactsSelection = TC.Queries.PhoneContacts.SELECTION;
+            final String contactsSortOrder = TC.Queries.PhoneContacts.SORT_ORDER;
+            final String[] contactsProjection = TC.Queries.PhoneContacts.PROJECTION;
+
+            final Cursor mTeams = mActivity.getContentResolver().
+                    query(teamsUri, teamsProjection, teamsSelection, null, teamsSortOrder);
+
+            final Cursor mContacts = mActivity.getContentResolver().
+                    query(contactsUri, contactsProjection, contactsSelection, null, contactsSortOrder);
+
+            result = new MergeCursor(new Cursor[]{mTeams, mContacts});
+            //return new CursorLoader(getActivity(), teamsUri, teamsProjection, teamSelection, null, teamSortOrder);
+        }
+        return result;
+    }
+    */
+
+    private Loader<Cursor> getParticipantsFilteredByTermSearch(final String searchTerm) {
+
+        /*
            Returns a new CursorLoader for querying the teams table. No arguments are used
            for the selection clause. The search string is either encoded onto the content URI,
            or no contacts search string is used. The other search criteria are constants. See
            the PhoneContacts interface.
         */
-        return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
-    }
 
-    private Loader<Cursor> getTeamFilteredBySelectedTeams(final List<Integer> selectedTeams) {
-        String selection = TC.Queries.TeammatesTeams.SELECTION;
-        final Uri contentUri = TC.Queries.TeammatesTeams.CONTENT_URI;
-        final String sortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
-        final String[] projection = TC.Queries.TeammatesTeams.TEAMS_PROJECTION;
+        final Uri teamsUri = !isNullOrEmpty(searchTerm) ?
+                Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm)) :
+                TC.Queries.TeammatesTeams.CONTENT_URI;
 
-        if (selectedTeams.size() > 0) {
-            selection += "AND (";
-            final Object[] objects = selectedTeams.toArray();
-            for (int i = 0; i < objects.length; i++) {
-                selection += String.format("%s='%s'", TeammatesContract.Teams._ID, objects[i]);
-                if (i < selectedTeams.size() - 1)
-                    selection += " OR ";
-            }
-            selection += ")";
-        } else selection = "1=0";
-        /*
-               Returns a new CursorLoader for querying the teams table. No arguments are used
-               for the selection clause. The search string is either encoded onto the content URI,
-               or no contacts search string is used. The other search criteria are constants. See
-               the PhoneContacts interface.
-        */
-        return new CursorLoader(getActivity(), contentUri, projection, selection, null, sortOrder);
+        final String teamsSelection = TC.Queries.TeammatesTeams.SELECTION;
+        final String teamsSortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
+        final String[] teamsProjection = TC.Queries.TeammatesTeams.PROJECTION;
+
+        return new CursorLoader(getActivity(), teamsUri, teamsProjection, teamsSelection, null, teamsSortOrder);
     }
 
     private Loader<Cursor> getCalendars(final String accountType) {
@@ -319,29 +334,84 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     private final class EventsParticipantsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
 
+        final String[] FROM = Text.mergeArrays(
+                TC.Queries.TeammatesTeams.PROJECTION,
+                TC.Queries.PhoneContacts.PROJECTION
+        );
+
+        final int[] TO = new int[]{
+                R.id.listView_item_creation,
+                R.id.listView_item_update,
+                R.id.listView_item_title,
+                R.id.listView_item_image,
+                R.id.listView_item_check,
+                R.id.contact_name,
+                R.id.contact_status,
+                R.id.contact_image,
+                R.id.contact_check
+        };
+
         public EventsParticipantsAdapter(final Context context) {
             super(context,
-                    TC.Queries.PhoneContacts.SORT_KEY,
-                    R.layout.listview_item_contact,
-                    TC.Queries.PhoneContacts.PROJECTION,
+                    TC.Queries.TeammatesTeams.SORT_KEY,
+                    R.layout.listview_item_team,
+                    TC.Queries.TeammatesTeams.PROJECTION,
                     new int[]{
-                            R.id.contact_name,
-                            R.id.contact_status,
-                            R.id.contact_image,
-                            R.id.contact_check
+                            R.id.listView_item_creation,
+                            R.id.listView_item_update,
+                            R.id.listView_item_title,
+                            R.id.listView_item_image,
+                            R.id.listView_item_check
                     }
             );
         }
 
         @Override
         protected View setupView(final View view) {
+
+            final TeamItem mTeamItem = new TeamItem();
+            mTeamItem.cardView = view.findViewById(R.id.card);
+            mTeamItem.team_title = (TextView) view.findViewById(R.id.listView_item_title);
+            mTeamItem.team_update = (TextView) view.findViewById(R.id.listView_item_update);
+            mTeamItem.team_creation = (TextView) view.findViewById(R.id.listView_item_creation);
+            mTeamItem.team_thumbnail = (ImageView) view.findViewById(R.id.listView_item_image);
+            mTeamItem.team_check = (CheckBox) view.findViewById(R.id.listView_item_check);
+            mTeamItem.team_check.setOnCheckedChangeListener(this);
+            view.setTag(mTeamItem);
+
             return view;
         }
 
         @Override
-        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+        public void bindView(final View view, final Context context, final Cursor cursor) {
 
+            final int id = cursor.getInt(TC.Queries.TeammatesTeams.ID);
+            final TeamItem teamItem = (TeamItem) view.getTag();
+
+            teamItem.team_check.setTag(id);
+            teamItem.team_check.setChecked(isItemCollected(TEAMS, id));
+            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), getSearchTerm());
+            setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
+            setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
+            setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeammatesTeams.CREATED_AT));
         }
+
+        @Override
+        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+            final Integer id = (Integer) buttonView.getTag();
+            CollectionItemStateChanged(TEAMS, id, isChecked);
+        }
+
+        private final class TeamItem {
+
+            TextView team_title = null;
+            TextView team_update = null;
+            TextView team_creation = null;
+            ImageView team_thumbnail = null;
+            CheckBox team_check = null;
+            View cardView = null;
+        }
+
     }
 
     //</editor-fold>

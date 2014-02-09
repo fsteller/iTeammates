@@ -112,6 +112,7 @@ public final class Adapters {
             return mAlphabetIndexer.getSectionForPosition(i);
         }
 
+
         /**
          * Identifies the start of the search string in the display name column of a Cursor row.
          * E.g. If displayName was "Adam" and search query (mSearchTerm) was "da" this would

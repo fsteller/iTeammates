@@ -19,6 +19,7 @@
     <item name="listView_item_title" type="id"/>
     <item name="listView_item_image" type="id"/>
     <item name="listView_item_description" type="id"/>
+    <item name="listView_item_check" type="id"/>
     <item name="action_about" type="id"/>
     <item name="header_image" type="id"/>
     <item name="header_button" type="id"/>

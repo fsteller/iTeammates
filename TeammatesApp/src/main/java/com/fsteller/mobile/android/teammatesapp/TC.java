@@ -29,7 +29,6 @@ public interface TC {
         final static String CalendarId = "entity_calendar_id";
     }
 
-
     static interface ActivityActions {
 
         public static final int Add = 11001;         //Menu Action
@@ -224,7 +223,7 @@ public interface TC {
             final static String SELECTION = TeammatesContract.Teams.NAME + "<>''";
             final static String SORT_ORDER = TeammatesContract.Teams.DEFAULT_SORT_ORDER;
 
-            final static String[] TEAMS_PROJECTION = {
+            final static String[] PROJECTION = {
                     TeammatesContract.Teams._ID,
                     TeammatesContract.Teams.NAME,
                     TeammatesContract.Teams.IMAGE_REF,
