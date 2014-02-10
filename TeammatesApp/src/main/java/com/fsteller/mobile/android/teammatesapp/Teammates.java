@@ -12,7 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityCollection;
+import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityBase;
+import com.fsteller.mobile.android.teammatesapp.activities.base.Collection;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.activities.base.NavigationDrawerFragment;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_About;
@@ -28,7 +29,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsPage;
 
 import java.util.ArrayList;
 
-public final class Teammates extends ActivityCollection implements IPageManager {
+public final class Teammates extends ActivityBase implements IPageManager {
 
     //<editor-fold desc="Constants">
 
@@ -44,6 +45,7 @@ public final class Teammates extends ActivityCollection implements IPageManager 
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private Collection mCollection = new Collection();
     private String accountId = null;
     private CharSequence mTitle;
     private int currentPage = 0;
@@ -75,15 +77,89 @@ public final class Teammates extends ActivityCollection implements IPageManager 
         contextActionRequest(collectionId, requestCode);
     }
 
+    //<editor-fold desc="ICollection">
     @Override
-    public void CollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked) {
-        final boolean isCollected = isItemCollected(collectionId, itemId);
-        if (checked && !isCollected)
-            addItemToCollection(collectionId, itemId);
-        else if (isCollected && !checked)
-            removeItemFromCollection(collectionId, itemId);
+    public void setSearchTerm(final String newTerm) {
+        mCollection.setSearchTerm(newTerm);
     }
 
+    @Override
+    public String getSearchTerm() {
+        return mCollection.getSearchTerm();
+    }
+
+    @Override
+    public void addCollection(final Integer collectionId) {
+        mCollection.addCollection(collectionId);
+    }
+
+    @Override
+    public ArrayList<Integer> getCollection(final Integer collectionId) {
+        return mCollection.getCollection(collectionId);
+    }
+
+    @Override
+    public void clearCollection(final Integer collectionId) {
+        mCollection.clearCollection(collectionId);
+    }
+
+    @Override
+    public void addItemToCollection(final Integer collectionId, final Integer itemId) {
+        mCollection.addItemToCollection(collectionId, itemId);
+    }
+
+    @Override
+    public void removeItemFromCollection(final Integer collectionId, final Integer itemId) {
+        mCollection.removeItemFromCollection(collectionId, itemId);
+    }
+
+    @Override
+    public boolean isItemCollected(final Integer collectionId, final Integer itemId) {
+        return mCollection.isItemCollected(collectionId, itemId);
+    }
+
+    @Override
+    public int getCollectionSize(final Integer collectionId) {
+        return mCollection.getCollectionSize(collectionId);
+    }
+
+    @Override
+    public void changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected) {
+        mCollection.changeCollectionItemState(collectionId, itemId, collected);
+    }
+    //</editor-fold>
+    //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
+
+    @Override
+    public void onNavigationDrawerItemSelected(final int position) {
+        // update the main content by replacing fragments
+
+        try {
+
+            final Fragment mFragment = (Fragment) mFragmentPages[position].newInstance();
+            final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            //fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+            fragmentTransaction.replace(R.id.container, mFragment).commit();
+            onSectionAttached(position);
+            currentPage = position;
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onNavigationDrawerActionCalled(final Actions action) {
+        switch (action) {
+            case Login:
+                break;
+            case Settings:
+                break;
+            default:
+        }
+    }
+
+    //</editor-fold>
     //</editor-fold>
     //<editor-fold desc="Activity Methods">
 
@@ -129,39 +205,6 @@ public final class Teammates extends ActivityCollection implements IPageManager 
     }
 
     //</editor-fold>
-    //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
-
-    @Override
-    public void onNavigationDrawerItemSelected(final int position) {
-        // update the main content by replacing fragments
-
-        try {
-
-            final Fragment mFragment = (Fragment) mFragmentPages[position].newInstance();
-            final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            //fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
-            fragmentTransaction.replace(R.id.container, mFragment).commit();
-            onSectionAttached(position);
-            currentPage = position;
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onNavigationDrawerActionCalled(final Actions action) {
-        switch (action) {
-            case Login:
-                break;
-            case Settings:
-                break;
-            default:
-        }
-    }
-
-    //</editor-fold>
-
     //</editor-fold>
     //<editor-fold desc="Private">
 

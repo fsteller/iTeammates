@@ -114,7 +114,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
 
     @Override
     public void onItemCheckedStateChanged(final ActionMode mode, final int position, final long id, final boolean checked) {
-        mCallback.CollectionItemStateChanged(getPageIndex(), (int) id, checked);
+        mCallback.changeCollectionItemState(getPageIndex(), (int) id, checked);
     }
 
     @Override
@@ -135,12 +135,10 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
         return pageIndex;
     }
 
-    protected final void restartLoader(final int queryId, final String newFilter) {
-        Log.i(TAG, String.format("Reloading displayed data, using filter: '%s'", newFilter));
-        mSearchTerm = isNullOrEmpty(newFilter) ? EMPTY_STRING : newFilter.trim();
+    protected final void restartLoader(final int queryId, final LoaderManager.LoaderCallbacks callbacks) {
         final LoaderManager mLoaderManager = getLoaderManager();
         if (mLoaderManager != null)
-            getLoaderManager().restartLoader(queryId, null, this);
+            getLoaderManager().restartLoader(queryId, null, callbacks);
     }
 
     protected abstract void processBroadcast(final Intent intent);

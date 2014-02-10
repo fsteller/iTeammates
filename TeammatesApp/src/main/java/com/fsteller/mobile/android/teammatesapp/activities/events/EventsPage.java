@@ -1,5 +1,6 @@
 package com.fsteller.mobile.android.teammatesapp.activities.events;
 
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -21,7 +22,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 /**
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
-public final class EventsPage extends FragmentPageBase implements AdapterView.OnItemClickListener {
+public final class EventsPage extends FragmentPageBase implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -92,7 +93,7 @@ public final class EventsPage extends FragmentPageBase implements AdapterView.On
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, EMPTY_STRING);
+            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
             mCallback.clearCollection(getPageIndex());
         }
     }

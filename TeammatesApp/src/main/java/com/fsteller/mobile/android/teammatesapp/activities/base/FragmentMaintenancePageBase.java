@@ -1,18 +1,17 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
 
-import java.util.List;
-
 /**
  * Created by fhernandezs on 23/01/14.
  */
-public abstract class FragmentMaintenancePageBase extends FragmentBase implements IMaintenancePage {
+public abstract class FragmentMaintenancePageBase extends FragmentBase {
 
     //<editor-fold desc="Constants">
 
@@ -21,7 +20,7 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase implement
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    protected IMaintenance mCallback = null;
+    protected IEntity mCallback = null;
 
     //</editor-fold>
 
@@ -30,7 +29,8 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase implement
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        mCallback = ((IMaintenance) activity);
+        this.mCallback = (IEntity) activity;
+
     }
 
     @Override
@@ -56,60 +56,16 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase implement
 
     //<editor-fold desc="IMaintenancePage">
 
-    @Override
-    public void setSearchTerm(final String newTerm) {
-        this.mSearchTerm = newTerm;
-    }
-
-    @Override
-    public String getSearchTerm() {
-        return mSearchTerm;
-    }
-
-    //<editor-fold desc="ICollection">
-
-    @Override
-    public void addCollection(final Integer collectionId) {
-        mCallback.addCollection(collectionId);
-    }
-
-    @Override
-    public List<Integer> getCollection(final Integer collectionId) {
-        return mCallback.getCollection(collectionId);
-    }
-
-    @Override
-    public void clearCollection(final Integer collectionId) {
-        mCallback.clearCollection(collectionId);
-    }
-
-    @Override
-    public void addItemToCollection(final Integer collectionId, final Integer itemId) {
-        mCallback.addItemToCollection(collectionId, itemId);
-    }
-
-    @Override
-    public void removeItemFromCollection(final Integer collectionId, final Integer itemId) {
-        mCallback.removeItemFromCollection(collectionId, itemId);
-    }
-
-    @Override
-    public boolean isItemCollected(final Integer collectionId, final Integer itemId) {
-        return mCallback.isItemCollected(collectionId, itemId);
-    }
-
-    @Override
-    public int getCollectionSize(final Integer collectionId) {
-        return mCallback.getCollectionSize(collectionId);
-    }
-
-    @Override
-    public void CollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked) {
-        mCallback.CollectionItemStateChanged(collectionId, itemId, checked);
-    }
-
     //</editor-fold>
     //</editor-fold>
+    //<editor-fold desc="Protected">
+
+    protected void restartLoader(final int queryFilter, final LoaderManager.LoaderCallbacks callbacks) {
+        final LoaderManager mLoaderManager = getLoaderManager();
+        if (mLoaderManager != null)
+            mLoaderManager.restartLoader(queryFilter, null, callbacks);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Inner Classes">

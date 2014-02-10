@@ -1,8 +1,6 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.Fragment;
-import android.app.LoaderManager;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,7 +12,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public abstract class FragmentBase extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class FragmentBase extends Fragment {
 
     //<editor-fold desc="Constants">
 
@@ -30,7 +28,6 @@ public abstract class FragmentBase extends Fragment implements LoaderManager.Loa
     protected static ImageLoader mImageLoader = null;
 
     protected final HideInputClass mHideInputClass = new HideInputClass();
-    protected String mSearchTerm = "";
 
     //</editor-fold>
 

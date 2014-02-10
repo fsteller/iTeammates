@@ -5,7 +5,5 @@ package com.fsteller.mobile.android.teammatesapp.activities.base;
  */
 public interface IMaintenancePage extends ICollection {
 
-    public void setSearchTerm(final String newTerm);
 
-    public String getSearchTerm();
 }

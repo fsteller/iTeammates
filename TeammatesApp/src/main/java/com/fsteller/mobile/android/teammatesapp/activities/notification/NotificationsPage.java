@@ -1,5 +1,6 @@
 package com.fsteller.mobile.android.teammatesapp.activities.notification;
 
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -21,7 +22,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 /**
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
-public final class NotificationsPage extends FragmentPageBase implements AdapterView.OnItemClickListener {
+public final class NotificationsPage extends FragmentPageBase implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -58,24 +59,9 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, EMPTY_STRING);
+            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
             mCallback.clearCollection(getPageIndex());
         }
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 
     //</editor-fold>
@@ -118,4 +104,18 @@ public final class NotificationsPage extends FragmentPageBase implements Adapter
         return R.drawable.ic_default_picture;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 }

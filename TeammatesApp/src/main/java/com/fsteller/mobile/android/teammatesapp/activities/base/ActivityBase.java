@@ -22,12 +22,13 @@ public abstract class ActivityBase extends Activity {
 
     protected static final int SOFT_INPUT_MODE_VISIBLE = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
     protected static final int SOFT_INPUT_MODE_HIDDEN = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
+
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    protected TeammatesApp app;
-    protected InputMethodManager imm = null;
+    private InputMethodManager imm = null;
     protected final HideSoftInputClass mHideSoftInputClass = new HideSoftInputClass();
+    protected TeammatesApp app;
 
     //</editor-fold>
 
@@ -68,6 +69,7 @@ public abstract class ActivityBase extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         this.app = null;
+        this.imm = null;
     }
 
     //</editor-fold>

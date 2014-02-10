@@ -28,7 +28,6 @@ import android.widget.TextView;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
-import com.fsteller.mobile.android.teammatesapp.activities.base.IMaintenancePage;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
@@ -36,7 +35,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Text;
 /**
  * Created by fhernandezs on 23/01/14.
  */
-public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements IMaintenancePage, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     //<editor-fold desc="Constants">
 
@@ -84,9 +83,9 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        this.addCollection(TEAMS);
-        this.addCollection(CONTACTS);
-        this.addCollection(CALENDARS);
+        mCallback.addCollection(TEAMS);
+        mCallback.addCollection(CONTACTS);
+        mCallback.addCollection(CALENDARS);
         final View rootView = inflater.inflate(R.layout.fragment_events_maintenance_page1, container, false);
         if (rootView != null) {
 
@@ -128,8 +127,8 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             lookupKeyTitleText.addTextChangedListener(new Text.AfterTextChangedWatcher() {
                 @Override
                 public void afterTextChanged(final Editable s) {
-                    setSearchTerm(s.toString().trim());
-                    restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1);
+                    mCallback.setSearchTerm(s.toString().trim());
+                    restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, EventsMaintenancePage1.this);
                 }
             });
 
@@ -154,8 +153,8 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     @Override
     public void onResume() {
         super.onResume();
-        restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID);
-        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1);
+        restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID, this);
+        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
     }
 
     //</editor-fold>
@@ -210,7 +209,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 return getCalendars("fsteller@gmail.com"); //TODO: replace fo a call to a real account id
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
-                return getParticipantsFilteredByTermSearch(getSearchTerm());
+                return getParticipantsFilteredByTermSearch(mCallback.getSearchTerm());
             default:
                 Log.e(TAG, "onCreateLoader - incorrect ID provided (" + id + ")");
                 return null;
@@ -263,11 +262,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     //</editor-fold>
     //<editor-fold desc="Private Methods">
 
-    private void restartLoader(final int queryFilter) {
-        final LoaderManager mLoaderManager = getLoaderManager();
-        if (mLoaderManager != null)
-            mLoaderManager.restartLoader(queryFilter, null, this);
-    }
 
 /*
     private Cursor getParticipantsFilteredByTermSearch(final String searchTerm) {
@@ -390,8 +384,8 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             final TeamItem teamItem = (TeamItem) view.getTag();
 
             teamItem.team_check.setTag(id);
-            teamItem.team_check.setChecked(isItemCollected(TEAMS, id));
-            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), getSearchTerm());
+            teamItem.team_check.setChecked(mCallback.isItemCollected(TEAMS, id));
+            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mCallback.getSearchTerm());
             setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeammatesTeams.CREATED_AT));
@@ -400,7 +394,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
             final Integer id = (Integer) buttonView.getTag();
-            CollectionItemStateChanged(TEAMS, id, isChecked);
+            mCallback.changeCollectionItemState(TEAMS, id, isChecked);
         }
 
         private final class TeamItem {

@@ -7,8 +7,6 @@ import android.net.Uri;
  */
 public interface IEntity extends ICollection {
 
-    public int getMaintenanceId();
-
     public String getEntityName();
 
     public void setEntityName(final String name);

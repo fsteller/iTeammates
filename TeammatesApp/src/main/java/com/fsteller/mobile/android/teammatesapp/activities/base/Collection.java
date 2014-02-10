@@ -7,22 +7,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fhernandezs on 08/01/14 for iTeammates.
+ * Created by fsteller on 2/9/14.
  */
-public abstract class ActivityCollection extends ActivityBase implements ICollection {
+public class Collection implements ICollection {
 
     //<editor-fold desc="Constants">
 
-    private static final String TAG = ActivityCollection.class.getSimpleName();
+    private static final String TAG = Collection.class.getSimpleName();
 
     //</editor-fold>
     //<editor-fold desc="Variables">
-
+    private String mSearchTerm = "";
+    private ItemStateChanged itemStateChangedListener = null;
     private SparseArray<ArrayList<Integer>> collections = new SparseArray<ArrayList<Integer>>();
 
     //</editor-fold>
 
     //<editor-fold desc="ICollection">
+
+    @Override
+    public void setSearchTerm(String newTerm) {
+        mSearchTerm = newTerm.trim();
+    }
+
+    @Override
+    public String getSearchTerm() {
+        return mSearchTerm;
+    }
 
     public void addCollection(final Integer collectionId) {
         Log.i(TAG, String.format("addCollection: id=%s", collectionId));
@@ -72,15 +83,23 @@ public abstract class ActivityCollection extends ActivityBase implements ICollec
         return list != null ? list.size() : -1;
     }
 
-    //</editor-fold>
-    //<editor-fold desc="Overridden">
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.collections.clear();
-        this.collections = null;
+    public void changeCollectionItemState(int collectionId, Integer itemId, boolean collected) {
+
+        final boolean isCollected = isItemCollected(collectionId, itemId);
+        if (collected && !isCollected)
+            addItemToCollection(collectionId, itemId);
+        else if (isCollected && !collected)
+            removeItemFromCollection(collectionId, itemId);
+
+        if (itemStateChangedListener != null)
+            itemStateChangedListener.onCollectionItemStateChanged(collectionId, itemId, collected);
+    }
+
+    public void setOnCollectionItemStateChanged(ItemStateChanged listener) {
+        itemStateChangedListener = listener;
     }
 
     //</editor-fold>
+
 }

@@ -7,13 +7,13 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
+
+import java.util.List;
 
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public abstract class ActivityMaintenanceBase extends ActivityCollection implements IMaintenance {
+public abstract class ActivityMaintenanceBase extends ActivityBase implements IEntity {
 
     //<editor-fold desc="Constants">
 
@@ -22,87 +22,22 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    private final int index;
-
-    private int id;
-    private String name = "";
-    private String imageRef = "";
-    private String description = "";
-    private boolean isRequiredToBeSaved = false;
-
-    protected Adapters.CursorAdapter mCursorAdapter = null;
-    protected ImageLoader mImageLoader = null;
+    protected Entity mEntity = new Entity();
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
 
-    protected ActivityMaintenanceBase(final int index) {
-        this.index = index;
-        this.addCollection(getMaintenanceId());
+    public ActivityMaintenanceBase() {
     }
 
     //</editor-fold>
 
-    //<editor-fold desc="Public Methods">
-
-    public boolean getIsRequiredToBeSaved() {
-        return isRequiredToBeSaved;
-    }
-
-    public int getEntityId() {
-        return id;
-    }
-
-    public void setEntityId(final Integer id) {
-        this.id = id;
-        this.isRequiredToBeSaved = true;
-    }
-
-    public int getMaintenanceId() {
-        return index;
-    }
-
-    public String getEntityName() {
-        return name;
-    }
-
-    public void setEntityName(final String name) {
-        this.name = name.trim();
-        this.isRequiredToBeSaved = true;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(final String description) {
-        this.description = description.trim();
-        this.isRequiredToBeSaved = true;
-    }
-
-    public Uri getImageRef() {
-        return Uri.parse(this.imageRef);
-    }
-
-    public String getImageRefAsString() {
-        return this.imageRef;
-    }
-
-    public void setImageRef(final Uri ref) {
-        this.imageRef = ref.toString();
-        this.isRequiredToBeSaved = true;
-    }
-
-    public void setImageRef(final String ref) {
-        this.imageRef = ref.trim();
-        this.isRequiredToBeSaved = true;
-    }
-
-    //</editor-fold>
     //<editor-fold desc="Protected Methods">
 
     protected void restartLoader(final int queryId, LoaderManager.LoaderCallbacks callbacks) {
-        getLoaderManager().restartLoader(queryId, null, callbacks);
+        LoaderManager mLoaderManager = getLoaderManager();
+        if (mLoaderManager != null)
+            mLoaderManager.restartLoader(queryId, null, callbacks);
     }
 
     protected void finalize(final int result, final Intent intent) {
@@ -113,7 +48,7 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
 
     protected abstract Intent getResult();
 
-    protected abstract boolean checkData(IMaintenance entity);
+    protected abstract boolean checkData(IEntity entity);
 
     //</editor-fold>
     //<editor-fold desc="Overridden">
@@ -128,24 +63,103 @@ public abstract class ActivityMaintenanceBase extends ActivityCollection impleme
             Log.i(TAG, String.format("Image picked up (%s)", data.getData()));
             final Uri imageUri = data.getData();
             if (imageUri != null) {
-                setImageRef(imageUri);
+                mEntity.setImageRef(imageUri);
             }
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mCursorAdapter != null)
-            mCursorAdapter.swapCursor(null);
+    //<editor-fold desc="IEntity">
 
-        mCursorAdapter = null;
-        mImageLoader = null;
-        description = null;
-        imageRef = null;
-        name = null;
+    @Override
+    public String getEntityName() {
+        return mEntity.getEntityName();
     }
 
+    @Override
+    public void setEntityName(String name) {
+        mEntity.setEntityName(name);
+    }
+
+    @Override
+    public String getDescription() {
+        return mEntity.getDescription();
+    }
+
+    @Override
+    public void setDescription(String description) {
+        mEntity.setDescription(description);
+    }
+
+    @Override
+    public Uri getImageRef() {
+        return mEntity.getImageRef();
+    }
+
+    @Override
+    public String getImageRefAsString() {
+        return mEntity.getImageRefAsString();
+    }
+
+    @Override
+    public void setImageRef(Uri ref) {
+        mEntity.setImageRef(ref);
+    }
+
+    @Override
+    public void setImageRef(String ref) {
+        mEntity.setImageRef(ref);
+    }
+
+    @Override
+    public void setSearchTerm(String newTerm) {
+        mEntity.setSearchTerm(newTerm);
+    }
+
+    @Override
+    public String getSearchTerm() {
+        return mEntity.getSearchTerm();
+    }
+
+    @Override
+    public void addCollection(Integer collectionId) {
+        mEntity.addCollection(collectionId);
+    }
+
+    @Override
+    public List<Integer> getCollection(Integer collectionId) {
+        return mEntity.getCollection(collectionId);
+    }
+
+    @Override
+    public void clearCollection(Integer collectionId) {
+        mEntity.clearCollection(collectionId);
+    }
+
+    @Override
+    public void addItemToCollection(Integer collectionId, Integer itemId) {
+        mEntity.addItemToCollection(collectionId, itemId);
+    }
+
+    @Override
+    public void removeItemFromCollection(Integer collectionId, Integer itemId) {
+        mEntity.removeItemFromCollection(collectionId, itemId);
+    }
+
+    @Override
+    public boolean isItemCollected(Integer collectionId, Integer itemId) {
+        return mEntity.isItemCollected(collectionId, itemId);
+    }
+
+    @Override
+    public int getCollectionSize(Integer collectionId) {
+        return mEntity.getCollectionSize(collectionId);
+    }
+
+    @Override
+    public void changeCollectionItemState(int collectionId, Integer itemId, boolean collected) {
+        mEntity.changeCollectionItemState(collectionId, itemId, collected);
+    }
     //</editor-fold>
 
+    //</editor-fold>
 }

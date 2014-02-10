@@ -7,6 +7,10 @@ import java.util.List;
  */
 public interface ICollection {
 
+    public void setSearchTerm(final String newTerm);
+
+    public String getSearchTerm();
+
     public void addCollection(final Integer collectionId);
 
     public List<Integer> getCollection(final Integer collectionId);
@@ -21,6 +25,10 @@ public interface ICollection {
 
     public int getCollectionSize(final Integer collectionId);
 
-    public void CollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean checked);
+    public void changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected);
+
+    public interface ItemStateChanged {
+        public void onCollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean collected);
+    }
 
 }

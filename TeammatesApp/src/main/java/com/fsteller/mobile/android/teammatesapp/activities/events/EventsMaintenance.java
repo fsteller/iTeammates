@@ -16,7 +16,7 @@ import android.widget.Button;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
-import com.fsteller.mobile.android.teammatesapp.activities.base.IMaintenance;
+import com.fsteller.mobile.android.teammatesapp.activities.base.IEntity;
 
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
@@ -27,7 +27,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     private static final int LAST_PAGE = 3;
     private static final int FIRST_PAGE = 0;
-    private static final int INDEX = TC.Activity.Maintenance.EVENTS;
+    private static final int EVENTS = TC.Activity.Maintenance.EVENTS;
     private static final String TAG = EventsMaintenance.class.getSimpleName();
     private static final Class pages[] = new Class[]{EventsMaintenancePage1.class};
 
@@ -41,7 +41,6 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //<editor-fold desc="Constructor">
 
     public EventsMaintenance() {
-        super(INDEX);
     }
 
     //</editor-fold>
@@ -117,13 +116,8 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     }
 
     @Override
-    protected boolean checkData(IMaintenance entity) {
+    protected boolean checkData(IEntity entity) {
         return false;
-    }
-
-    @Override
-    public void CollectionItemStateChanged(Integer collectionId, Integer itemId, boolean checked) {
-
     }
 
     //</editor-fold>
@@ -137,6 +131,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //</editor-fold>
     //</editor-fold>
     //<editor-fold desc="Private">
+
     private void loadData(Bundle extras) {
     }
 
@@ -173,7 +168,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
             public void run() {
                 ft.commit();
                 if (ab != null)
-                    ab.setSubtitle(getEntityName());
+                    ab.setSubtitle(mEntity.getEntityName());
             }
         });
     }

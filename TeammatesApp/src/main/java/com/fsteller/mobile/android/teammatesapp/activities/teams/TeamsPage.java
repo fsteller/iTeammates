@@ -1,6 +1,7 @@
 package com.fsteller.mobile.android.teammatesapp.activities.teams;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -34,7 +35,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 /**
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
-public final class TeamsPage extends FragmentPageBase implements AdapterView.OnItemClickListener {
+public final class TeamsPage extends FragmentPageBase implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -60,7 +61,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     @Override
     public void onResume() {
         super.onResume();
-        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, mSearchTerm);
+        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
     }
 
     @Override
@@ -107,7 +108,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             final SearchView searchView = (SearchView) searchItem.getActionView();
             if (searchView != null) {
                 searchView.setOnQueryTextListener(this);
-                searchView.setQuery(mSearchTerm, false);
+                searchView.setQuery(mCallback.getSearchTerm(), false);
             }
         }
     }
@@ -118,7 +119,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         final int cId = getPageIndex();
         mCallback.clearCollection(cId);
-        mCallback.CollectionItemStateChanged(cId, ((TeamItem) view.getTag()).id, true);
+        mCallback.changeCollectionItemState(cId, ((TeamItem) view.getTag()).id, true);
         mCallback.actionRequest(cId, TC.Activity.ContextActionRequest.Edit);
     }
 
@@ -135,8 +136,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
         which builds the necessary content Uri from mSearchTerm.
         */
 
-        if (newFilter != null && !newFilter.trim().equals(mSearchTerm))
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, newFilter);
+        if (newFilter != null && !newFilter.trim().equals(mCallback.getSearchTerm()))
+            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
         return true;
     }
 
@@ -171,12 +172,13 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             Creates and return a CursorLoader that will take care of
             creating a Cursor for the data being displayed.
         */
-        Log.d(TAG, String.format("Creating loader, for TeammatesTeams with searchTerm = '%s', id = %s", mSearchTerm, id));
+
+        Log.d(TAG, String.format("Creating loader, for TeammatesTeams with searchTerm = '%s', id = %s", mCallback.getSearchTerm(), id));
         switch (id) {
             case TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID:
                 return getQueryTeams();
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
-                return getQueryFilteredByTearSearch(mSearchTerm);
+                return getQueryFilteredByTearSearch(mCallback.getSearchTerm());
             default:
                 Log.e(TAG, "onCreateLoader - incorrect COLLECTION_ID provided (" + id + ")");
                 return null;
@@ -212,7 +214,7 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, EMPTY_STRING);
+            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
         }
     }
 
@@ -296,8 +298,8 @@ public final class TeamsPage extends FragmentPageBase implements AdapterView.OnI
             final int id = cursor.getInt(TC.Queries.TeammatesTeams.ID);
             final TeamItem teamItem = (TeamItem) view.getTag();
 
-            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mSearchTerm);
             setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
+            setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mCallback.getSearchTerm());
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeammatesTeams.CREATED_AT));
 
