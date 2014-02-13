@@ -1,6 +1,7 @@
 package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
+import com.fsteller.mobile.android.teammatesapp.model.ICollection;
 
 /**
  * Created by fhernandezs on 26/12/13 for iTeammates.

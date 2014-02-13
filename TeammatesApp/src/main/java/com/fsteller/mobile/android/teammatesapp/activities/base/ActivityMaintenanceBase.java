@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
+import com.fsteller.mobile.android.teammatesapp.model.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.IMaintenance;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
@@ -22,12 +24,13 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    protected Entity mEntity = new Entity();
+    protected IMaintenance mEntity = null;
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
 
-    public ActivityMaintenanceBase() {
+    public ActivityMaintenanceBase(final IMaintenance entity) {
+        mEntity = entity;
     }
 
     //</editor-fold>
@@ -69,6 +72,11 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     }
 
     //<editor-fold desc="IEntity">
+
+    @Override
+    public int getEntityId() {
+        return mEntity.getEntityId();
+    }
 
     @Override
     public String getEntityName() {
@@ -126,7 +134,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     }
 
     @Override
-    public List<Integer> getCollection(Integer collectionId) {
+    public ArrayList<Integer> getCollection(Integer collectionId) {
         return mEntity.getCollection(collectionId);
     }
 

@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityBase;
-import com.fsteller.mobile.android.teammatesapp.activities.base.Collection;
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 import com.fsteller.mobile.android.teammatesapp.activities.base.NavigationDrawerFragment;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_About;
@@ -26,6 +25,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.notification.Notifica
 import com.fsteller.mobile.android.teammatesapp.activities.notification.NotificationsPage;
 import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsMaintenance;
 import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsPage;
+import com.fsteller.mobile.android.teammatesapp.model.Collection;
 
 import java.util.ArrayList;
 

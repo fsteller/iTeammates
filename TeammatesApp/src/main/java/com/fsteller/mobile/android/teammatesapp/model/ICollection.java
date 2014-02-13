@@ -1,6 +1,6 @@
-package com.fsteller.mobile.android.teammatesapp.activities.base;
+package com.fsteller.mobile.android.teammatesapp.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
@@ -13,7 +13,7 @@ public interface ICollection {
 
     public void addCollection(final Integer collectionId);
 
-    public List<Integer> getCollection(final Integer collectionId);
+    public ArrayList<Integer> getCollection(final Integer collectionId);
 
     public void clearCollection(final Integer collectionId);
 

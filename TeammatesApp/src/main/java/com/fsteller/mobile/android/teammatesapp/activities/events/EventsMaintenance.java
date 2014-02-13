@@ -16,7 +16,8 @@ import android.widget.Button;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
-import com.fsteller.mobile.android.teammatesapp.activities.base.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
+import com.fsteller.mobile.android.teammatesapp.model.IEntity;
 
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
@@ -41,6 +42,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //<editor-fold desc="Constructor">
 
     public EventsMaintenance() {
+        super(new EventEntity());
     }
 
     //</editor-fold>
@@ -56,8 +58,8 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
         final Bundle extras = mIntent != null && mIntent.hasExtra(TC.Activity.PARAMS.EXTRAS) ?
                 mIntent.getBundleExtra(TC.Activity.PARAMS.EXTRAS) : savedInstanceState;
 
-        this.loadData(extras);
         this.setContentView(R.layout.activity_events_maintenance);
+        this.mEntity.loadData(this, extras);
     }
 
     @Override
@@ -131,9 +133,6 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //</editor-fold>
     //</editor-fold>
     //<editor-fold desc="Private">
-
-    private void loadData(Bundle extras) {
-    }
 
     private void loadMaintenancePage(final Class fragmentClass, final Bundle params, final boolean retry) {
         new Thread() {

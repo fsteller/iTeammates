@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.activities.base;
+package com.fsteller.mobile.android.teammatesapp.model;
 
 import android.util.Log;
 import android.util.SparseArray;

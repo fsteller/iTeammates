@@ -1,11 +1,11 @@
-package com.fsteller.mobile.android.teammatesapp.activities.base;
+package com.fsteller.mobile.android.teammatesapp.model;
 
 import android.net.Uri;
 
 /**
  * Created by fhernandezs on 08/01/14 for iTeammates.
  */
-public class Entity extends Collection implements IEntity {
+public abstract class Entity extends Collection implements IEntity {
 
     //<editor-fold desc="Constants">
 
@@ -22,6 +22,10 @@ public class Entity extends Collection implements IEntity {
 
     //</editor-fold>
 
+    protected Entity(final Integer id) {
+        this.id = id;
+    }
+
     //<editor-fold desc="IEntity">
 
     public boolean getIsRequiredToBeSaved() {
@@ -30,11 +34,6 @@ public class Entity extends Collection implements IEntity {
 
     public int getEntityId() {
         return id;
-    }
-
-    public void setEntityId(final Integer id) {
-        this.id = id;
-        this.isRequiredToBeSaved = true;
     }
 
     public String getEntityName() {

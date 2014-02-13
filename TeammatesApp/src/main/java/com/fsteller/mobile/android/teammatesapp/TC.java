@@ -11,9 +11,10 @@ import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContra
  */
 public interface TC {
 
-    public static final int Teams = 0xf007;
-    public static final int Events = 0xf008;
-    public static final int Notification = 0xf009;
+    public static final int _Teams = 0xf007;
+    public static final int _Events = 0xf008;
+    public static final int _Contacts = 0xf009;
+    public static final int _Notification = 0xf010;
 
     static interface Entity {
         final static String Name = "entity_name";
@@ -100,9 +101,10 @@ public interface TC {
         }
 
         public static interface Maintenance {
-            public static final int TEAMS = Teams;
-            public static final int EVENTS = Events;
-            public static final int NOTIFICATION = Notification;
+            public static final int TEAMS = _Teams;
+            public static final int EVENTS = _Events;
+            public static final int NOTIFICATION = _Notification;
+            public static final int CONTACTS = _Contacts;
         }
 
         public static interface Dialog {

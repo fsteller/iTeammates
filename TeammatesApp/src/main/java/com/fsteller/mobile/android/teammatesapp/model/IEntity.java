@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.activities.base;
+package com.fsteller.mobile.android.teammatesapp.model;
 
 import android.net.Uri;
 
@@ -6,6 +6,8 @@ import android.net.Uri;
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
 public interface IEntity extends ICollection {
+
+    public int getEntityId();
 
     public String getEntityName();
 

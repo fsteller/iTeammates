@@ -22,14 +22,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
-import com.fsteller.mobile.android.teammatesapp.activities.base.IEntity;
-import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
+import com.fsteller.mobile.android.teammatesapp.model.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.TeamsEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
@@ -45,25 +46,24 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
 
     //<editor-fold desc="Constants">
 
-    private static final int TEAMS = TC.Activity.Maintenance.TEAMS;
     private static final String TAG = TeamsMaintenance.class.getSimpleName();
 
     //</editor-fold>
     //<editor-fold desc="Variables">
 
+    private SimpleCursorAdapter mCursorAdapter = null;
+    private ImageLoader mImageLoader = null;
     private EditText collectionName = null;
     private EditText collectionKey = null;
     private ImageView headerImage = null;
     private ListView mListView = null;
     private View emptyView = null;
 
-    protected Adapters.CursorAdapter mCursorAdapter = null;
-    protected ImageLoader mImageLoader = null;
-
     //</editor-fold>
     //<editor-fold desc="Constructor">
 
     public TeamsMaintenance() {
+        super(new TeamsEntity());
     }
 
     //</editor-fold>
@@ -80,9 +80,10 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         final Bundle extras = mIntent != null && mIntent.hasExtra(TC.Activity.PARAMS.EXTRAS) ?
                 mIntent.getBundleExtra(TC.Activity.PARAMS.EXTRAS) : savedInstanceState;
 
-        this.loadData(extras);
+        //this.loadData(extras);
         this.setContentView(R.layout.activity_teams_maintenance);
 
+        this.mEntity.loadData(this, extras);
         this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
         this.collectionKey = (EditText) findViewById(R.id.collection_lookup_key_text);
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
@@ -184,7 +185,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         if (outState != null) {
             outState.putString(TC.Activity.PARAMS.COLLECTION_NAME, mEntity.getEntityName());
             outState.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, mEntity.getImageRefAsString());
-            outState.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, mEntity.getCollection(TEAMS));
+            outState.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, mEntity.getCollection(TeamsEntity.TEAMS));
         }
         super.onSaveInstanceState(outState);
     }
@@ -198,10 +199,10 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
             mEntity.setEntityName(savedInstanceState.getString(TC.Activity.PARAMS.COLLECTION_NAME));
             mEntity.setImageRef(savedInstanceState.getString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF));
 
-            mEntity.addCollection(TEAMS);
+            mEntity.addCollection(TeamsEntity.TEAMS);
             if (temp != null)
                 for (final int i : temp)
-                    mEntity.addItemToCollection(TEAMS, i);
+                    mEntity.addItemToCollection(TeamsEntity.TEAMS, i);
         }
     }
 
@@ -223,11 +224,10 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         final Intent result = new Intent();
         final Bundle extras = new Bundle();
 
-        extras.putInt(TC.Activity.PARAMS.ID, mEntity.getEntityId());
-        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, TEAMS);
+        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, TeamsEntity.TEAMS);
         extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, mEntity.getEntityName());
         extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, mEntity.getImageRefAsString());
-        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, mEntity.getCollection(TEAMS));
+        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, mEntity.getCollection(TeamsEntity.TEAMS));
         extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
         result.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
 
@@ -241,7 +241,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
             return false;
         }
 
-        if (mEntity.getCollectionSize(TEAMS) < 1) {
+        if (mEntity.getCollectionSize(TeamsEntity.TEAMS) < 1) {
             showMessage(getResources().getString(R.string.no_selected_contacts), Toast.LENGTH_SHORT);
             return false;
         }
@@ -255,7 +255,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
         switch (id) {
             case TC.Queries.PhoneContacts.SIMPLE_QUERY_ID:
-                return getContacts();
             case TC.Queries.PhoneContacts.FILTER_QUERY_ID1:
                 return getContactsFilteredBySearchTerm(mEntity.getSearchTerm());
             default:
@@ -313,49 +312,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     //</editor-fold>
     //<editor-fold desc="Private Methods">
 
-    private void loadData(final Bundle extras) {
-
-        if (extras == null)
-            return;
-
-        new Thread() {
-            @Override
-            public void run() {
-                //Loads data form a database stored team
-                mEntity.addCollection(TEAMS);
-                Log.i(TAG, "Loading team data...");
-                final ArrayList<Integer> teamsIds = extras.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
-                if (teamsIds != null && teamsIds.size() > 0) {
-
-                    final int id = teamsIds.get(0);
-                    final String[] projection = TC.Queries.TeammatesTeams.TEAM_CONTACT_PROJECTION;
-                    final Uri teamsContactsUri = TeammatesContract.Teams.Contacts.getTeamContactUri(id);
-                    final Cursor data = getContentResolver().query(teamsContactsUri, projection, null, null, null);
-
-                    if (data != null) {
-                        try {
-                            data.moveToFirst();
-
-                            mEntity.setEntityId(id);
-                            mEntity.setEntityName(data.getString(TC.Queries.TeammatesTeams.NAME));
-                            mEntity.setImageRef(data.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
-                            Log.i(TAG, String.format("Loading '%s' contacts...", mEntity.getEntityName()));
-                            mEntity.addItemToCollection(TEAMS, data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
-                            while (data.moveToNext())
-                                mEntity.addItemToCollection(TEAMS, data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
-                        } catch (Exception e) {
-                            Log.e(TAG, e.getMessage(), e);
-                            e.printStackTrace();
-                        } finally {
-                            data.close();
-                        }
-                    }
-                }
-
-            }
-        }.start();
-    }
-
     private Loader<Cursor> getContactsFilteredBySearchTerm(final String searchTerm) {
 
         final String selection = TC.Queries.PhoneContacts.SELECTION;
@@ -364,16 +320,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         final Uri contentUri = !isNullOrEmpty(searchTerm) ?
                 Uri.withAppendedPath(TC.Queries.PhoneContacts.FILTER_URI, Uri.encode(searchTerm)) :
                 TC.Queries.PhoneContacts.CONTENT_URI;
-
-        return new CursorLoader(this, contentUri, projection, selection, null, sortOrder);
-    }
-
-    private Loader<Cursor> getContacts() {
-
-        final Uri contentUri = TC.Queries.PhoneContacts.CONTENT_URI;
-        final String selection = TC.Queries.PhoneContacts.SELECTION;
-        final String sortOrder = TC.Queries.PhoneContacts.SORT_ORDER;
-        final String[] projection = TC.Queries.PhoneContacts.PROJECTION;
 
         return new CursorLoader(this, contentUri, projection, selection, null, sortOrder);
     }
@@ -417,7 +363,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
             final ContactItem mContactItem = (ContactItem) view.getTag();
 
             mContactItem.contact_check.setTag(id);
-            mContactItem.contact_check.setChecked(mEntity.isItemCollected(TEAMS, id));
+            mContactItem.contact_check.setChecked(mEntity.isItemCollected(TeamsEntity.TEAMS, id));
             setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.PhoneContacts.CONTACT_STATUS));
             setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.PhoneContacts.CONTACT_NAME), mEntity.getSearchTerm());
             setImageView(mContactItem.contact_thumbnail, mImageLoader, cursor.getString(TC.Queries.PhoneContacts.CONTACT_PHOTO_DATA));
@@ -426,7 +372,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
             final Integer id = (Integer) buttonView.getTag();
-            mEntity.changeCollectionItemState(TEAMS, id, isChecked);
+            mEntity.changeCollectionItemState(TeamsEntity.TEAMS, id, isChecked);
         }
 
         private final class ContactItem {

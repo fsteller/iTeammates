@@ -28,7 +28,7 @@ import android.widget.TextView;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
-import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
+import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
@@ -40,11 +40,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     //<editor-fold desc="Constants">
 
     public static final String TAG = EventsMaintenancePage1.class.getSimpleName();
-    public static final int PAGE_INDEX = IPageManager.EVENTS_PAGE + 1;
-
-    private static final int CALENDARS = 0xF0001;
-    private static final int CONTACTS = 0xF0002;
-    private static final int TEAMS = 0xF0003;
 
     //</editor-fold>
     //<editor-fold desc="Variables">
@@ -83,9 +78,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        mCallback.addCollection(TEAMS);
-        mCallback.addCollection(CONTACTS);
-        mCallback.addCollection(CALENDARS);
         final View rootView = inflater.inflate(R.layout.fragment_events_maintenance_page1, container, false);
         if (rootView != null) {
 
@@ -384,7 +376,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             final TeamItem teamItem = (TeamItem) view.getTag();
 
             teamItem.team_check.setTag(id);
-            teamItem.team_check.setChecked(mCallback.isItemCollected(TEAMS, id));
+            teamItem.team_check.setChecked(mCallback.isItemCollected(EventEntity.TEAMS, id));
             setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mCallback.getSearchTerm());
             setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
@@ -394,7 +386,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
             final Integer id = (Integer) buttonView.getTag();
-            mCallback.changeCollectionItemState(TEAMS, id, isChecked);
+            mCallback.changeCollectionItemState(EventEntity.TEAMS, id, isChecked);
         }
 
         private final class TeamItem {
