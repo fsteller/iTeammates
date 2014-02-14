@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.model;
+package com.fsteller.mobile.android.teammatesapp.model.base;
 
 import java.util.ArrayList;
 

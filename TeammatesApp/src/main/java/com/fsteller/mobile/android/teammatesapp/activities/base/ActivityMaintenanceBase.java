@@ -7,8 +7,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.model.IEntity;
-import com.fsteller.mobile.android.teammatesapp.model.IMaintenance;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
 
 import java.util.ArrayList;
 
@@ -49,8 +49,6 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
         finish();
     }
 
-    protected abstract Intent getResult();
-
     protected abstract boolean checkData(IEntity entity);
 
     //</editor-fold>
@@ -86,16 +84,6 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     @Override
     public void setEntityName(String name) {
         mEntity.setEntityName(name);
-    }
-
-    @Override
-    public String getDescription() {
-        return mEntity.getDescription();
-    }
-
-    @Override
-    public void setDescription(String description) {
-        mEntity.setDescription(description);
     }
 
     @Override

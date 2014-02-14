@@ -1,15 +1,17 @@
-package com.fsteller.mobile.android.teammatesapp.model;
+package com.fsteller.mobile.android.teammatesapp.model.base;
 
 import android.net.Uri;
+
+import com.fsteller.mobile.android.teammatesapp.model.Collection;
 
 /**
  * Created by fhernandezs on 08/01/14 for iTeammates.
  */
-public abstract class Entity extends Collection implements IEntity {
+public abstract class AbstractEntity extends Collection implements IEntity, IMaintenance {
 
     //<editor-fold desc="Constants">
 
-    private static final String TAG = Entity.class.getSimpleName();
+    private static final String TAG = AbstractEntity.class.getSimpleName();
 
     //</editor-fold>
     //<editor-fold desc="Variables">
@@ -17,18 +19,20 @@ public abstract class Entity extends Collection implements IEntity {
     private int id;
     private String name = "";
     private String imageRef = "";
-    private String description = "";
     private boolean isRequiredToBeSaved = false;
 
     //</editor-fold>
+    //<editor-fold desc="Constructor">
 
-    protected Entity(final Integer id) {
+    protected AbstractEntity(final Integer id) {
         this.id = id;
     }
 
+    //</editor-fold>
+
     //<editor-fold desc="IEntity">
 
-    public boolean getIsRequiredToBeSaved() {
+    public boolean isRequiredToBeSaved() {
         return isRequiredToBeSaved;
     }
 
@@ -42,15 +46,6 @@ public abstract class Entity extends Collection implements IEntity {
 
     public void setEntityName(final String name) {
         this.name = name.trim();
-        this.isRequiredToBeSaved = true;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(final String description) {
-        this.description = description.trim();
         this.isRequiredToBeSaved = true;
     }
 
@@ -73,4 +68,8 @@ public abstract class Entity extends Collection implements IEntity {
     }
 
     //</editor-fold>
+
+    protected void requiredToBeSaved() {
+        isRequiredToBeSaved = true;
+    }
 }

@@ -17,7 +17,7 @@ import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
 import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
-import com.fsteller.mobile.android.teammatesapp.model.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
@@ -113,12 +113,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //<editor-fold desc="ActivityMaintenanceBase">
 
     @Override
-    protected Intent getResult() {
-        return null;
-    }
-
-    @Override
-    protected boolean checkData(IEntity entity) {
+    protected boolean checkData(final IEntity entity) {
         return false;
     }
 
@@ -126,7 +121,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //<editor-fold desc="Button.OnClickListener">
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
 
     }
 

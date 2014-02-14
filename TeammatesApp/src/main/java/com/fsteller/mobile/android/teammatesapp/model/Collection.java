@@ -3,6 +3,8 @@ package com.fsteller.mobile.android.teammatesapp.model;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.fsteller.mobile.android.teammatesapp.model.base.ICollection;
+
 import java.util.ArrayList;
 import java.util.List;
 

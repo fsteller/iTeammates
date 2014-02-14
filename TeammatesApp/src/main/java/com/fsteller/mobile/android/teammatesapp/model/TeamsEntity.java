@@ -8,21 +8,36 @@ import android.util.Log;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
+import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by fhernandezs on 13/02/14.
  */
-public class TeamsEntity extends Entity implements IMaintenance {
+public class TeamsEntity extends AbstractEntity implements IMaintenance {
 
     public static final int TEAMS = TC.Activity.Maintenance.TEAMS;
     private static final String TAG = TeamsEntity.class.getSimpleName();
 
-
     public TeamsEntity() {
         super(TEAMS);
         this.addCollection(TEAMS);
+    }
+
+    @Override
+    public Bundle getResult() {
+        final Bundle extras = new Bundle();
+
+        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, TeamsEntity.TEAMS);
+        extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
+        extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageRefAsString());
+        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(TeamsEntity.TEAMS));
+        extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
+
+        return extras;
     }
 
     @Override
@@ -66,4 +81,5 @@ public class TeamsEntity extends Entity implements IMaintenance {
             }
         }.start();
     }
+
 }

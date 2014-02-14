@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.model;
+package com.fsteller.mobile.android.teammatesapp.model.base;
 
 import android.net.Uri;
 
@@ -12,10 +12,6 @@ public interface IEntity extends ICollection {
     public String getEntityName();
 
     public void setEntityName(final String name);
-
-    public String getDescription();
-
-    public void setDescription(final String description);
 
     public Uri getImageRef();
 

@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.view.View;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.model.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 
 /**
  * Created by fhernandezs on 23/01/14.

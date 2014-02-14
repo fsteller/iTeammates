@@ -29,15 +29,14 @@ import android.widget.Toast;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
-import com.fsteller.mobile.android.teammatesapp.model.IEntity;
 import com.fsteller.mobile.android.teammatesapp.model.TeamsEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
@@ -216,32 +215,17 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     }
 
     //</editor-fold>
+
     //<editor-fold desc="ActivityMaintenanceBase">
 
     @Override
-    protected Intent getResult() {
-
-        final Intent result = new Intent();
-        final Bundle extras = new Bundle();
-
-        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, TeamsEntity.TEAMS);
-        extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, mEntity.getEntityName());
-        extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, mEntity.getImageRefAsString());
-        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, mEntity.getCollection(TeamsEntity.TEAMS));
-        extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
-        result.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
-
-        return result;
-    }
-
-    @Override
-    protected boolean checkData(final IEntity entity) {
-        if (isNullOrEmpty(entity.getEntityName())) {
+    public boolean checkData(final IEntity entity) {
+        if (isNullOrEmpty(getEntityName())) {
             showMessage(getResources().getString(R.string.no_entity_name), Toast.LENGTH_SHORT);
             return false;
         }
 
-        if (mEntity.getCollectionSize(TeamsEntity.TEAMS) < 1) {
+        if (getCollectionSize(TeamsEntity.TEAMS) < 1) {
             showMessage(getResources().getString(R.string.no_selected_contacts), Toast.LENGTH_SHORT);
             return false;
         }
@@ -304,8 +288,11 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
 
     @Override
     public void onClick(final View v) {
-        if (checkData(mEntity))
-            finalize(RESULT_OK, mEntity.getIsRequiredToBeSaved() ? getResult() : null);
+        if (checkData(mEntity)) {
+            Intent mIntent = new Intent();
+            mIntent.putExtra(TC.Activity.PARAMS.EXTRAS, mEntity.getResult());
+            finalize(RESULT_OK, mEntity.isRequiredToBeSaved() ? mIntent : null);
+        }
     }
 
     //</editor-fold>

@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.model;
+package com.fsteller.mobile.android.teammatesapp.model.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,10 @@ import android.os.Bundle;
  */
 public interface IMaintenance extends IEntity {
 
-    public boolean getIsRequiredToBeSaved();
+    public boolean isRequiredToBeSaved();
+
+    Bundle getResult();
 
     void loadData(final Context context, final Bundle extras);
+
 }

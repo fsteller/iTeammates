@@ -36,6 +36,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
+
     protected FragmentPageBase(final int pageIndex, final String actionFilter) {
         this.mFilter = new IntentFilter(actionFilter);
         this.mReceiver = new DbUpdateReceiver();
