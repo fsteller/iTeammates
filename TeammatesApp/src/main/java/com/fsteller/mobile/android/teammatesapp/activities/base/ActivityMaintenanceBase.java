@@ -77,6 +77,11 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     }
 
     @Override
+    public void setEntityId(final int id) {
+        mEntity.setEntityId(id);
+    }
+
+    @Override
     public String getEntityName() {
         return mEntity.getEntityName();
     }
@@ -92,13 +97,13 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     }
 
     @Override
-    public String getImageRefAsString() {
-        return mEntity.getImageRefAsString();
+    public void setImageRef(Uri ref) {
+        mEntity.setImageRef(ref);
     }
 
     @Override
-    public void setImageRef(Uri ref) {
-        mEntity.setImageRef(ref);
+    public String getImageRefAsString() {
+        return mEntity.getImageRefAsString();
     }
 
     @Override
@@ -107,13 +112,13 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     }
 
     @Override
-    public void setSearchTerm(String newTerm) {
-        mEntity.setSearchTerm(newTerm);
+    public String getSearchTerm() {
+        return mEntity.getSearchTerm();
     }
 
     @Override
-    public String getSearchTerm() {
-        return mEntity.getSearchTerm();
+    public void setSearchTerm(String newTerm) {
+        mEntity.setSearchTerm(newTerm);
     }
 
     @Override
@@ -124,11 +129,6 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     @Override
     public ArrayList<Integer> getCollection(Integer collectionId) {
         return mEntity.getCollection(collectionId);
-    }
-
-    @Override
-    public void clearCollection(Integer collectionId) {
-        mEntity.clearCollection(collectionId);
     }
 
     @Override
@@ -147,6 +147,11 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     }
 
     @Override
+    public void clearCollection(Integer collectionId) {
+        mEntity.clearCollection(collectionId);
+    }
+
+    @Override
     public int getCollectionSize(Integer collectionId) {
         return mEntity.getCollectionSize(collectionId);
     }
@@ -155,7 +160,8 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     public void changeCollectionItemState(int collectionId, Integer itemId, boolean collected) {
         mEntity.changeCollectionItemState(collectionId, itemId, collected);
     }
-    //</editor-fold>
+
+    /// /</editor-fold>
 
     //</editor-fold>
 }

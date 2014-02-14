@@ -40,6 +40,10 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
         return id;
     }
 
+    public void setEntityId(int id) {
+        this.id = id;
+    }
+
     public String getEntityName() {
         return name;
     }
@@ -53,13 +57,13 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
         return Uri.parse(this.imageRef);
     }
 
-    public String getImageRefAsString() {
-        return this.imageRef;
-    }
-
     public void setImageRef(final Uri ref) {
         this.imageRef = ref.toString();
         this.isRequiredToBeSaved = true;
+    }
+
+    public String getImageRefAsString() {
+        return this.imageRef;
     }
 
     public void setImageRef(final String ref) {

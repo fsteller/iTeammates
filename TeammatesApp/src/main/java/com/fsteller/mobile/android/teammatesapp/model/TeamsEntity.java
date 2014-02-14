@@ -31,7 +31,8 @@ public class TeamsEntity extends AbstractEntity implements IMaintenance {
     public Bundle getResult() {
         final Bundle extras = new Bundle();
 
-        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, TeamsEntity.TEAMS);
+        extras.putInt(TC.Activity.PARAMS.ID, getEntityId());
+        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, TEAMS);
         extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
         extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageRefAsString());
         extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(TeamsEntity.TEAMS));
@@ -63,6 +64,7 @@ public class TeamsEntity extends AbstractEntity implements IMaintenance {
                         try {
                             data.moveToFirst();
 
+                            setEntityId(id);
                             setEntityName(data.getString(TC.Queries.TeammatesTeams.NAME));
                             setImageRef(data.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
                             Log.i(TAG, String.format("Loading '%s' contacts...", getEntityName()));

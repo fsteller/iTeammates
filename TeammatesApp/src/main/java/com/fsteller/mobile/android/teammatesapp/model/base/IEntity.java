@@ -7,7 +7,10 @@ import android.net.Uri;
  */
 public interface IEntity extends ICollection {
 
+
     public int getEntityId();
+
+    public void setEntityId(int id);
 
     public String getEntityName();
 
@@ -15,11 +18,10 @@ public interface IEntity extends ICollection {
 
     public Uri getImageRef();
 
-    public String getImageRefAsString();
-
     public void setImageRef(final Uri ref);
 
-    public void setImageRef(final String ref);
+    public String getImageRefAsString();
 
+    public void setImageRef(final String ref);
 
 }
