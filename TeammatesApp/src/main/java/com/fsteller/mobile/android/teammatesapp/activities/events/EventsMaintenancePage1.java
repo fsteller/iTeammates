@@ -59,9 +59,8 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     //<editor-fold desc="Overridden">
     //<editor-fold desc="Fragment">
 
-
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
         this.mEventEntity = (IEventEntity) mCallback;
     }

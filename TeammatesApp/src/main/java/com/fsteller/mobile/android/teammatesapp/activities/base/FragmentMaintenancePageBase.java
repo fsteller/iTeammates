@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.view.View;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 
 /**
  * Created by fhernandezs on 23/01/14.
@@ -21,7 +21,7 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase {
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    protected IMaintenance mCallback = null;
+    protected IEntity mCallback = null;
 
     //</editor-fold>
 
@@ -30,7 +30,7 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        this.mCallback = (IMaintenance) activity;
+        this.mCallback = (IEntity) activity;
 
     }
 

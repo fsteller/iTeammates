@@ -49,6 +49,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     //</editor-fold>
     //<editor-fold desc="Variables">
 
+    private ITeamEntity mTeamsEntity = null;
+
     private SimpleCursorAdapter mCursorAdapter = null;
     private ImageLoader mImageLoader = null;
     private EditText collectionName = null;
@@ -62,6 +64,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     public TeamsMaintenance() {
         super(new TeamsEntity());
+        this.mTeamsEntity = (ITeamEntity) mEntity;
     }
 
     //</editor-fold>
@@ -78,7 +81,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         final Bundle extras = mIntent != null && mIntent.hasExtra(TC.ENTITY.EXTRAS) ?
                 mIntent.getBundleExtra(TC.ENTITY.EXTRAS) : savedInstanceState;
 
-        //this.loadData(extras);
         this.setContentView(R.layout.activity_teams_maintenance);
 
         this.mEntity.loadData(this, extras);
@@ -171,12 +173,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         this.collectionName.setText(mEntity.getEntityName());
         this.collectionKey.setText(mEntity.getSearchTerm());
     }
-
-    @Override
-    public void onBackPressed() {
-        finalize(RESULT_CANCELED, null);
-    }
-
 
     @Override
     protected void onDestroy() {

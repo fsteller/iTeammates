@@ -2,7 +2,6 @@ package com.fsteller.mobile.android.teammatesapp.activities.base;
 
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
-public abstract class ActivityMaintenanceBase extends ActivityBase implements IMaintenance {
+public abstract class ActivityMaintenanceBase extends ActivityBase implements IEntity {
 
     //<editor-fold desc="Constants">
 
@@ -105,6 +104,12 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IM
                 for (final int i : temp)
                     mEntity.addItemToCollection(TeamsEntity.TEAMS, i);
         }*/
+    }
+
+    @Override
+    public void onBackPressed() {
+        hideSoftKeyboard(getCurrentFocus());
+        finalize(RESULT_CANCELED, null);
     }
 
     //<editor-fold desc="IMaintenance">
@@ -197,21 +202,6 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IM
     @Override
     public boolean changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected) {
         return mEntity.changeCollectionItemState(collectionId, itemId, collected);
-    }
-
-    @Override
-    public boolean isRequiredToBeSaved() {
-        return mEntity.isRequiredToBeSaved();
-    }
-
-    @Override
-    public Bundle getResult() {
-        return mEntity.getResult();
-    }
-
-    @Override
-    public void loadData(final Context context, final Bundle extras) {
-        mEntity.loadData(context, extras);
     }
 
     /// /</editor-fold>
