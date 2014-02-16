@@ -55,13 +55,13 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     @Override
     public boolean addData(final Intent data) {
         final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
-        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.EXTRAS);
+        final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
             return false;
 
         Log.d(TAG, String.format("Adding data (%s) to: %s", data, mHelperDatabase));
-        final int tag = extras.getInt(TC.Activity.PARAMS.COLLECTION_ID, -1);
+        final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.addTeam(this, extras);
@@ -81,13 +81,13 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     @Override
     public boolean updateData(final Intent data) {
         final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
-        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.EXTRAS);
+        final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
             return false;
 
         Log.d(TAG, String.format("Updating data (%s) from: %s", data, mHelperDatabase));
-        final int tag = extras.getInt(TC.Activity.PARAMS.COLLECTION_ID, -1);
+        final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.updateTeam(this, extras);
@@ -107,13 +107,13 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     @Override
     public boolean deleteData(final Intent data) {
         final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
-        final Bundle extras = data.getBundleExtra(TC.Activity.PARAMS.EXTRAS);
+        final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
             return false;
 
         Log.d(TAG, String.format("Deleting data (%s) from: %s", data, mHelperDatabase));
-        final int tag = extras.getInt(TC.Activity.PARAMS.COLLECTION_ID, -1);
+        final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
                 mHelperDatabase.deleteTeams(this, extras);
@@ -136,7 +136,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
         final Intent intent = new Intent(receiverPermission);
 
         intent.putExtra(TC.Broadcast.BROADCAST_ACTION, action);
-        intent.putStringArrayListExtra(TC.Activity.PARAMS.COLLECTION_ID, params);
+        intent.putStringArrayListExtra(TC.ENTITY.COLLECTION_ID, params);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

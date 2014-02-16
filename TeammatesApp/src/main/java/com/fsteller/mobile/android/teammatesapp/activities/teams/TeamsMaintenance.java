@@ -31,17 +31,16 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
 import com.fsteller.mobile.android.teammatesapp.model.TeamsEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
 import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
-import java.util.ArrayList;
-
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
-public final class TeamsMaintenance extends ActivityMaintenanceBase implements LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener, Button.OnClickListener {
+public final class TeamsMaintenance extends ActivityMaintenanceBase implements ITeamEntity, LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener, Button.OnClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -76,8 +75,8 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         super.onCreate(savedInstanceState);
 
         final Intent mIntent = getIntent();
-        final Bundle extras = mIntent != null && mIntent.hasExtra(TC.Activity.PARAMS.EXTRAS) ?
-                mIntent.getBundleExtra(TC.Activity.PARAMS.EXTRAS) : savedInstanceState;
+        final Bundle extras = mIntent != null && mIntent.hasExtra(TC.ENTITY.EXTRAS) ?
+                mIntent.getBundleExtra(TC.ENTITY.EXTRAS) : savedInstanceState;
 
         //this.loadData(extras);
         this.setContentView(R.layout.activity_teams_maintenance);
@@ -178,32 +177,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
         finalize(RESULT_CANCELED, null);
     }
 
-    @Override
-    protected void onSaveInstanceState(final Bundle outState) {
-
-        if (outState != null) {
-            outState.putString(TC.Activity.PARAMS.COLLECTION_NAME, mEntity.getEntityName());
-            outState.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, mEntity.getImageRefAsString());
-            outState.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, mEntity.getCollection(TeamsEntity.TEAMS));
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            final ArrayList<Integer> temp = savedInstanceState.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
-            mEntity.setEntityName(savedInstanceState.getString(TC.Activity.PARAMS.COLLECTION_NAME));
-            mEntity.setImageRef(savedInstanceState.getString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF));
-
-            mEntity.addCollection(TeamsEntity.TEAMS);
-            if (temp != null)
-                for (final int i : temp)
-                    mEntity.addItemToCollection(TeamsEntity.TEAMS, i);
-        }
-    }
 
     @Override
     protected void onDestroy() {
@@ -268,13 +241,15 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
         // Pause image loader to ensure smoother scrolling when flinging
+        final boolean scrollFling = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING;
         if (mImageLoader != null) {
-            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING)
+            if (scrollFling)
                 mImageLoader.setPauseWork(true);
             else
                 mImageLoader.setPauseWork(false);
         }
-        hideSoftKeyboard(view);
+        if (scrollFling)
+            hideSoftKeyboard(view);
     }
 
     @Override
@@ -288,8 +263,9 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements L
     @Override
     public void onClick(final View v) {
         if (checkData(mEntity)) {
+            hideSoftKeyboard(v);
             Intent mIntent = new Intent();
-            mIntent.putExtra(TC.Activity.PARAMS.EXTRAS, mEntity.getResult());
+            mIntent.putExtra(TC.ENTITY.EXTRAS, mEntity.getResult());
             finalize(RESULT_OK, mEntity.isRequiredToBeSaved() ? mIntent : null);
         }
     }

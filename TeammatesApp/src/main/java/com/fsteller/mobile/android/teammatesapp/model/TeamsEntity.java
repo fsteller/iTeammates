@@ -10,6 +10,7 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
 import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
+import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +18,7 @@ import java.util.Calendar;
 /**
  * Created by fhernandezs on 13/02/14.
  */
-public class TeamsEntity extends AbstractEntity implements IMaintenance {
+public class TeamsEntity extends AbstractEntity implements ITeamEntity, IMaintenance {
 
     public static final int TEAMS = TC.Activity.Maintenance.TEAMS;
     private static final String TAG = TeamsEntity.class.getSimpleName();
@@ -31,12 +32,12 @@ public class TeamsEntity extends AbstractEntity implements IMaintenance {
     public Bundle getResult() {
         final Bundle extras = new Bundle();
 
-        extras.putInt(TC.Activity.PARAMS.ID, getEntityId());
-        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, TEAMS);
-        extras.putString(TC.Activity.PARAMS.COLLECTION_NAME, getEntityName());
-        extras.putString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF, getImageRefAsString());
-        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, getCollection(TeamsEntity.TEAMS));
-        extras.putLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
+        extras.putInt(TC.ENTITY.ID, getEntityId());
+        extras.putInt(TC.ENTITY.COLLECTION_ID, TEAMS);
+        extras.putString(TC.ENTITY.COLLECTION_NAME, getEntityName());
+        extras.putString(TC.ENTITY.COLLECTION_IMAGE_REF, getImageRefAsString());
+        extras.putIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS, getCollection(TEAMS));
+        extras.putLong(TC.ENTITY.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
 
         return extras;
     }
@@ -52,7 +53,7 @@ public class TeamsEntity extends AbstractEntity implements IMaintenance {
             public void run() {
                 //Loads data form a database stored team
                 Log.i(TAG, "Loading data...");
-                final ArrayList<Integer> teamsIds = extras.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
+                final ArrayList<Integer> teamsIds = extras.getIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS);
                 if (teamsIds != null && teamsIds.size() > 0) {
 
                     final int id = teamsIds.get(0);
@@ -76,6 +77,7 @@ public class TeamsEntity extends AbstractEntity implements IMaintenance {
                             e.printStackTrace();
                         } finally {
                             data.close();
+                            startTrackingChanges();
                         }
                     }
                 }

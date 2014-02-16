@@ -11,21 +11,21 @@ public interface ICollection {
 
     public String getSearchTerm();
 
-    public void addCollection(final Integer collectionId);
+    public boolean addCollection(final Integer collectionId);
 
     public ArrayList<Integer> getCollection(final Integer collectionId);
 
     public void clearCollection(final Integer collectionId);
 
-    public void addItemToCollection(final Integer collectionId, final Integer itemId);
+    public boolean addItemToCollection(final Integer collectionId, final Integer itemId);
 
-    public void removeItemFromCollection(final Integer collectionId, final Integer itemId);
+    public boolean removeItemFromCollection(final Integer collectionId, final Integer itemId);
 
     public boolean isItemCollected(final Integer collectionId, final Integer itemId);
 
     public int getCollectionSize(final Integer collectionId);
 
-    public void changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected);
+    public boolean changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected);
 
     public interface ItemStateChanged {
         public void onCollectionItemStateChanged(final Integer collectionId, final Integer itemId, final boolean collected);

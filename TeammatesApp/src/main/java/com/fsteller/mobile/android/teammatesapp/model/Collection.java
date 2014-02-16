@@ -37,12 +37,16 @@ public class Collection implements ICollection {
         return mSearchTerm;
     }
 
-    public void addCollection(final Integer collectionId) {
+    @Override
+    public boolean addCollection(final Integer collectionId) {
         Log.i(TAG, String.format("addCollection: id=%s", collectionId));
-        if (collections.get(collectionId) == null)
+        final boolean needToChange = collections.get(collectionId) == null;
+        if (needToChange)
             collections.append(collectionId, new ArrayList<Integer>());
+        return needToChange;
     }
 
+    @Override
     public ArrayList<Integer> getCollection(final Integer collectionId) {
         Log.i(TAG, String.format("getCollection: id=%s", collectionId));
         return collections.get(collectionId);
@@ -56,19 +60,23 @@ public class Collection implements ICollection {
     }
 
     @Override
-    public void addItemToCollection(final Integer collectionId, final Integer itemId) {
+    public boolean addItemToCollection(final Integer collectionId, final Integer itemId) {
         Log.i(TAG, String.format("addItemToCollection: collectionId=%s itemId=%s", collectionId, itemId));
         final List<Integer> list = collections.get(collectionId);
-        if (list != null && !list.contains(itemId))
+        final boolean needToChange = list != null && !list.contains(itemId);
+        if (needToChange)
             list.add(itemId);
+        return needToChange;
     }
 
     @Override
-    public void removeItemFromCollection(final Integer collectionId, final Integer itemId) {
+    public boolean removeItemFromCollection(final Integer collectionId, final Integer itemId) {
         Log.i(TAG, String.format("removeItemFromCollection: collectionId=%s itemId=%s", collectionId, itemId));
         final List<Integer> list = collections.get(collectionId);
-        if (list != null && list.contains(itemId))
+        final boolean needToChange = list != null && list.contains(itemId);
+        if (needToChange)
             list.remove(itemId);
+        return needToChange;
     }
 
     @Override
@@ -86,16 +94,19 @@ public class Collection implements ICollection {
     }
 
     @Override
-    public void changeCollectionItemState(int collectionId, Integer itemId, boolean collected) {
+    public boolean changeCollectionItemState(int collectionId, Integer itemId, boolean collected) {
 
         final boolean isCollected = isItemCollected(collectionId, itemId);
         if (collected && !isCollected)
             addItemToCollection(collectionId, itemId);
-        else if (isCollected && !collected)
+        else if (!collected && isCollected)
             removeItemFromCollection(collectionId, itemId);
 
         if (itemStateChangedListener != null)
             itemStateChangedListener.onCollectionItemStateChanged(collectionId, itemId, collected);
+
+        //return ((collected || isCollected) && !(collected && isCollected));
+        return collected ^ isCollected;
     }
 
     public void setOnCollectionItemStateChanged(ItemStateChanged listener) {
@@ -103,5 +114,4 @@ public class Collection implements ICollection {
     }
 
     //</editor-fold>
-
 }

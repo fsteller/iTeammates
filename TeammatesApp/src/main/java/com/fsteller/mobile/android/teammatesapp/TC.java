@@ -15,20 +15,7 @@ public interface TC {
     public static final int _Events = 0xf008;
     public static final int _Contacts = 0xf009;
     public static final int _Notification = 0xf010;
-
-    static interface Entity {
-        final static String Name = "entity_name";
-        final static String ImageRef = "entity_image_reference";
-    }
-
-    static interface TeamEntity extends Entity {
-
-    }
-
-    static interface EventEntity extends Entity {
-        final static String Description = "entity_description";
-        final static String CalendarId = "entity_calendar_id";
-    }
+    public static final String ENTITY_DATA = "entity_data";
 
     static interface ActivityActions {
 
@@ -67,18 +54,6 @@ public interface TC {
     }
 
     public static interface Activity {
-
-        public static interface PARAMS {
-            public static final String ID = "activity_id";
-            public static final String EXTRAS = "activity_Extras";
-            public static final String ACCOUNT_ID = "activity_account_id";
-            public static final String COLLECTION_ID = "activity_collection_id";
-            public static final String COLLECTION_NAME = "activity_collection_name";
-            public static final String COLLECTION_ITEMS = "activity_collection_items";
-            public static final String COLLECTION_IMAGE_REF = "activity_collection_image_ref";
-            public static final String COLLECTION_CREATE_DATE = "activity_collection_create_date";
-            public static final String COLLECTION_UPDATE_DATE = "activity_collection_update_date";
-        }
 
         public static interface ContextActionRequest {
             public static final int Edit = ActivityActions.Edit;
@@ -290,6 +265,18 @@ public interface TC {
             final static int CALENDAR_ID = 7;
             final static int SORT_KEY = 1;
         }
+    }
+
+    public static interface ENTITY {
+        public static final String ID = "activity_id";
+        public static final String EXTRAS = "activity_Extras";
+        public static final String ACCOUNT_ID = "activity_account_id";
+        public static final String COLLECTION_ID = "activity_collection_id";
+        public static final String COLLECTION_NAME = "activity_collection_name";
+        public static final String COLLECTION_ITEMS = "activity_collection_items";
+        public static final String COLLECTION_IMAGE_REF = "activity_collection_image_ref";
+        public static final String COLLECTION_CREATE_DATE = "activity_collection_create_date";
+        public static final String COLLECTION_UPDATE_DATE = "activity_collection_update_date";
     }
 
 }

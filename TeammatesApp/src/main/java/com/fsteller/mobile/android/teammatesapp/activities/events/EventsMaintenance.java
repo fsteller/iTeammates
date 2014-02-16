@@ -18,11 +18,12 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
 import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 
 /**
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
-public final class EventsMaintenance extends ActivityMaintenanceBase implements Button.OnClickListener {
+public final class EventsMaintenance extends ActivityMaintenanceBase implements IEventEntity, Button.OnClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -35,6 +36,8 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //</editor-fold>
     //<editor-fold desc="Variables">
 
+    private IEventEntity mEventEntity = null;
+
     private int lastPage = FIRST_PAGE;
     private int currentPage = FIRST_PAGE;
 
@@ -43,6 +46,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     public EventsMaintenance() {
         super(new EventEntity());
+        mEventEntity = (IEventEntity) mEntity;
     }
 
     //</editor-fold>
@@ -55,8 +59,8 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
         super.onCreate(savedInstanceState);
 
         final Intent mIntent = getIntent();
-        final Bundle extras = mIntent != null && mIntent.hasExtra(TC.Activity.PARAMS.EXTRAS) ?
-                mIntent.getBundleExtra(TC.Activity.PARAMS.EXTRAS) : savedInstanceState;
+        final Bundle extras = mIntent != null && mIntent.hasExtra(TC.ENTITY.EXTRAS) ?
+                mIntent.getBundleExtra(TC.ENTITY.EXTRAS) : savedInstanceState;
 
         this.setContentView(R.layout.activity_events_maintenance);
         this.mEntity.loadData(this, extras);
@@ -123,6 +127,29 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     @Override
     public void onClick(final View v) {
 
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="IEventEntity">
+
+    @Override
+    public String getEntityDescription() {
+        return mEventEntity.getEntityDescription();
+    }
+
+    @Override
+    public void setEntityDescription(final String description) {
+        mEventEntity.setEntityDescription(description);
+    }
+
+    @Override
+    public String getEntityCalendar() {
+        return mEventEntity.getEntityCalendar();
+    }
+
+    @Override
+    public void setEntityCalendar(final String calendar) {
+        mEventEntity.setEntityCalendar(calendar);
     }
 
     //</editor-fold>

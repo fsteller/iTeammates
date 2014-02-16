@@ -53,11 +53,11 @@ public final class HelperDatabase {
 
                 final ContentValues values = new ContentValues();
                 final long datetime = Calendar.getInstance().getTimeInMillis();
-                final String teamName = data.getString(TC.Activity.PARAMS.COLLECTION_NAME);
-                final String imageRef = data.getString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF);
-                final long createdAt = data.getLong(TC.Activity.PARAMS.COLLECTION_CREATE_DATE, datetime);
-                final long updatedAt = data.getLong(TC.Activity.PARAMS.COLLECTION_UPDATE_DATE, datetime);
-                final ArrayList<Integer> contacts = data.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
+                final String teamName = data.getString(TC.ENTITY.COLLECTION_NAME);
+                final String imageRef = data.getString(TC.ENTITY.COLLECTION_IMAGE_REF);
+                final long createdAt = data.getLong(TC.ENTITY.COLLECTION_CREATE_DATE, datetime);
+                final long updatedAt = data.getLong(TC.ENTITY.COLLECTION_UPDATE_DATE, datetime);
+                final ArrayList<Integer> contacts = data.getIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS);
 
                 values.put(TeammatesContract.Teams.NAME, teamName);
                 values.put(TeammatesContract.Teams.IMAGE_REF, imageRef);
@@ -135,11 +135,11 @@ public final class HelperDatabase {
                 final long datetime = Calendar.getInstance().getTimeInMillis();
                 final String selection = String.format("%s=?", TeammatesContract.Teams._ID);
 
-                final int id = data.getInt(TC.Activity.PARAMS.ID);
-                final String teamName = data.getString(TC.Activity.PARAMS.COLLECTION_NAME);
-                final String imageRef = data.getString(TC.Activity.PARAMS.COLLECTION_IMAGE_REF);
-                final long updatedAt = data.getLong(TC.Activity.PARAMS.COLLECTION_UPDATE_DATE, datetime);
-                final ArrayList<Integer> contacts = data.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
+                final int id = data.getInt(TC.ENTITY.ID);
+                final String teamName = data.getString(TC.ENTITY.COLLECTION_NAME);
+                final String imageRef = data.getString(TC.ENTITY.COLLECTION_IMAGE_REF);
+                final long updatedAt = data.getLong(TC.ENTITY.COLLECTION_UPDATE_DATE, datetime);
+                final ArrayList<Integer> contacts = data.getIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS);
 
                 values.put(TeammatesContract.Teams.NAME, teamName);
                 values.put(TeammatesContract.Teams.IMAGE_REF, imageRef);
@@ -210,7 +210,7 @@ public final class HelperDatabase {
             public void run() {
 
                 if (data != null) {
-                    final ArrayList<Integer> itemsIds = data.getIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS);
+                    final ArrayList<Integer> itemsIds = data.getIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS);
                     if (itemsIds != null) {
 
                         final String selection = String.format("%s=?", TeammatesContract.Teams._ID);

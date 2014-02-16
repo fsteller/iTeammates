@@ -89,8 +89,8 @@ public final class Teammates extends ActivityBase implements IPageManager {
     }
 
     @Override
-    public void addCollection(final Integer collectionId) {
-        mCollection.addCollection(collectionId);
+    public boolean addCollection(final Integer collectionId) {
+        return mCollection.addCollection(collectionId);
     }
 
     @Override
@@ -104,13 +104,13 @@ public final class Teammates extends ActivityBase implements IPageManager {
     }
 
     @Override
-    public void addItemToCollection(final Integer collectionId, final Integer itemId) {
-        mCollection.addItemToCollection(collectionId, itemId);
+    public boolean addItemToCollection(final Integer collectionId, final Integer itemId) {
+        return mCollection.addItemToCollection(collectionId, itemId);
     }
 
     @Override
-    public void removeItemFromCollection(final Integer collectionId, final Integer itemId) {
-        mCollection.removeItemFromCollection(collectionId, itemId);
+    public boolean removeItemFromCollection(final Integer collectionId, final Integer itemId) {
+        return mCollection.removeItemFromCollection(collectionId, itemId);
     }
 
     @Override
@@ -124,8 +124,8 @@ public final class Teammates extends ActivityBase implements IPageManager {
     }
 
     @Override
-    public void changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected) {
-        mCollection.changeCollectionItemState(collectionId, itemId, collected);
+    public boolean changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected) {
+        return mCollection.changeCollectionItemState(collectionId, itemId, collected);
     }
     //</editor-fold>
     //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
@@ -262,12 +262,12 @@ public final class Teammates extends ActivityBase implements IPageManager {
     private Intent getActivityParams(final int collectionId, final ArrayList<Integer> dataIds) {
         final Bundle extras = new Bundle();
 
-        extras.putInt(TC.Activity.PARAMS.COLLECTION_ID, collectionId);
-        extras.putString(TC.Activity.PARAMS.ACCOUNT_ID, accountId);
-        extras.putIntegerArrayList(TC.Activity.PARAMS.COLLECTION_ITEMS, dataIds);
+        extras.putInt(TC.ENTITY.COLLECTION_ID, collectionId);
+        extras.putString(TC.ENTITY.ACCOUNT_ID, accountId);
+        extras.putIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS, dataIds);
 
         final Intent intent = new Intent(this, childActivities[currentPage]);
-        intent.putExtra(TC.Activity.PARAMS.EXTRAS, extras);
+        intent.putExtra(TC.ENTITY.EXTRAS, extras);
 
         return intent;
     }

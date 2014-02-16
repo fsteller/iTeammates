@@ -19,7 +19,8 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     private int id;
     private String name = "";
     private String imageRef = "";
-    private boolean isRequiredToBeSaved = false;
+    private boolean mIsRequiredToBeSaved = false;
+    private final Object mIsRequiredToBeSavedkLock = new Object();
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -33,7 +34,7 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     //<editor-fold desc="IEntity">
 
     public boolean isRequiredToBeSaved() {
-        return isRequiredToBeSaved;
+        return mIsRequiredToBeSaved;
     }
 
     public int getEntityId() {
@@ -49,8 +50,11 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     }
 
     public void setEntityName(final String name) {
-        this.name = name.trim();
-        this.isRequiredToBeSaved = true;
+        final String mName = name.trim();
+        if (!this.name.equals(mName)) {
+            this.name = mName;
+            this.setIsRequiredToBeSaved(true);
+        }
     }
 
     public Uri getImageRef() {
@@ -58,8 +62,7 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     }
 
     public void setImageRef(final Uri ref) {
-        this.imageRef = ref.toString();
-        this.isRequiredToBeSaved = true;
+        setImageRef(ref != null ? ref.toString() : "");
     }
 
     public String getImageRefAsString() {
@@ -67,13 +70,65 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     }
 
     public void setImageRef(final String ref) {
-        this.imageRef = ref.trim();
-        this.isRequiredToBeSaved = true;
+        final String mRef = ref.trim();
+        if (!this.imageRef.equals(mRef)) {
+            this.imageRef = mRef;
+            this.setIsRequiredToBeSaved(true);
+        }
     }
 
     //</editor-fold>
+    //<editor-fold desc="ICollection">
 
-    protected void requiredToBeSaved() {
-        isRequiredToBeSaved = true;
+    @Override
+    public boolean addCollection(final Integer collectionId) {
+        final boolean result = super.addCollection(collectionId);
+        if (result)
+            setIsRequiredToBeSaved(true);
+        return result;
     }
+
+    @Override
+    public void clearCollection(final Integer collectionId) {
+        super.clearCollection(collectionId);
+        setIsRequiredToBeSaved(true);
+    }
+
+    @Override
+    public boolean addItemToCollection(final Integer collectionId, final Integer itemId) {
+        final boolean result = super.addItemToCollection(collectionId, itemId);
+        if (result)
+            setIsRequiredToBeSaved(true);
+        return result;
+    }
+
+    @Override
+    public boolean removeItemFromCollection(final Integer collectionId, final Integer itemId) {
+        final boolean result = super.removeItemFromCollection(collectionId, itemId);
+        if (result)
+            setIsRequiredToBeSaved(true);
+        return result;
+    }
+
+    @Override
+    public boolean changeCollectionItemState(int collectionId, Integer itemId, boolean collected) {
+        final boolean result = super.changeCollectionItemState(collectionId, itemId, collected);
+        if (result)
+            setIsRequiredToBeSaved(true);
+        return result;
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="Protected">
+    protected void startTrackingChanges() {
+        this.setIsRequiredToBeSaved(false);
+    }
+
+    protected void setIsRequiredToBeSaved(final boolean isRequiredToBeSaved) {
+        synchronized (mIsRequiredToBeSavedkLock) {
+            this.mIsRequiredToBeSaved = isRequiredToBeSaved;
+            mIsRequiredToBeSavedkLock.notifyAll();
+        }
+    }
+    //</editor-fold>
 }
