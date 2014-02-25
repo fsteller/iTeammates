@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 03/01/14 for iTeammates.
  */
 public final class HelperDatabase {
@@ -233,7 +237,7 @@ public final class HelperDatabase {
         }.start();
     }
 
-    public void deleteEvents(final Context teammatesApplication, final Bundle data) {
+    public void deleteEvents(final Context context, final Bundle data) {
 
         if (data == null)
             return;
@@ -246,7 +250,7 @@ public final class HelperDatabase {
         }.start();
     }
 
-    public void deleteNotifications(final Context teammatesApplication, final Bundle data) {
+    public void deleteNotifications(final Context context, final Bundle data) {
 
         if (data == null)
             return;

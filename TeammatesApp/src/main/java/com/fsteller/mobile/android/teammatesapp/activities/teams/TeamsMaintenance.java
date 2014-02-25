@@ -33,11 +33,15 @@ import com.fsteller.mobile.android.teammatesapp.model.TeamsEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
+import com.fsteller.mobile.android.teammatesapp.utils.image.ImageLoader;
+import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
 
 /**
+ * Project: iTeammates
+ * Subpackage: activities.teams
+ * <p/>
+ * Description:
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
 public final class TeamsMaintenance extends ActivityMaintenanceBase implements ITeamEntity, LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener, Button.OnClickListener {
@@ -48,8 +52,6 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     //</editor-fold>
     //<editor-fold desc="Variables">
-
-    private ITeamEntity mTeamsEntity = null;
 
     private SimpleCursorAdapter mCursorAdapter = null;
     private ImageLoader mImageLoader = null;
@@ -64,7 +66,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     public TeamsMaintenance() {
         super(new TeamsEntity());
-        this.mTeamsEntity = (ITeamEntity) mEntity;
+        ITeamEntity mTeamsEntity = (ITeamEntity) mEntity;
     }
 
     //</editor-fold>
@@ -187,7 +189,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     //<editor-fold desc="ActivityMaintenanceBase">
 
     @Override
-    public boolean checkData(final IEntity entity) {
+    protected boolean checkData(final IEntity entity) {
         if (isNullOrEmpty(getEntityName())) {
             showMessage(getResources().getString(R.string.no_entity_name), Toast.LENGTH_SHORT);
             return false;

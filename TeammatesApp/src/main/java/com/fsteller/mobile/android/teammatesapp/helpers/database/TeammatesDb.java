@@ -8,18 +8,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public final class TeammatesDb extends SQLiteOpenHelper {
 
     private static final String TAG = TeammatesDb.class.getSimpleName();
 
-    //<editor-fold desc="Control Variables">
-    private IDbEntity teams = new Teams();
-    //private IEntity teammates = new Teammates();
-    private TeamsTeammates teamsTeammates = new TeamsTeammates();
-
-    //</editor-fold>
     //<editor-fold desc="Constructor">
 
     public TeammatesDb(Context context) {
@@ -79,22 +77,6 @@ public final class TeammatesDb extends SQLiteOpenHelper {
     @Override
     public String toString() {
         return String.format("%s.version_%s", Constants.DB_NAME, Constants.DB_VERSION);
-    }
-
-    //</editor-fold>
-    //<editor-fold desc="Public Methods">
-
-    public IDbEntity getDbEntity(DbEntities e) {
-        switch (e) {
-            case Teams:
-                return teams;
-            //case Teammates:
-            //    return teammates;
-            case TeamsTeammates:
-                return teamsTeammates;
-            default:
-        }
-        return null;
     }
 
     //</editor-fold>

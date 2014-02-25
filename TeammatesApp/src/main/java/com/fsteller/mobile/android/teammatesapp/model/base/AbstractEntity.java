@@ -5,22 +5,21 @@ import android.net.Uri;
 import com.fsteller.mobile.android.teammatesapp.model.Collection;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 08/01/14 for iTeammates.
  */
 public abstract class AbstractEntity extends Collection implements IEntity, IMaintenance {
 
-    //<editor-fold desc="Constants">
-
-    private static final String TAG = AbstractEntity.class.getSimpleName();
-
-    //</editor-fold>
     //<editor-fold desc="Variables">
 
     private int id;
     private String name = "";
     private String imageRef = "";
     private boolean mIsRequiredToBeSaved = false;
-    private final Object mIsRequiredToBeSavedkLock = new Object();
+    private final Object mIsRequiredToBeSavedLock = new Object();
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -125,9 +124,9 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     }
 
     protected void setIsRequiredToBeSaved(final boolean isRequiredToBeSaved) {
-        synchronized (mIsRequiredToBeSavedkLock) {
+        synchronized (mIsRequiredToBeSavedLock) {
             this.mIsRequiredToBeSaved = isRequiredToBeSaved;
-            mIsRequiredToBeSavedkLock.notifyAll();
+            mIsRequiredToBeSavedLock.notifyAll();
         }
     }
     //</editor-fold>

@@ -33,6 +33,10 @@ import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 
 
 /**
+ * Project: iTeammates
+ * Package: activities.teams
+ * <p/>
+ * Description:
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
 public final class TeamsPage extends FragmentPageBase implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
@@ -61,7 +65,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
     @Override
     public void onResume() {
         super.onResume();
-        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
+        restartLoader(this);
     }
 
     @Override
@@ -91,7 +95,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
 
         setHasOptionsMenu(true);
         mCursorAdapter = new TeamsPortraitListAdapter(mActivity, isPortrait ?
-                R.layout.listview_item_page : R.layout.gridview_item_page);
+                R.layout.listview_item_entity : R.layout.gridview_item_page);
         mListView.setAdapter(mCursorAdapter);
         mListView.setOnItemClickListener(this);
         mListView.setMultiChoiceModeListener(this);
@@ -137,7 +141,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
         */
 
         if (newFilter != null && !newFilter.trim().equals(mCallback.getSearchTerm()))
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
+            restartLoader(this);
         return true;
     }
 
@@ -214,7 +218,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
+            restartLoader(this);
         }
     }
 
@@ -316,7 +320,6 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
         TextView team_update = null;
         TextView team_creation = null;
         ImageView team_thumbnail = null;
-        TextView team_description = null;
         View cardView = null;
     }
 

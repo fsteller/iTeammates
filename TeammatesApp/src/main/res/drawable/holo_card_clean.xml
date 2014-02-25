@@ -4,12 +4,12 @@
         <shape
             android:shape="rectangle"
             android:dither="true">
-            <solid android:color="@android:color/transparent" />
+            <solid android:color="@android:color/transparent"/>
             <padding
                 android:bottom="3dip"
                 android:left="5dip"
                 android:right="5dip"
-                android:top="3dip" />
+                android:top="3dip"/>
         </shape>
     </item>
 

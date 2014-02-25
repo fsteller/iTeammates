@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.View;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 
 /**
+ * Project: iTeammates
+ * Subpackage: activities.base
+ * <p/>
+ * Description:
  * Created by fhernandezs on 23/01/14.
  */
 public abstract class FragmentMaintenancePageBase extends FragmentBase {
@@ -65,18 +68,6 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase {
         final LoaderManager mLoaderManager = getLoaderManager();
         if (mLoaderManager != null)
             mLoaderManager.restartLoader(queryFilter, null, callbacks);
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Inner Classes">
-
-    private final class HideInputClass implements View.OnClickListener {
-
-        @Override
-        public void onClick(final View v) {
-            hideSoftKeyboard(v);
-        }
     }
 
     //</editor-fold>

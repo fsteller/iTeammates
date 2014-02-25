@@ -12,6 +12,10 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
 public final class DateTime {
@@ -29,7 +33,7 @@ public final class DateTime {
         String finalDateTime = "";
         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Date date = null;
+        Date date;
         if (timeToFormat != null) {
             try {
                 date = iso8601Format.parse(timeToFormat);

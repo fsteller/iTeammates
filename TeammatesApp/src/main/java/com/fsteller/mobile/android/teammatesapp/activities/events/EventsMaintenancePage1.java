@@ -34,13 +34,17 @@ import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
 /**
+ * Project: iTeammates
+ * Package: activities.events
+ * <p/>
+ * Description:
  * Created by fhernandezs on 23/01/14.
  */
 public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     //<editor-fold desc="Constants">
 
-    public static final String TAG = EventsMaintenancePage1.class.getSimpleName();
+    private static final String TAG = EventsMaintenancePage1.class.getSimpleName();
 
     //</editor-fold>
     //<editor-fold desc="Variables">
@@ -318,7 +322,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
            the PhoneContacts interface.
         */
 
-        final Uri teamsUri = !isNullOrEmpty(searchTerm) ?
+        final Uri teamsUri = isNullOrEmpty(searchTerm) ?
                 Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm)) :
                 TC.Queries.TeammatesTeams.CONTENT_URI;
 

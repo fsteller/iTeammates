@@ -44,8 +44,8 @@ public final class Teammates extends ActivityBase implements IPageManager {
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
+    private final Collection mCollection = new Collection();
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private Collection mCollection = new Collection();
     private String accountId = null;
     private CharSequence mTitle;
     private int currentPage = 0;
@@ -54,11 +54,11 @@ public final class Teammates extends ActivityBase implements IPageManager {
 
     //<editor-fold desc="Public">
 
-    public void onSectionAttached(final int position) {
+    void onSectionAttached(final int position) {
         mTitle = getResources().getStringArray(R.array.app_activities)[position];
     }
 
-    public void restoreActionBar() {
+    void restoreActionBar() {
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -74,7 +74,9 @@ public final class Teammates extends ActivityBase implements IPageManager {
 
     @Override
     public void actionRequest(final int collectionId, final int requestCode) {
-        contextActionRequest(collectionId, requestCode);
+        if (contextActionRequest(collectionId, requestCode)) {
+            Log.i(TAG, String.format("Action with code %s has been succeeded.", requestCode));
+        }
     }
 
     //<editor-fold desc="ICollection">
@@ -230,7 +232,8 @@ public final class Teammates extends ActivityBase implements IPageManager {
     private boolean contextActionRequest(final int collectionId, final int requestCode) {
 
         final ArrayList<Integer> ids = getCollection(collectionId);
-        Log.d(TAG, String.format("ActionCode %s on page %s was called for one o mere items", requestCode, currentPage));
+        Log.d(TAG, String.format("Action with code %s on page %s was called for " +
+                "one o mere items collection with id %s", requestCode, currentPage, collectionId));
 
         if (requestCode == TC.Activity.ContextActionRequest.Delete)
             return resolveDataAction(TC.Activity.DataActionRequest.Delete, getActivityParams(collectionId, ids));

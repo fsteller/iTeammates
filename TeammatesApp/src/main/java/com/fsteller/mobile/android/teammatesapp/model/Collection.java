@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fsteller on 2/9/14.
  */
 public class Collection implements ICollection {
@@ -21,7 +25,7 @@ public class Collection implements ICollection {
     //<editor-fold desc="Variables">
     private String mSearchTerm = "";
     private ItemStateChanged itemStateChangedListener = null;
-    private SparseArray<ArrayList<Integer>> collections = new SparseArray<ArrayList<Integer>>();
+    private final SparseArray<ArrayList<Integer>> collections = new SparseArray<ArrayList<Integer>>();
 
     //</editor-fold>
 

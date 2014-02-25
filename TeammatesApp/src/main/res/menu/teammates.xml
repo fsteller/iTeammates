@@ -1,21 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.fsteller.mobile.android.teammatesapp.Teammates" >
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.fsteller.mobile.android.teammatesapp.Teammates">
     <item
         android:id="@id/action_search"
         android:title="@string/action_search"
         android:showAsAction="always|collapseActionView"
         android:actionViewClass="android.widget.SearchView"
         android:icon="@android:drawable/ic_menu_search"/>
-    <item android:id="@id/action_addItem"
+    <item
+        android:id="@id/action_addItem"
         android:title="@string/action_addItem"
         android:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_add" />
-    <item android:id="@id/action_login"
+        android:icon="@android:drawable/ic_menu_add"/>
+    <item
+        android:id="@id/action_login"
         android:title="@string/action_login"
-        android:showAsAction="withText|ifRoom" />
-    <item android:id="@id/action_settings"
+        android:showAsAction="withText|ifRoom"/>
+    <item
+        android:id="@id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="never"/>
 </menu>

@@ -41,8 +41,6 @@
     <!-- Others -->
     <string name="app_name">iTeammates</string>
     <string name="alphabet">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890</string>
-    <string name="created_label">Create at: %s</string>
-    <string name="updated_label">Las update on: %s</string>
     <string name="emptyString"/>
     <string name="Name">Name</string>
     <string name="LookupKey">Lookup Key</string>

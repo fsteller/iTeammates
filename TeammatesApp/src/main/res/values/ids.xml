@@ -48,4 +48,5 @@
     <item name="spinner_item_color" type="id"/>
     <item name="spinner_item_description" type="id"/>
     <item name="spinner_item_title" type="id"/>
+    <item name="itemList_title" type="id"/>
 </resources>

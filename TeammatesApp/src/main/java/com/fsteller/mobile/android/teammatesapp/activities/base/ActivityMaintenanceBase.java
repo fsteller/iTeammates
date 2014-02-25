@@ -14,6 +14,10 @@ import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
 import java.util.ArrayList;
 
 /**
+ * Project: iTeammates
+ * Subpackage: activities.base
+ * <p/>
+ * Description:
  * Created by fhernandezs on 02/01/14 for iTeammates.
  */
 public abstract class ActivityMaintenanceBase extends ActivityBase implements IEntity {
@@ -30,7 +34,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     //</editor-fold>
     //<editor-fold desc="Constructor">
 
-    public ActivityMaintenanceBase(final IMaintenance entity) {
+    protected ActivityMaintenanceBase(final IMaintenance entity) {
         mEntity = entity;
     }
 
@@ -50,7 +54,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
         finish();
     }
 
-    protected abstract boolean checkData(IEntity entity);
+    protected abstract boolean checkData(final IEntity entity);
 
     //</editor-fold>
     //<editor-fold desc="Overridden">
@@ -72,16 +76,10 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
-        /*
         if (outState != null) {
-            outState.putString(TC.ENTITY.COLLECTION_NAME, mEntity.getEntityName());
-            outState.putString(TC.ENTITY.COLLECTION_IMAGE_REF, mEntity.getImageRefAsString());
-            outState.putIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS, mEntity.getCollection(TeamsEntity.TEAMS));
-        } */
-        if (outState != null)
             outState.putBundle(TC.ENTITY_DATA, mEntity.getResult());
-
-        super.onSaveInstanceState(outState);
+            super.onSaveInstanceState(outState);
+        }
     }
 
     @Override
@@ -92,18 +90,6 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
             final Bundle mBundle = savedInstanceState.getBundle(TC.ENTITY_DATA);
             mEntity.loadData(this, mBundle);
         }
-
-        /*
-        if (savedInstanceState != null) {
-            final ArrayList<Integer> temp = savedInstanceState.getIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS);
-            mEntity.setEntityName(savedInstanceState.getString(TC.ENTITY.COLLECTION_NAME));
-            mEntity.setImageRef(savedInstanceState.getString(TC.ENTITY.COLLECTION_IMAGE_REF));
-
-            mEntity.addCollection(TeamsEntity.TEAMS);
-            if (temp != null)
-                for (final int i : temp)
-                    mEntity.addItemToCollection(TeamsEntity.TEAMS, i);
-        }*/
     }
 
     @Override

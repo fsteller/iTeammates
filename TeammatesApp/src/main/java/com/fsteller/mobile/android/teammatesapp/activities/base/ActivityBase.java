@@ -14,14 +14,18 @@ import com.fsteller.mobile.android.teammatesapp.utils.VersionTools;
 import com.google.analytics.tracking.android.EasyTracker;
 
 /**
+ * Project: iTeammates
+ * Subpackage: activities.base
+ * <p/>
+ * Description:
  * Created by fsteller on 12/30/13.
  */
 public abstract class ActivityBase extends Activity {
 
     //<editor-fold desc="Constants">
 
-    protected static final int SOFT_INPUT_MODE_VISIBLE = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
-    protected static final int SOFT_INPUT_MODE_HIDDEN = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
+    private static final int SOFT_INPUT_MODE_VISIBLE = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+    private static final int SOFT_INPUT_MODE_HIDDEN = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
     //</editor-fold>
     //<editor-fold desc="Variables">
@@ -34,7 +38,7 @@ public abstract class ActivityBase extends Activity {
 
     //<editor-fold desc="Public">
 
-    public void setIsKeyBoardEnabled(final boolean enable) {
+    void setIsKeyBoardEnabled(final boolean enable) {
         getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
     }
 

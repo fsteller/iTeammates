@@ -3,6 +3,10 @@ package com.fsteller.mobile.android.teammatesapp.helpers.database;
 import android.provider.BaseColumns;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 final class Constants {
@@ -151,7 +155,7 @@ final class Constants {
         public final String DropTable;
         public final String[] Fields;
 
-        protected TABLE(String tableName, String createTable, String dropTable, String[] fields) {
+        TABLE(String tableName, String createTable, String dropTable, String[] fields) {
             TableName = tableName;
             CreateTable = createTable;
             DropTable = dropTable;

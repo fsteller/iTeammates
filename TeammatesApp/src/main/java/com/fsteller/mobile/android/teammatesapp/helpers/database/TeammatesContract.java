@@ -10,18 +10,22 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public final class TeammatesContract {
 
     //<editor-fold desc="Main Variables">
 
-    public static final String SCHEME = "content://";
-    public static final String ITEM_TEXT_SUFFIX = "/*";
-    public static final String ITEM_NUMERIC_SUFFIX = "/#";
-    public static final String ITEM_FILTER_PATH_SUFFIX = "filter";
+    private static final String SCHEME = "content://";
+    private static final String ITEM_TEXT_SUFFIX = "/*";
+    private static final String ITEM_NUMERIC_SUFFIX = "/#";
+    private static final String ITEM_FILTER_PATH_SUFFIX = "filter";
     public static final String AUTHORITY = "com.fsteller.community.teammates.provider";
-    public static final Uri AUTHORITY_URI = Uri.parse(SCHEME + AUTHORITY);
+    private static final Uri AUTHORITY_URI = Uri.parse(SCHEME + AUTHORITY);
 
     //</editor-fold >
     //<editor-fold desc="Constructor">
@@ -70,11 +74,11 @@ public final class TeammatesContract {
     public final static class Teams implements TeamsColumns {
 
         //<editor-fold desc="Constants">
-        protected static final String PATH = TABLE_NAME;
-        protected static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-        protected static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
-        protected static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
-        protected static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
+        static final String PATH = TABLE_NAME;
+        static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
+        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
+        static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
+        static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
         public static final Uri CONTENT_FILTER_URI = Uri.withAppendedPath(CONTENT_URI, ITEM_FILTER_PATH_SUFFIX);
@@ -94,7 +98,7 @@ public final class TeammatesContract {
 
         //</editor-fold>
         //<editor-fold desc="Protected Methods">
-        protected static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
+        static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(Teams.TABLE_NAME);
 
@@ -138,8 +142,8 @@ public final class TeammatesContract {
         public final static class Contacts implements ContactsColumns {
 
             //<editor-fold desc="Constants">
-            protected static final String PATH = Teams.PATH + "/#/" + TABLE_NAME;
-            protected static final String ID_PATH = PATH + ITEM_NUMERIC_SUFFIX;
+            static final String PATH = Teams.PATH + "/#/" + TABLE_NAME;
+            static final String ID_PATH = PATH + ITEM_NUMERIC_SUFFIX;
             public static final String CONTENT_DIRECTORY = TABLE_NAME;
             public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
             public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
@@ -158,7 +162,7 @@ public final class TeammatesContract {
 
             //</editor-fold>
             //<editor-fold desc="Protected Methods">
-            protected static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
+            static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
                 final List<String> segments = uri.getPathSegments();
                 if (segments != null && code == TeammatesProvider.TEAM_CONTACTS) {
                     final String teamId = segments.get(1);
@@ -205,9 +209,9 @@ public final class TeammatesContract {
     public static final class Events implements EventsColumns {
 
         //<editor-fold desc="Constants">
-        protected static final String PATH = TABLE_NAME;
+        static final String PATH = TABLE_NAME;
         protected static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-        protected static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
+        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
         protected static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
         protected static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
 

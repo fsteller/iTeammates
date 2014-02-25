@@ -8,16 +8,17 @@ import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 13/02/14.
  */
 public class EventEntity extends AbstractEntity implements IEventEntity {
 
     public static final int TEAMS = TC.Activity.Maintenance.TEAMS;
-    public static final int EVENTS = TC.Activity.Maintenance.EVENTS;
-    public static final int CONTACTS = TC.Activity.Maintenance.CONTACTS;
-
-    private static final String TAG = TeamsEntity.class.getSimpleName();
-
+    private static final int EVENTS = TC.Activity.Maintenance.EVENTS;
+    private static final int CONTACTS = TC.Activity.Maintenance.CONTACTS;
 
     private String description = "";
     private String calendar = "";

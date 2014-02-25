@@ -14,6 +14,10 @@ import com.fsteller.mobile.android.teammatesapp.helpers.HelperDatabase;
 import java.util.ArrayList;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ *
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public class TeammatesApp extends Application implements TeammatesApplicationCallback {

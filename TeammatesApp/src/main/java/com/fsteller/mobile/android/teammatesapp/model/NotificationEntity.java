@@ -8,6 +8,10 @@ import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fsteller on 2/13/14.
  */
 public class NotificationEntity extends AbstractEntity implements IMaintenance {

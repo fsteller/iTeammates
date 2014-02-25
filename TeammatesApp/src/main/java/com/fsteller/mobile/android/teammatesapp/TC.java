@@ -7,6 +7,10 @@ import android.provider.ContactsContract.Contacts;
 import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
 
 /**
+ * Project: iTeammates
+ * Package: teammatesapp
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public interface TC {
@@ -119,7 +123,7 @@ public interface TC {
                     + CalendarContract.Calendars.ACCOUNT_NAME + " = ?))";
             // By default the order should be the calendar display name
             final static String SORT_ORDER = CalendarContract.Calendars.CALENDAR_DISPLAY_NAME;
-            // Projection array. Creating indices for this array instead of doin dynamic lookups improves performance.
+            // Projection array. Creating indices for this array instead of doing dynamic lookup improves performance.
             public static final String[] PROJECTION = new String[]{
                     CalendarContract.Calendars._ID,                           // 0
                     CalendarContract.Calendars.ACCOUNT_NAME,                  // 1

@@ -20,6 +20,10 @@ import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 
 /**
+ * Project: iTeammates
+ * Subpackage: activities.notification
+ * <p/>
+ * Description:
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
 public final class NotificationsPage extends FragmentPageBase implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
@@ -59,7 +63,7 @@ public final class NotificationsPage extends FragmentPageBase implements LoaderM
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
+            restartLoader(this);
             mCallback.clearCollection(getPageIndex());
         }
     }

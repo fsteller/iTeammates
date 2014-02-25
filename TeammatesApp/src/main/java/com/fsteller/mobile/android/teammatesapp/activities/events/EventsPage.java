@@ -20,6 +20,10 @@ import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentPageBase
 import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
 
 /**
+ * Project: iTeammates
+ * Subpackage: activities.events
+ * <p/>
+ * Description:
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
 public final class EventsPage extends FragmentPageBase implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
@@ -93,7 +97,7 @@ public final class EventsPage extends FragmentPageBase implements LoaderManager.
     protected void processBroadcast(final Intent intent) {
         if (intent != null) {
             Log.d(TAG, String.format("Processing broadcast request: %s", intent.getAction()));
-            restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
+            restartLoader(this);
             mCallback.clearCollection(getPageIndex());
         }
     }

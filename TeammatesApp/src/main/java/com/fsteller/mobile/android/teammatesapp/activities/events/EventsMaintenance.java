@@ -21,6 +21,10 @@ import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 
 /**
+ * Project: iTeammates
+ * Package: activities.events
+ * <p/>
+ * Description:
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
 public final class EventsMaintenance extends ActivityMaintenanceBase implements IEventEntity, Button.OnClickListener {

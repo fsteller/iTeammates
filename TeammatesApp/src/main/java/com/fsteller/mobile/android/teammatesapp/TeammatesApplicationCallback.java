@@ -5,6 +5,10 @@ import android.content.Intent;
 import java.util.ArrayList;
 
 /**
+ * Project: iTeammates
+ * Subpackage: teammatesapp
+ * <p/>
+ * Description:
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
 public interface TeammatesApplicationCallback {

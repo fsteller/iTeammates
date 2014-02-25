@@ -6,6 +6,6 @@
         android:id="@id/action_finish"
         android:title="@string/action_finish"
         android:actionViewClass="android.widget.Button"
-        android:showAsAction="withText|always" />
+        android:showAsAction="withText|always"/>
 
 </menu>

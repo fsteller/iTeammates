@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AlphabetIndexer;
@@ -15,11 +14,15 @@ import android.widget.TextView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
+import com.fsteller.mobile.android.teammatesapp.utils.image.ImageLoader;
 
 import java.util.Locale;
 
 /**
+ * Project: iTeammates
+ * Package: utils
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public final class Adapters {
@@ -27,21 +30,19 @@ public final class Adapters {
     private final static int TXT_LENGTH = 35;
 
     private static boolean isNullOrEmpty(final CharSequence text) {
-        return text == null || String.valueOf(text).trim().isEmpty();
+        return text != null && !String.valueOf(text).trim().isEmpty();
     }
 
     public static abstract class CursorAdapter extends SimpleCursorAdapter implements SimpleCursorAdapter.ViewBinder, SectionIndexer {
 
-        protected static LayoutInflater mInflater; // Stores the layout inflater
-        protected static AlphabetIndexer mAlphabetIndexer; // Stores the AlphabetIndexer instance
-        protected static TextAppearanceSpan highlightTextSpan; // Stores the highlight text appearance style
+        static AlphabetIndexer mAlphabetIndexer; // Stores the AlphabetIndexer instance
+        static TextAppearanceSpan highlightTextSpan; // Stores the highlight text appearance style
 
         public CursorAdapter(final Context context, final int sortColumnIndex, final int layout, final String[] from, final int[] to) {
             super(context, layout, null, from, to, 0);
 
             final String aux = context.getString(R.string.alphabet);
 
-            mInflater = LayoutInflater.from(context);
             mAlphabetIndexer = new AlphabetIndexer(null, sortColumnIndex, aux);
             highlightTextSpan = new TextAppearanceSpan(context, R.style.searchTextHighlight);
 
@@ -123,8 +124,8 @@ public final class Adapters {
          * method returns -1 if the string is not found in the display name, or if the search
          * string is empty or null.
          */
-        protected static int indexOfSearchQuery(final String displayName, final String mSearchTerm) {
-            if (!isNullOrEmpty(mSearchTerm)) {
+        static int indexOfSearchQuery(final String displayName, final String mSearchTerm) {
+            if (isNullOrEmpty(mSearchTerm)) {
                 return displayName.toLowerCase(Locale.getDefault()).indexOf(
                         mSearchTerm.toLowerCase(Locale.getDefault()));
             }
@@ -132,7 +133,7 @@ public final class Adapters {
         }
 
         protected static void setImageView(final ImageView view, final ImageLoader mListImageLoader, final String imageData) {
-            if (mListImageLoader != null && !isNullOrEmpty(imageData))
+            if (mListImageLoader != null && isNullOrEmpty(imageData))
                 mListImageLoader.loadImage(imageData, view);
             else
                 view.setImageResource(R.drawable.ic_default_picture);
@@ -164,7 +165,7 @@ public final class Adapters {
 
         protected static void setBasicText(final TextView view, final String txt) {
             String data = "";
-            if (!isNullOrEmpty(txt)) {
+            if (isNullOrEmpty(txt)) {
                 final int i =
                         txt.contains("\n") ?
                                 txt.indexOf('\n') < TXT_LENGTH ?

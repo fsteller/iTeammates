@@ -5,6 +5,10 @@ import android.text.TextWatcher;
 import java.util.ArrayList;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 23/01/14.
  */
 public class Text {

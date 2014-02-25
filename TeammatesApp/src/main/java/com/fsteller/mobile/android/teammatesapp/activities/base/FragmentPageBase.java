@@ -14,10 +14,15 @@ import android.widget.AbsListView;
 import android.widget.SearchView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
+import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 
 /**
- * Created by fhernandezs on 24/12/13 for iTeammates.
+ * Project: iTeammates
+ * Subpackage: activities.base
+ * <p/>
+ * Description:
+ * Created by by fhernandezs on 23/01/14.
  */
 public abstract class FragmentPageBase extends FragmentBase implements AbsListView.OnScrollListener, SearchView.OnQueryTextListener, AbsListView.MultiChoiceModeListener {
 
@@ -28,8 +33,8 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    protected final IntentFilter mFilter;
-    protected final DbUpdateReceiver mReceiver;
+    private final IntentFilter mFilter;
+    private final DbUpdateReceiver mReceiver;
     protected Adapters.CursorAdapter mCursorAdapter;
     protected IPageManager mCallback = null;
     private int pageIndex = -1;
@@ -136,10 +141,10 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
         return pageIndex;
     }
 
-    protected final void restartLoader(final int queryId, final LoaderManager.LoaderCallbacks callbacks) {
+    protected final void restartLoader(final LoaderManager.LoaderCallbacks callbacks) {
         final LoaderManager mLoaderManager = getLoaderManager();
         if (mLoaderManager != null)
-            getLoaderManager().restartLoader(queryId, null, callbacks);
+            getLoaderManager().restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, null, callbacks);
     }
 
     protected abstract void processBroadcast(final Intent intent);
@@ -165,7 +170,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
      * Receiver to wake up when Broadcast is updated
      * It refreshes the UI by re-querying a new the cursor
      */
-    protected final class DbUpdateReceiver extends BroadcastReceiver {
+    public final class DbUpdateReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             Log.d(this.getClass().getSimpleName(), String.format("DbUpdateReceiver: context (%s) ", context));

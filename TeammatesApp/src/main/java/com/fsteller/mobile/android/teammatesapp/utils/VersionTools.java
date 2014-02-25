@@ -5,8 +5,13 @@ import android.os.Build;
 import android.os.StrictMode;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
+@SuppressWarnings("ALL")
 public class VersionTools {
 
     private VersionTools() {

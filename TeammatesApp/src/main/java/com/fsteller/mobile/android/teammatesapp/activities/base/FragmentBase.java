@@ -6,20 +6,18 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageLoader;
-import com.fsteller.mobile.android.teammatesapp.utils.Image.ImageUtils;
+import com.fsteller.mobile.android.teammatesapp.utils.image.ImageLoader;
+import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
 
 /**
+ * Project: iTeammates
+ * Subpackage: activities.base
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public abstract class FragmentBase extends Fragment {
 
-    //<editor-fold desc="Constants">
-
-    protected static final String TAG = FragmentBase.class.getSimpleName();
-    protected static final String EMPTY_STRING = "";
-
-    //</editor-fold>
     //<editor-fold desc="Variables">
 
     protected View mEmptyView = null;
@@ -64,7 +62,7 @@ public abstract class FragmentBase extends Fragment {
     }
 
     protected static boolean isNullOrEmpty(final CharSequence text) {
-        return text == null || String.valueOf(text).trim().isEmpty();
+        return text != null && !String.valueOf(text).trim().isEmpty();
     }
 
     //</editor-fold>

@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 13/02/14.
  */
 public class TeamsEntity extends AbstractEntity implements ITeamEntity, IMaintenance {

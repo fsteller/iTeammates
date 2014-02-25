@@ -19,29 +19,15 @@
          resource files or even code and it only needs to be updated in one place if we wanted
          to change it. -->
     <color name="holo_white">#ffffffff</color>
-    <color name="holo_black">#ff000000</color>
-    <color name="holo_transparent">@android:color/transparent</color>
 
-    <color name="holo_orange_light">#FFBB33</color>
-    <color name="holo_orange_dark">#55FFBB33</color>
     <color name="holo_orange">@android:color/holo_orange_dark</color>
 
-    <color name="holo_green">#99CC00</color>
-    <color name="holo_green_light">#5599CC00</color>
-
-    <color name="holo_blue">#33B5E5</color>
     <color name="holo_blue_light">#5533B5E5</color>
 
-    <color name="holo_purple">#AA66CC</color>
-    <color name="holo_purple_light">#55AA66CC</color>
-
-    <color name="holo_red">#FF4444</color>
     <color name="holo_red_light">#ffe87951</color>
 
-    <color name="holo_gray">#ffc0c0c0</color>
     <color name="holo_darker_gray">#ff808080</color>
     <color name="holo_gray_background">#ffe1e1e1</color>
-    <color name="holo_gray_actionbar">#ff3c3c3c</color>
 
 
     <color name="teammates_activity_background">@android:color/darker_gray</color>

@@ -3,6 +3,7 @@ package com.fsteller.mobile.android.teammatesapp.helpers.database;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +15,10 @@ import java.util.Arrays;
 
 
 /**
+ * Project: ${PROJECT_NAME}
+ * Package: ${PACKAGE_NAME}
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public final class TeammatesProvider extends ContentProvider {
@@ -24,15 +29,15 @@ public final class TeammatesProvider extends ContentProvider {
     private static final String TAG = TeammatesProvider.class.getSimpleName();
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
-    protected static final int TEAMS = 1001;
-    protected static final int TEAM_ID = 1002;
-    protected static final int TEAM_FILTER = 1003;
-    protected static final int TEAM_CONTACTS = 2001;
-    protected static final int TEAM_CONTACT_ID = 2002;
+    static final int TEAMS = 1001;
+    static final int TEAM_ID = 1002;
+    static final int TEAM_FILTER = 1003;
+    static final int TEAM_CONTACTS = 2001;
+    private static final int TEAM_CONTACT_ID = 2002;
 
-    protected static final int EVENTS = 3001;
-    protected static final int EVENT_ID = 3002;
-    protected static final int EVENT_FILTER = 3003;
+    static final int EVENTS = 3001;
+    static final int EVENT_ID = 3002;
+    static final int EVENT_FILTER = 3003;
 
     //</editor-fold>
     //<editor-fold desc="Variables">
@@ -174,11 +179,13 @@ public final class TeammatesProvider extends ContentProvider {
                 rowId = db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             } catch (Exception e) {
                 Log.e(TAG, String.format("Unknown Error: %s", e.getMessage()), e);
+                e.printStackTrace();
             }
 
-        if (rowId != -1) {
-            Uri itemUri = ContentUris.withAppendedId(uri, rowId);
-            getContext().getContentResolver().notifyChange(itemUri, null);
+        final Context mContext = getContext();
+        if (rowId != -1 && mContext != null) {
+            final Uri itemUri = ContentUris.withAppendedId(uri, rowId);
+            mContext.getContentResolver().notifyChange(itemUri, null);
             result = itemUri;
         } else
             Log.d(TAG, "Failed to mInsert " + values + " to " + uri);
@@ -187,11 +194,12 @@ public final class TeammatesProvider extends ContentProvider {
 
     private int mDelete(final Uri uri, final String tableName, final String selection, final String[] selectionArgs) {
         int count = 0;
+        final Context mContext = getContext();
         final SQLiteDatabase db = teammatesDb.getWritableDatabase();
-        if (db != null) {
+        if (db != null && mContext != null) {
             count = db.delete(tableName, selection, selectionArgs);
             if (count > 0)
-                getContext().getContentResolver().notifyChange(uri, null);
+                mContext.getContentResolver().notifyChange(uri, null);
         }
         return count;
     }
@@ -209,11 +217,12 @@ public final class TeammatesProvider extends ContentProvider {
         Log.d(TAG, "update(" + uri + "," + values + "," + selection + "," + Arrays.toString(selectionArgs) + ")");
 
         int count = 0;
+        final Context mContext = getContext();
         final SQLiteDatabase db = teammatesDb.getWritableDatabase();
-        if (db != null) {
+        if (db != null && mContext != null) {
             count = db.update(tableName, values, selection, selectionArgs);
             if (count > 0)
-                super.getContext().getContentResolver().notifyChange(uri, null);
+                mContext.getContentResolver().notifyChange(uri, null);
         }
         return count;
     }

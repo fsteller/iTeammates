@@ -19,7 +19,8 @@
             android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/emptyString"/>
 
         <ImageButton
             android:id="@id/header_button"
@@ -40,7 +41,7 @@
         android:gravity="center_vertical"
         android:padding="2dip">
 
-    <TextView
+        <TextView
             android:text="@string/emptyString"
             android:textSize="16sp"
             android:textStyle="bold"

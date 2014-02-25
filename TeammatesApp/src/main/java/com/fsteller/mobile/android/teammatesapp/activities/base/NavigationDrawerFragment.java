@@ -3,6 +3,7 @@ package com.fsteller.mobile.android.teammatesapp.activities.base;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -83,8 +84,11 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        final Activity mActivity = getActivity();
+        if (mActivity != null) {
+            final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
+            mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        }
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -108,11 +112,10 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
+        final Context mContext = getActionBar().getThemedContext();
         final String[] activities = getResources().getStringArray(R.array.app_activities);
-        final ArrayAdapter mArrayAdapter = new ArrayAdapter<String>(getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1, android.R.id.text1, activities);
-
         final View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
         if (rootView != null) {
 
             final TextView actionSettings = (TextView) rootView.findViewById(R.id.action_settings);
@@ -122,9 +125,14 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
             actionLogin.setOnClickListener(this);
 
             mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_list);
-            mDrawerListView.setAdapter(mArrayAdapter);
             mDrawerListView.setOnItemClickListener(this);
             mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+            if (mContext != null) {
+                final ArrayAdapter mArrayAdapter = new ArrayAdapter<String>(mContext,
+                        android.R.layout.simple_list_item_activated_1, android.R.id.text1, activities);
+                mDrawerListView.setAdapter(mArrayAdapter);
+            }
         }
         return rootView;
     }
@@ -171,11 +179,8 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
     //</editor-fold>
     //<editor-fold desc="View.OnClickListener">
@@ -221,8 +226,11 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
     public void setUp(final int fragmentId, final DrawerLayout drawerLayout) {
-        mFragmentContainerView = getActivity().findViewById(fragmentId);
+
         mDrawerLayout = drawerLayout;
+        final Activity mActivity = getActivity();
+        if (mActivity != null)
+            mFragmentContainerView = mActivity.findViewById(fragmentId);
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -316,7 +324,7 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
     }
 
     private ActionBar getActionBar() {
-        return getActivity().getActionBar();
+        return getActivity() != null ? getActivity().getActionBar() : null;
     }
 
     //</editor-fold>

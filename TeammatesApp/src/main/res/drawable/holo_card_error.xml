@@ -4,8 +4,8 @@
         <shape
             android:shape="rectangle"
             android:dither="true">
-            <solid android:color="@color/holo_darker_gray" />
-            <corners android:radius="2dip" />
+            <solid android:color="@color/holo_darker_gray"/>
+            <corners android:radius="2dip"/>
         </shape>
     </item>
     <item
@@ -14,13 +14,13 @@
         <shape
             android:shape="rectangle"
             android:dither="true">
-            <solid android:color="@color/holo_red_light" />
-            <corners android:radius="2dip" />
+            <solid android:color="@color/holo_red_light"/>
+            <corners android:radius="2dip"/>
             <padding
                 android:bottom="5dip"
                 android:left="5dip"
                 android:right="3dip"
-                android:top="3dip" />
+                android:top="3dip"/>
         </shape>
     </item>
 </layer-list>
