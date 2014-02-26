@@ -35,7 +35,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
 /**
  * Project: iTeammates
- * Package: activities.events
+ * Subpackage: activities.events
  * <p/>
  * Description:
  * Created by fhernandezs on 23/01/14.
@@ -247,7 +247,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         */
         switch (loader.getId()) {
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
-                headerSpinner.setVisibility(View.VISIBLE);
+                headerSpinner.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
                 calendarAdapter.swapCursor(data);
                 break;
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
@@ -258,12 +258,12 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     }
 
     @Override
-    public void onLoaderReset(final Loader<Cursor> data) {
+    public void onLoaderReset(final Loader<Cursor> loader) {
         /*
             When the loader is being reset, clear the cursor from the adapter.
             This allows the cursor resources to be freed.
         */
-        switch (data.getId()) {
+        switch (loader.getId()) {
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 headerSpinner.setVisibility(View.GONE);
                 calendarAdapter.swapCursor(null);
@@ -283,7 +283,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     }
 
     //</editor-fold>
-    //<editor-fold desc="Private Methods">
+    //<editor-fold desc="Private">
 
 
 /*

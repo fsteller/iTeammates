@@ -33,16 +33,13 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     private static final int LAST_PAGE = 3;
     private static final int FIRST_PAGE = 0;
-    private static final int EVENTS = TC.Activity.Maintenance.EVENTS;
     private static final String TAG = EventsMaintenance.class.getSimpleName();
-    private static final Class pages[] = new Class[]{EventsMaintenancePage1.class};
+    private static final Class pages[] = new Class[]{EventsMaintenancePage1.class, EventsMaintenancePage2.class};
 
     //</editor-fold>
     //<editor-fold desc="Variables">
 
     private IEventEntity mEventEntity = null;
-
-    private int lastPage = FIRST_PAGE;
     private int currentPage = FIRST_PAGE;
 
     //</editor-fold>
@@ -107,7 +104,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     @Override
     public void onBackPressed() {
-        lastPage = currentPage--;
+        currentPage--;
         if (currentPage < FIRST_PAGE) {
             Log.d(TAG, "onBackPressed: Canceling events maintenance...");
             finalize(RESULT_CANCELED, null);
@@ -130,7 +127,8 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     @Override
     public void onClick(final View v) {
-
+        currentPage++;
+        loadMaintenancePage(pages[currentPage], null, true);
     }
 
     //</editor-fold>
