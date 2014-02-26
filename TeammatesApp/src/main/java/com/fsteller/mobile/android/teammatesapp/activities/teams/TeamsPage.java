@@ -194,7 +194,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
         if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
                 cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1 ||
                 cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID2) {
-            mEmptyView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
             mCursorAdapter.swapCursor(data);
         }
     }

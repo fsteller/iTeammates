@@ -197,6 +197,7 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
                 break;
             default:
         }
+
         if (mDrawerLayout != null)
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         mCallbacks.onNavigationDrawerActionCalled(actions);
@@ -215,6 +216,12 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
 
     //</editor-fold>
     //<editor-fold desc="Public methods">
+
+    /**
+     * Ask if navigation drawer is displaying the options panel.
+     *
+     * @return Returns true if options panel is been displayed, otherwise false.
+     */
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
@@ -299,6 +306,11 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
     //</editor-fold>
     //<editor-fold desc="Private Methods">
 
+    /**
+     * Selects a item of the action view with a specific position
+     *
+     * @param position position to select
+     */
     private void selectItem(final int position) {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
@@ -317,12 +329,17 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
      * 'context', rather than just what's in the current screen.
      */
     private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
     }
 
+    /**
+     * Gets the activity action bar
+     *
+     * @return Returns the action bar of the current activity, null if there is no activity.
+     */
     private ActionBar getActionBar() {
         return getActivity() != null ? getActivity().getActionBar() : null;
     }
@@ -348,7 +365,7 @@ public class NavigationDrawerFragment extends Fragment implements View.OnClickLi
         /**
          * Called when an action calls to be completed, i.e. when action item is selected.
          *
-         * @param action
+         * @param action Actions that can be performed from the navigation drawer
          */
         void onNavigationDrawerActionCalled(final Actions action);
     }

@@ -51,7 +51,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     private IEventEntity mEventEntity = null;
 
-    private View emptyView = null;
     private ImageView titleImage = null;
     private Spinner headerSpinner = null;
 
@@ -97,8 +96,19 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         final View rootView = inflater.inflate(R.layout.fragment_events_maintenance_page1, container, false);
         if (rootView != null) {
 
-            final TextView titleView = (TextView) rootView.findViewById(R.id.title_label);
+            mEmptyView = rootView.findViewById(android.R.id.empty);
+            mListView = (AbsListView) rootView.findViewById(R.id.list_view);
+            titleImage = (ImageView) rootView.findViewById(R.id.header_image);
+            headerSpinner = (Spinner) rootView.findViewById(R.id.header_spinner);
+
+            final TextView titleLabel = (TextView) rootView.findViewById(R.id.title_label);
             final TextView controlView = (TextView) rootView.findViewById(R.id.header_control_label);
+            final TextView descriptionLabel = (TextView) rootView.findViewById(R.id.title_description_label);
+
+            titleLabel.setText(getResources().getString(R.string.eventsMaintenance_titleLabel));
+            controlView.setText(getResources().getString(R.string.eventsMaintenance_titleControlLabel));
+            descriptionLabel.setText(getResources().getString(R.string.eventsMaintenance_titleDescriptionLabel));
+
             final EditText eventNameText = (EditText) rootView.findViewById(R.id.collection_title_text);
             final TextView eventNameView = (TextView) rootView.findViewById(R.id.collection_title_label);
             final EditText eventDescriptionText = (EditText) rootView.findViewById(R.id.collection_description_text);
@@ -106,23 +116,18 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             final TextView lookupKeyTitleText = (TextView) rootView.findViewById(R.id.collection_lookup_key_text);
             final TextView lookupKeyTitleView = (TextView) rootView.findViewById(R.id.collection_lookup_key_label);
 
-            emptyView = rootView.findViewById(android.R.id.empty);
-            mListView = (AbsListView) rootView.findViewById(R.id.list_view);
-            titleImage = (ImageView) rootView.findViewById(R.id.header_image);
-            headerSpinner = (Spinner) rootView.findViewById(R.id.header_spinner);
+            eventNameText.setSelectAllOnFocus(true);
+            eventNameText.setHint(getResources().getString(R.string.eventsMaintenance_lookupTitle1_hint));
+            eventNameText.setText(mEventEntity.getEntityName());
 
-            titleView.setText(getResources().getString(R.string.eventsMaintenance_titleLabel));
-            controlView.setText(getResources().getString(R.string.eventsMaintenance_titleControlLabel));
+            eventDescriptionText.setSelectAllOnFocus(true);
+            eventDescriptionText.setText(mEventEntity.getEntityDescription());
+            eventDescriptionText.setHint(getResources().getString(R.string.eventsMaintenance_descriptionHint));
             eventDescriptionView.setText(getResources().getString(R.string.eventsMaintenance_DescriptionLabel));
             eventNameView.setText(getResources().getString(R.string.eventsMaintenance_lookupTitle1_label));
+            lookupKeyTitleText.setHint(getResources().getString(R.string.eventsMaintenance_lookupHint));
             lookupKeyTitleView.setText(getResources().getString(R.string.eventsMaintenance_lookupLabel));
 
-            eventNameText.setHint(getResources().getString(R.string.eventsMaintenance_lookupTitle1_hint));
-            lookupKeyTitleText.setHint(getResources().getString(R.string.eventsMaintenance_lookupHint));
-            eventDescriptionText.setHint(getResources().getString(R.string.eventsMaintenance_descriptionHint));
-
-            eventNameText.setSelectAllOnFocus(true);
-            eventNameText.setText(mEventEntity.getEntityName());
             eventNameText.addTextChangedListener(new Text.AfterTextChangedWatcher() {
                 @Override
                 public void afterTextChanged(final Editable s) {
@@ -130,8 +135,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                 }
             });
 
-            eventDescriptionText.setSelectAllOnFocus(true);
-            eventDescriptionText.setText(mEventEntity.getEntityDescription());
+
             eventDescriptionText.addTextChangedListener(new Text.AfterTextChangedWatcher() {
                 @Override
                 public void afterTextChanged(final Editable s) {
@@ -247,25 +251,25 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                 calendarAdapter.swapCursor(data);
                 break;
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
-                emptyView.setVisibility(View.GONE);
+                mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
                 teamsAdapter.swapCursor(data);
                 break;
         }
     }
 
     @Override
-    public void onLoaderReset(final Loader<Cursor> loader) {
+    public void onLoaderReset(final Loader<Cursor> data) {
         /*
             When the loader is being reset, clear the cursor from the adapter.
             This allows the cursor resources to be freed.
         */
-        switch (loader.getId()) {
+        switch (data.getId()) {
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
                 headerSpinner.setVisibility(View.GONE);
                 calendarAdapter.swapCursor(null);
                 break;
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
-                emptyView.setVisibility(View.VISIBLE);
+                mEmptyView.setVisibility(View.VISIBLE);
                 teamsAdapter.swapCursor(null);
                 break;
         }

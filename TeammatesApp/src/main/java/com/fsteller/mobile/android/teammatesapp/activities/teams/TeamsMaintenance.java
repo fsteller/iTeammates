@@ -59,7 +59,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     private EditText collectionKey = null;
     private ImageView headerImage = null;
     private ListView mListView = null;
-    private View emptyView = null;
+    private View mEmptyView = null;
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -91,7 +91,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
         this.headerImage = (ImageView) findViewById(R.id.header_image);
         this.mListView = (ListView) findViewById(R.id.list_view);
-        this.emptyView = findViewById(android.R.id.empty);
+        this.mEmptyView = findViewById(android.R.id.empty);
 
         this.collectionName.addTextChangedListener(new Text.AfterTextChangedWatcher() {
             @Override
@@ -221,16 +221,18 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     public void onLoadFinished(final Loader<Cursor> cursorLoader, final Cursor data) {
 
         if (mCursorAdapter != null) {
+            mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
             mCursorAdapter.swapCursor(data);
-            emptyView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onLoaderReset(final Loader<Cursor> cursorLoader) {
 
-        if (cursorLoader != null && mCursorAdapter != null)
+        if (cursorLoader != null && mCursorAdapter != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
             mCursorAdapter.swapCursor(null);
+        }
     }
 
     //</editor-fold>
