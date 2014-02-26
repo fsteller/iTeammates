@@ -40,7 +40,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Text;
  * Description:
  * Created by fhernandezs on 23/01/14.
  */
-public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     //<editor-fold desc="Constants">
 
@@ -193,14 +193,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     @Override
     public void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
-
-    }
-
-    //</editor-fold>
-    //<editor-fold desc="AdapterView.OnItemClickListener">
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
 

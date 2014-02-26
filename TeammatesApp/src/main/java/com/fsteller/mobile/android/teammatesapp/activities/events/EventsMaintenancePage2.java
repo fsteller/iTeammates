@@ -2,6 +2,7 @@ package com.fsteller.mobile.android.teammatesapp.activities.events;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -12,20 +13,29 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
+import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_DatePicker;
+import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_TimePicker;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Project: iTeammates
@@ -34,7 +44,7 @@ import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
  * Description:
  * Created by fhernandezs on 26/02/14.
  */
-public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implements AdapterView.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     //<editor-fold desc="Constants">
 
@@ -88,14 +98,26 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
             titleImage = (ImageView) rootView.findViewById(R.id.header_image);
             headerSpinner = (Spinner) rootView.findViewById(R.id.header_spinner);
 
+            final Activity context = getActivity();
+            final FragmentManager fm = getFragmentManager();
             final TextView titleLabel = (TextView) rootView.findViewById(R.id.title_label);
             final TextView controlView = (TextView) rootView.findViewById(R.id.header_control_label);
             final TextView descriptionLabel = (TextView) rootView.findViewById(R.id.title_description_label);
             final ImageButton button = (ImageButton) rootView.findViewById(R.id.header_button);
 
+            final EditText dateFrom = (EditText) rootView.findViewById(R.id.dateFrom_edit);
+            final EditText timeFrom = (EditText) rootView.findViewById(R.id.timeFrom_edit);
+            final EditText dateTo = (EditText) rootView.findViewById(R.id.dateTo_edit);
+            final EditText timeTo = (EditText) rootView.findViewById(R.id.timeTo_edit);
+
             titleLabel.setText(getResources().getString(R.string.eventsMaintenance_titleLabel));
             controlView.setText(getResources().getString(R.string.eventsMaintenance_titleControlLabel));
             descriptionLabel.setText(getResources().getString(R.string.eventsMaintenance_titleDescriptionLabel));
+
+            setupDateTextView(context, dateFrom, fm);
+            setupTimeTextView(context, timeFrom, fm);
+            setupDateTextView(context, dateTo, fm);
+            setupTimeTextView(context, timeTo, fm);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,21 +144,17 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
 
 
     //</editor-fold>
-    //<editor-fold desc="AdapterView.OnItemClickListener">
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    //</editor-fold>
     //<editor-fold desc="AdapterView.OnItemSelectedListener">
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+    public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
+        final TextView mView = (TextView) parent.findViewById(R.id.spinner_item_title);
+        final CharSequence mCharSequence = mView.getText();
+        if (mCharSequence != null)
+            mEventEntity.setEntityCalendar(mCharSequence.toString());
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(final AdapterView<?> parent) {
 
     }
 
@@ -187,6 +205,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
 
     //</editor-fold>
     //<editor-fold desc="Private">
+
     private Loader<Cursor> getCalendars(final String accountType) {
         final Uri contentUri = TC.Queries.PhoneCalendar.CONTENT_URI;
         final String selection = TC.Queries.PhoneCalendar.SELECTION;
@@ -195,5 +214,53 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         final String[] selectionArgs = new String[]{accountType};
         return new CursorLoader(getActivity(), contentUri, projection, selection, selectionArgs, sortOrder);
     }
+
+    private static void setupDateTextView(final Context context, final EditText view, final FragmentManager fm) {
+
+        final DateFormat dateFormat = DateFormat.getDateInstance();
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, final MotionEvent event) {
+                boolean result = false;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Toast.makeText(context, context.getResources().getText(R.string.select_date), Toast.LENGTH_LONG).show();
+                    final DialogFragment_DatePicker datePicker = new DialogFragment_DatePicker(new DialogFragment_DatePicker.DatePickerDialogListener() {
+                        @Override
+                        public void onDatePicked(int selectYear, int selectMonth, int selectDay) {
+                            view.setText(dateFormat.format(new GregorianCalendar(selectYear, selectMonth, selectDay).getTime()));
+                        }
+                    });
+                    datePicker.setRetainInstance(true);
+                    datePicker.show(fm, "none");
+                    result = true;
+                }
+                return result;
+            }
+        });
+    }
+
+    private static void setupTimeTextView(final Context context, final EditText view, final FragmentManager fm) {
+        final DateFormat dateFormat = DateFormat.getTimeInstance();
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                boolean result = false;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Toast.makeText(context, context.getResources().getText(R.string.select_time), Toast.LENGTH_LONG).show();
+                    final DialogFragment_TimePicker datePicker = new DialogFragment_TimePicker(new DialogFragment_TimePicker.TimePickerDialogListener() {
+                        @Override
+                        public void onTimePicked(final int selectedHour, final int selectMinutes) {
+                            view.setText(dateFormat.format(new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, selectedHour, selectMinutes).getTime()));
+                        }
+                    });
+                    datePicker.setRetainInstance(true);
+                    datePicker.show(fm, "none");
+                    result = true;
+                }
+                return result;
+            }
+        });
+    }
+
     //</editor-fold>
 }

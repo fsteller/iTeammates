@@ -49,4 +49,22 @@
     <item name="spinner_item_title" type="id"/>
     <item name="itemList_title" type="id"/>
     <item name="fragment_landscapePage" type="id"/>
+    <item name="timeZone_label" type="id"/>
+    <item name="calendarRepetition_spinner" type="id"/>
+    <item name="repetition_label" type="id"/>
+    <item name="timeTo_edit" type="id"/>
+    <item name="dateTo_label" type="id"/>
+    <item name="dateTo_edit" type="id"/>
+    <item name="timeFrom_edit" type="id"/>
+    <item name="dateFrom_edit" type="id"/>
+    <item name="date_monthLabel" type="id"/>
+    <item name="fromLabel" type="id"/>
+    <item name="description_edit" type="id"/>
+    <item name="description_label" type="id"/>
+    <item name="date_weekDayLabel" type="id"/>
+    <item name="date_yearLabel" type="id"/>
+    <item name="date_dayLabel" type="id"/>
+    <item name="main_layout" type="id"/>
+    <item name="date_pickerCalendar" type="id"/>
+    <item name="date_timeLabel" type="id"/>
 </resources>

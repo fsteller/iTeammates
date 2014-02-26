@@ -34,6 +34,19 @@
     <!-- EventsMaintenance Page Fragment -->
     <string name="no_events">No events to show</string>
 
+    <!-- EventsMaintenance Page 2 Fragment -->
+    <string name="date_year">Year</string>
+    <string name="date_day">Day</string>
+    <string name="date_month">Month</string>
+    <string name="date_weekDay">Day of week</string>
+    <string name="date_timeLabel">Selected Time</string>
+    <string name="select_date">Please pick a date</string>
+    <string name="select_time">Please pick time</string>
+    <string name="timeZone_label">Time zone</string>
+    <string name="dateFrom_label">From</string>
+    <string name="dateTo_label">To</string>
+    <string name="repetition_label">Repetition</string>
+
     <!-- Notifications Page Fragment -->
     <string name="no_notifications">No notifications to show</string>
 

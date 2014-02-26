@@ -11,4 +11,14 @@
         <item name="android:textColor">@color/holo_orange</item>
     </style>
 
+    <style name="Widget.CalendarView.Custom" parent="android:Widget.CalendarView">
+        <item name="android:showWeekNumber">false</item>
+        <item name="android:minDate">01/01/2013</item>
+        <item name="android:maxDate">12/31/2100</item>
+        <item name="android:focusedMonthDateColor">@color/holo_black</item>
+        <item name="android:unfocusedMonthDateColor">@color/holo_darker_gray</item>
+        <item name="android:weekDayTextAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:dateTextAppearance">@android:style/TextAppearance.Medium</item>
+    </style>
+
 </resources>
