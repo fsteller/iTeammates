@@ -78,7 +78,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
             rootView.setOnClickListener(mHideInputClass);
             mEmptyView = rootView.findViewById(android.R.id.empty);
             mListView = (AbsListView) rootView.findViewById(R.id.list_teammates_page);
-            isPortrait = (rootView.findViewById(R.id.fragment_teamsPortraitPage) != null);
+            isPortrait = (rootView.findViewById(R.id.fragment_portraitPage) != null);
             if (getActivity() != null)
                 imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 

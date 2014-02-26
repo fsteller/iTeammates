@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.utils.Image;
+package com.fsteller.mobile.android.teammatesapp.utils.image;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -10,6 +10,10 @@ import android.util.Log;
 import com.fsteller.mobile.android.teammatesapp.BuildConfig;
 
 /**
+ * Project: iTeammates
+ * Subpackage: utils.image
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public final class ImageCache {

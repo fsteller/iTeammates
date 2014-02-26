@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="fragment_teamsLandscapePage" type="id"/>
     <item name="fragment_eventsPage" type="id"/>
     <item name="fragment_notifyPage" type="id"/>
-    <item name="fragment_teamsPortraitPage" type="id"/>
+    <item name="fragment_portraitPage" type="id"/>
     <item name="action_search" type="id"/>
     <item name="action_addItem" type="id"/>
     <item name="action_login" type="id"/>
@@ -49,4 +48,5 @@
     <item name="spinner_item_description" type="id"/>
     <item name="spinner_item_title" type="id"/>
     <item name="itemList_title" type="id"/>
+    <item name="fragment_landscapePage" type="id"/>
 </resources>

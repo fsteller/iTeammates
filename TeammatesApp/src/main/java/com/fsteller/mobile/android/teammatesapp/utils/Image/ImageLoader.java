@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.utils.Image;
+package com.fsteller.mobile.android.teammatesapp.utils.image;
 
 import android.app.FragmentManager;
 import android.content.Context;
@@ -19,21 +19,27 @@ import java.io.FileDescriptor;
 import java.lang.ref.WeakReference;
 
 /**
+ * Project: iTeammates
+ * Subpackage: utils.image
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public abstract class ImageLoader {
     private static final String TAG = "ImageProcessor";
     private static final int FADE_IN_TIME = 200;
 
+    private final int mImageSize;
+    private final Resources mResources;
     private final Object mPauseWorkLock = new Object();
+
     private Bitmap mLoadingBitmap;
     private ImageCache mImageCache;
     private boolean mPauseWork = false;
     private boolean mFadeInBitmap = true;
-    private Resources mResources;
-    private int mImageSize;
 
-    protected ImageLoader(final Context context, final int imageSize) {
+
+    ImageLoader(final Context context, final int imageSize) {
         mResources = context.getResources();
         mImageSize = imageSize;
     }

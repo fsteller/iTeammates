@@ -1,8 +1,9 @@
-package com.fsteller.mobile.android.teammatesapp.utils.Image;
+package com.fsteller.mobile.android.teammatesapp.utils.image;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -18,6 +19,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
+ * Project: iTeammates
+ * Subpackage: utils.image
+ * <p/>
+ * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public final class ImageUtils {
@@ -67,7 +72,9 @@ public final class ImageUtils {
         final TypedValue typedValue = new TypedValue();
 
         // Resolve list item preferred height theme attribute into typedValue
-        activity.getTheme().resolveAttribute(android.R.attr.listPreferredItemHeight, typedValue, true);
+        Resources.Theme mTheme = activity.getTheme();
+        if (mTheme != null)
+            mTheme.resolveAttribute(android.R.attr.listPreferredItemHeight, typedValue, true);
 
         // AddItem a new DisplayMetrics object
         final DisplayMetrics metrics = new DisplayMetrics();

@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.utils.Image;
+package com.fsteller.mobile.android.teammatesapp.utils.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,9 +13,13 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
+ * Project: iTeammates
+ * Subpackage: utils.image
+ * <p/>
+ * Description:
  * Created by fsteller on 12/30/13.
  */
-public final class RoundedImageView extends ImageView {
+final class RoundedImageView extends ImageView {
 
     public RoundedImageView(Context context) {
         super(context);
@@ -49,28 +53,28 @@ public final class RoundedImageView extends ImageView {
         canvas.drawBitmap(roundBitmap, 0, 0, null);
     }
 
-    public static Bitmap getCroppedBitmap(final Bitmap bmp, final int radius) {
-        Bitmap sbmp;
+    private static Bitmap getCroppedBitmap(final Bitmap bmp, final int radius) {
+        Bitmap mBitmap;
         if (bmp.getWidth() != radius || bmp.getHeight() != radius)
-            sbmp = Bitmap.createScaledBitmap(bmp, radius, radius, false);
+            mBitmap = Bitmap.createScaledBitmap(bmp, radius, radius, false);
         else
-            sbmp = bmp;
+            mBitmap = bmp;
 
-        final Bitmap output = Bitmap.createBitmap(sbmp.getWidth(), sbmp.getHeight(), Bitmap.Config.ARGB_8888);
+        final Bitmap output = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);
 
         final Paint paint = new Paint();
         final int color = 0xffa19774;//Color.parseColor("#BAB399")
-        final Rect rect = new Rect(0, 0, sbmp.getWidth(), sbmp.getHeight());
+        final Rect rect = new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());
 
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setDither(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
-        canvas.drawCircle(sbmp.getWidth() / 2 + 0.7f, sbmp.getHeight() / 2 + 0.7f, sbmp.getWidth() / 2 + 0.1f, paint);
+        canvas.drawCircle(mBitmap.getWidth() / 2 + 0.7f, mBitmap.getHeight() / 2 + 0.7f, mBitmap.getWidth() / 2 + 0.1f, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(sbmp, rect, rect, paint);
+        canvas.drawBitmap(mBitmap, rect, rect, paint);
 
         return output;
     }
