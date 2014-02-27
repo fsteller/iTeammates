@@ -55,7 +55,7 @@
     <string name="app_name">iTeammates</string>
     <string name="alphabet">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890</string>
     <string name="emptyString"/>
-    <string name="Name">Name</string>
+    <string name="name">Name</string>
     <string name="LookupKey">Lookup Key</string>
     <string name="teamsMaintenance_titleLabel">Teams</string>
     <string name="teamsMaintenance_titleDescriptionLabel">Please, provide a team name and an optional image&#8230;</string>
@@ -65,10 +65,10 @@
     <string name="no_selected_contacts">Every team must have a least one member</string>
     <string name="update_prefix">Last Update: %s</string>
     <string name="creation_prefix">Created at: %s</string>
-    <string name="TeamsPage_actionTitle">Teams Actions</string>
+    <string name="teamsPage_actionTitle">Teams Actions</string>
     <string name="eventsMaintenance_titleLabel">Events</string>
     <string name="eventsMaintenance_titleDescriptionLabel">Please, provide an event name, a description, and an optional image&#8230;</string>
-    <string name="Description">Description</string>
+    <string name="description">Description</string>
     <string name="action_next">Next</string>
     <string name="eventsMaintenance_titleControlLabel">Calendar</string>
     <string name="eventsMaintenance_lookupHint">Lookup key</string>

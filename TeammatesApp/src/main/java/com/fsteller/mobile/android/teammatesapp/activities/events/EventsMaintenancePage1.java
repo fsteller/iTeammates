@@ -239,7 +239,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         */
         switch (loader.getId()) {
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
-                headerSpinner.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
+                headerSpinner.setVisibility(data.getCount() > 0 ? View.VISIBLE : View.GONE);
                 calendarAdapter.swapCursor(data);
                 break;
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
@@ -276,39 +276,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     //</editor-fold>
     //<editor-fold desc="Private">
-
-
-/*
-    private Cursor getParticipantsFilteredByTermSearch(final String searchTerm) {
-
-        Cursor result = null;
-        final Activity mActivity = getActivity();
-        final Uri teamsUri = Uri.withAppendedPath(TC.Queries.TeammatesTeams.FILTER_URI, Uri.encode(searchTerm));
-        final Uri contactsUri = Uri.withAppendedPath(TC.Queries.PhoneContacts.FILTER_URI, Uri.encode(searchTerm));
-
-        if (mActivity != null && teamsUri != null && contactsUri != null) {
-            final String teamsSelection = TC.Queries.TeammatesTeams.SELECTION;
-            final String teamsSortOrder = TC.Queries.TeammatesTeams.SORT_ORDER;
-            final String[] teamsProjection = TC.Queries.TeammatesTeams.PROJECTION;
-
-
-            final String contactsSelection = TC.Queries.PhoneContacts.SELECTION;
-            final String contactsSortOrder = TC.Queries.PhoneContacts.SORT_ORDER;
-            final String[] contactsProjection = TC.Queries.PhoneContacts.PROJECTION;
-
-            final Cursor mTeams = mActivity.getContentResolver().
-                    query(teamsUri, teamsProjection, teamsSelection, null, teamsSortOrder);
-
-            final Cursor mContacts = mActivity.getContentResolver().
-                    query(contactsUri, contactsProjection, contactsSelection, null, contactsSortOrder);
-
-            result = new MergeCursor(new Cursor[]{mTeams, mContacts});
-            //return new CursorLoader(getActivity(), teamsUri, teamsProjection, teamSelection, null, teamSortOrder);
-        }
-        return result;
-    }
-    */
-
     private Loader<Cursor> getParticipantsFilteredByTermSearch(final String searchTerm) {
 
         /*

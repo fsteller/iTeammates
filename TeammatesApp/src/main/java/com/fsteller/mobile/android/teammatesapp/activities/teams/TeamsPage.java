@@ -152,7 +152,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
     public boolean onCreateActionMode(final ActionMode mode, final Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
         if (inflater != null) {
-            mode.setTitle(R.string.TeamsPage_actionTitle);
+            mode.setTitle(R.string.teamsPage_actionTitle);
             inflater.inflate(R.menu.teammates_context, menu);
         }
         return true;

@@ -13,12 +13,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -105,10 +103,10 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
             final TextView descriptionLabel = (TextView) rootView.findViewById(R.id.title_description_label);
             final ImageButton button = (ImageButton) rootView.findViewById(R.id.header_button);
 
-            final EditText dateFrom = (EditText) rootView.findViewById(R.id.dateFrom_edit);
-            final EditText timeFrom = (EditText) rootView.findViewById(R.id.timeFrom_edit);
-            final EditText dateTo = (EditText) rootView.findViewById(R.id.dateTo_edit);
-            final EditText timeTo = (EditText) rootView.findViewById(R.id.timeTo_edit);
+            final TextView dateFrom = (TextView) rootView.findViewById(R.id.dateFrom_edit);
+            final TextView timeFrom = (TextView) rootView.findViewById(R.id.timeFrom_edit);
+            final TextView dateTo = (TextView) rootView.findViewById(R.id.dateTo_edit);
+            final TextView timeTo = (TextView) rootView.findViewById(R.id.timeTo_edit);
 
             titleLabel.setText(getResources().getString(R.string.eventsMaintenance_titleLabel));
             controlView.setText(getResources().getString(R.string.eventsMaintenance_titleControlLabel));
@@ -141,7 +139,6 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         super.onResume();
         restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID, this);
     }
-
 
     //</editor-fold>
     //<editor-fold desc="AdapterView.OnItemSelectedListener">
@@ -179,7 +176,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
             (The framework will take care of closing the old cursor once we return.)
         */
         if (TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID == loader.getId()) {
-            headerSpinner.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
+            headerSpinner.setVisibility(data.getCount() > 0 ? View.VISIBLE : View.GONE);
             calendarAdapter.swapCursor(data);
         }
     }
@@ -215,51 +212,46 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         return new CursorLoader(getActivity(), contentUri, projection, selection, selectionArgs, sortOrder);
     }
 
-    private static void setupDateTextView(final Context context, final EditText view, final FragmentManager fm) {
-
+    private static void setupDateTextView(final Context context, final TextView view, final FragmentManager fm) {
         final DateFormat dateFormat = DateFormat.getDateInstance();
-        view.setOnTouchListener(new View.OnTouchListener() {
+
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(final View v, final MotionEvent event) {
-                boolean result = false;
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Toast.makeText(context, context.getResources().getText(R.string.select_date), Toast.LENGTH_LONG).show();
-                    final DialogFragment_DatePicker datePicker = new DialogFragment_DatePicker(new DialogFragment_DatePicker.DatePickerDialogListener() {
-                        @Override
-                        public void onDatePicked(int selectYear, int selectMonth, int selectDay) {
-                            view.setText(dateFormat.format(new GregorianCalendar(selectYear, selectMonth, selectDay).getTime()));
-                        }
-                    });
-                    datePicker.setRetainInstance(true);
-                    datePicker.show(fm, "none");
-                    result = true;
-                }
-                return result;
+            public void onClick(final View v) {
+                Toast.makeText(context, context.getResources().getText(R.string.select_date), Toast.LENGTH_SHORT).show();
+                final DialogFragment_DatePicker datePicker = new DialogFragment_DatePicker(new DialogFragment_DatePicker.DatePickerDialogListener() {
+                    @Override
+                    public void onDatePicked(int selectYear, int selectMonth, int selectDay) {
+                        view.setText(dateFormat.format(new GregorianCalendar(selectYear, selectMonth, selectDay).getTime()));
+                    }
+                });
+                datePicker.setShowsDialog(true);
+                datePicker.setRetainInstance(true);
+                datePicker.show(fm, "date_picker");
             }
         });
+        view.setClickable(true);
     }
 
-    private static void setupTimeTextView(final Context context, final EditText view, final FragmentManager fm) {
+    private static void setupTimeTextView(final Context context, final TextView view, final FragmentManager fm) {
         final DateFormat dateFormat = DateFormat.getTimeInstance();
-        view.setOnTouchListener(new View.OnTouchListener() {
+
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                boolean result = false;
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Toast.makeText(context, context.getResources().getText(R.string.select_time), Toast.LENGTH_LONG).show();
-                    final DialogFragment_TimePicker datePicker = new DialogFragment_TimePicker(new DialogFragment_TimePicker.TimePickerDialogListener() {
-                        @Override
-                        public void onTimePicked(final int selectedHour, final int selectMinutes) {
-                            view.setText(dateFormat.format(new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, selectedHour, selectMinutes).getTime()));
-                        }
-                    });
-                    datePicker.setRetainInstance(true);
-                    datePicker.show(fm, "none");
-                    result = true;
-                }
-                return result;
+            public void onClick(final View v) {
+                Toast.makeText(context, context.getResources().getText(R.string.select_time), Toast.LENGTH_SHORT).show();
+                final DialogFragment_TimePicker timePicker = new DialogFragment_TimePicker(new DialogFragment_TimePicker.TimePickerDialogListener() {
+                    @Override
+                    public void onTimePicked(final int selectedHour, final int selectMinutes) {
+                        view.setText(dateFormat.format(new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, selectedHour, selectMinutes).getTime()));
+                    }
+                });
+                timePicker.setShowsDialog(true);
+                timePicker.setRetainInstance(true);
+                timePicker.show(fm, "time_picker");
             }
         });
+        view.setClickable(true);
     }
 
     //</editor-fold>

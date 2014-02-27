@@ -5,7 +5,10 @@
                 android:layout_height="fill_parent"
                 android:id="@id/fragment_landscapePage"
                 android:background="@color/holo_gray_background"
-                android:padding="10dip">
+                android:paddingLeft="10dip"
+                android:paddingStart="10dip"
+                android:paddingRight="10dip"
+                android:paddingEnd="10dip">
 
     <RelativeLayout
         android:id="@id/android:empty"
@@ -29,6 +32,8 @@
         android:smoothScrollbar="true"
         android:numColumns="2"
         android:scrollbars="none"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
         android:horizontalSpacing="10dip"
         android:choiceMode="multipleChoice"
         android:background="@drawable/holo_card_clean"

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="@string/Name"
+            android:text="@string/name"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

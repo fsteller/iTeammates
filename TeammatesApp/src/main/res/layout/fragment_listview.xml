@@ -22,9 +22,14 @@
     </RelativeLayout>
 
     <ListView
-
         android:background="@color/teammates_control_transparent"
-        android:padding="@dimen/default_padding"
+        android:layout_marginTop="10dip"
+        android:paddingLeft="10dip"
+        android:paddingStart="10dip"
+        android:paddingRight="10dip"
+        android:paddingEnd="10dip"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:smoothScrollbar="true"
