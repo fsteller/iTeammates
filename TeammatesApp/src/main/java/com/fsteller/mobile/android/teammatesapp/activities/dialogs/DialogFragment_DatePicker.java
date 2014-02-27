@@ -9,12 +9,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -28,7 +29,7 @@ public class DialogFragment_DatePicker extends DialogFragment {
     private int mDay = 1;
     private int mMonth = 1;
     private int mYear = 2000;
-    private CalendarView cv = null;
+    private DatePicker cv = null;
     private DatePickerDialogListener mListener = null;
 
     /* The Fragment that creates an instance of this dialog fragment must
@@ -57,37 +58,28 @@ public class DialogFragment_DatePicker extends DialogFragment {
 
         if (rootView != null) {
             final TextView mWeekDay = (TextView) rootView.findViewById(R.id.date_weekDayLabel);
-            final TextView mMonth = (TextView) rootView.findViewById(R.id.date_monthLabel);
-            final TextView mYear = (TextView) rootView.findViewById(R.id.date_yearLabel);
-            final TextView mDay = (TextView) rootView.findViewById(R.id.date_dayLabel);
-            this.cv = (CalendarView) rootView.findViewById(R.id.date_pickerCalendar);
 
-            cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-                @Override
-                public void onSelectedDayChange(final CalendarView view, final int year, final int month, final int day) {
+            cv = (DatePicker) rootView.findViewById(R.id.date_pickerCalendar);
+            cv.init(Calendar.DAY_OF_YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH,
+                    new DatePicker.OnDateChangedListener() {
+                        @Override
+                        public void onDateChanged(final DatePicker view, final int year, final int month, final int day) {
+                            DialogFragment_DatePicker.this.mDay = day;
+                            DialogFragment_DatePicker.this.mYear = year;
+                            DialogFragment_DatePicker.this.mMonth = month;
 
-                    DialogFragment_DatePicker.this.mDay = day;
-                    DialogFragment_DatePicker.this.mYear = year;
-                    DialogFragment_DatePicker.this.mMonth = month;
+                            mWeekDay.setText(getWeekDay(year, month, day));
+                        }
+                    });
 
-                    mDay.setText("" + day);
-                    mYear.setText("" + year);
-                    mMonth.setText(getMonthName(year, month, day));
-                    mWeekDay.setText(getWeekDay(year, month, day));
-                }
-            });
         }
 
         builder.setPositiveButton(R.string.action_finish, new DialogInterface.OnClickListener() {
             public void onClick(final DialogInterface dialog, final int id) {
                 if (mListener != null)
-                    // Send the positive button event back to the host activity
                     mListener.onDatePicked(mYear, mMonth, mDay);
             }
         });
-
-        if (cv != null)
-            cv.setDate(System.currentTimeMillis() + 86400000);
 
         // Create the AlertDialog object and return it
         builder.setView(rootView);
@@ -100,9 +92,5 @@ public class DialogFragment_DatePicker extends DialogFragment {
 
     private static String getWeekDay(final int year, final int month, final int day) {
         return new SimpleDateFormat("EEEE").format(new GregorianCalendar(year, month, day).getTime());
-    }
-
-    private static String getMonthName(final int year, final int month, final int day) {
-        return new SimpleDateFormat("MMMM").format(new GregorianCalendar(year, month, day).getTime());
     }
 }

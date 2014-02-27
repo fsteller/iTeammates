@@ -24,54 +24,15 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/date_month"
-        android:id="@id/date_monthLabel"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
-        android:paddingLeft="50dip"
-        android:textColor="@color/holo_darker_gray"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/date_year"
-        android:id="@id/date_yearLabel"
-        android:layout_alignTop="@id/date_monthLabel"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:paddingRight="50dip"
-        android:textColor="@color/holo_darker_gray"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/date_day"
-        android:id="@id/date_dayLabel"
-        android:padding="5dip"
-        android:textStyle="bold"
-        android:textSize="50sp"
-        android:textColor="@color/holo_blue_light"
-        android:layout_below="@id/main_layout"
-        android:layout_centerHorizontal="true"/>
-
-    <CalendarView
+    <DatePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@id/date_pickerCalendar"
-        android:layout_below="@id/date_dayLabel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:calendarViewShown="false"
+        android:spinnersShown="true"
         android:layout_alignParentEnd="true"
-        style="@style/Widget.CalendarView.Custom"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/main_layout"/>
 
 </RelativeLayout>

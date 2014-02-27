@@ -47,9 +47,12 @@ public class DialogFragment_TimePicker extends DialogFragment {
         final View rootView = inflater.inflate(R.layout.dialog_time_picker, null);
 
         if (rootView != null) {
-            this.mTimePicker = (TimePicker) rootView.findViewById(R.id.date_timePicker);
-            this.mTimePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-                @Override
+            mTimePicker = (TimePicker) rootView.findViewById(R.id.date_timePicker);
+            mTimePicker.setCurrentHour(Calendar.HOUR);
+            mTimePicker.setCurrentMinute(Calendar.MINUTE);
+            mTimePicker.setOnTimeChangedListener(
+                    new TimePicker.OnTimeChangedListener() {
+                        @Override
                 public void onTimeChanged(final TimePicker view, final int hourOfDay, final int minutes) {
                     mMinutes = minutes;
                     mHour = hourOfDay;
@@ -61,15 +64,9 @@ public class DialogFragment_TimePicker extends DialogFragment {
         builder.setPositiveButton(R.string.action_finish, new DialogInterface.OnClickListener() {
             public void onClick(final DialogInterface dialog, final int id) {
                 if (mListener != null)
-                    // Send the positive button event back to the host activity
                     mListener.onTimePicked(mHour, mMinutes);
             }
         });
-
-        if (mTimePicker != null) {
-            mTimePicker.setCurrentHour(Calendar.HOUR_OF_DAY);
-            mTimePicker.setCurrentMinute(Calendar.MINUTE);
-        }
 
         // Create the AlertDialog object and return it
         builder.setView(rootView);
