@@ -1,66 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:background="@color/teammates_activity_background"
+              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
-
-    <include
-        android:id="@+id/aa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/fragment_maintenance_header"/>
+              android:columnOrderPreserved="true"
+              android:baselineAligned="false"
+              android:columnCount="2"
+              android:rowCount="1">
 
     <RelativeLayout
-        android:background="@color/teammates_header_background"
-        android:padding="@dimen/default_padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_weight="0"
+        android:id="@+id/fragment_left_side"
+        android:layout_height="match_parent"
+        android:layout_width="200dip"
+        android:orientation="vertical">
 
-        <TextView
-            android:text="@string/name"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@id/collection_title_label"
-            android:layout_alignParentTop="true"
+        <include
+            android:layout_height="wrap_content"
+            layout="@layout/fragment_maintenance_header"
+            android:id="@+id/include"/>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/fragment_basic_info"
+            android:layout_below="@+id/include"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignBottom="@id/collection_title_text"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:id="@id/collection_title_text"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@id/collection_description_text"
-            android:layout_alignStart="@id/collection_description_text"/>
-
-        <TextView
-            android:text="@string/description"
-            android:gravity="center_vertical"
-            android:id="@id/collection_description_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/collection_title_label"
-            android:layout_alignBottom="@id/collection_description_text"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:id="@id/collection_description_text"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/collection_title_text"
-            android:layout_toRightOf="@id/collection_description_label"/>
+            android:layout_alignParentStart="true"/>
 
     </RelativeLayout>
 
@@ -194,6 +161,5 @@
             android:layout_alignParentLeft="true"/>
 
     </RelativeLayout>
-
 
 </LinearLayout>

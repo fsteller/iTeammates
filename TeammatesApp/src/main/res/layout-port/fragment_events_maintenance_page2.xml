@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@color/teammates_activity_background"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include
+        android:id="@+id/aa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/fragment_maintenance_header"/>
+
+    <include
+        android:id="@+id/aa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/fragment_basic_info"/>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/holo_card_white"
+        android:layout_margin="10dip"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/dateFrom_label"
+            android:id="@id/fromLabel"
+            android:layout_below="@id/description_edit"
+            android:layout_alignLeft="@id/description_edit"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@id/date_monthLabel"
+            android:layout_below="@id/description_edit"
+            android:layout_centerHorizontal="true"/>
+
+
+        <TextView
+            android:focusable="false"
+            android:id="@id/dateFrom_edit"
+            android:gravity="center_horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fromLabel"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@id/date_monthLabel"
+            android:layout_alignEnd="@id/date_monthLabel"
+            style="@android:style/Widget.Holo.EditText"/>
+
+        <TextView
+            android:focusable="false"
+            android:id="@id/timeFrom_edit"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fromLabel"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@id/date_monthLabel"
+            android:layout_alignStart="@id/date_monthLabel"
+            style="@android:style/Widget.Holo.EditText"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/dateTo_label"
+            android:id="@id/dateTo_label"
+            android:layout_below="@id/dateFrom_edit"
+            android:layout_alignLeft="@id/dateFrom_edit"
+            android:layout_alignStart="@id/dateFrom_edit"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:focusable="false"
+            android:id="@id/dateTo_edit"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@id/date_monthLabel"
+            android:layout_alignEnd="@id/date_monthLabel"
+            android:layout_below="@id/dateTo_label"
+            style="@android:style/Widget.Holo.EditText"/>
+
+        <TextView
+            android:focusable="false"
+            android:id="@id/timeTo_edit"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/date_monthLabel"
+            android:layout_alignTop="@id/dateTo_edit"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="@android:style/Widget.Holo.EditText"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/repetition_label"
+            android:id="@id/repetition_label"
+            android:layout_below="@+id/dateTo_edit"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@id/calendarRepetition_spinner"
+            android:spinnerMode="dropdown"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/repetition_label"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/timeZone_label"
+            android:id="@id/timeZone_label"
+            android:layout_below="@id/calendarRepetition_spinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeZone_spinner"
+            android:spinnerMode="dropdown"
+            android:layout_below="@id/timeZone_label"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

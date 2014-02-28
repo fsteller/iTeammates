@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:id="@+id/fragment_lookup_basic_info"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/teammates_header_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <include
+        android:id="@+id/fragment_basic_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/fragment_basic_info"/>
+
+    <TextView
+        android:paddingTop="10dip"
+        android:text="@string/LookupKey"
+        android:gravity="center_vertical"
+        android:id="@id/collection_lookup_key_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_basic_info"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:drawableEnd="@android:drawable/ic_menu_search"
+        android:drawableRight="@android:drawable/ic_menu_search"
+        android:id="@id/collection_lookup_key_text"
+        android:layout_below="@+id/collection_lookup_key_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+
+</RelativeLayout>
