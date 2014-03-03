@@ -16,7 +16,8 @@
         android:id="@+id/aa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/fragment_basic_info"/>
+        layout="@layout/fragment_basic_info"
+        android:layout_marginBottom="10dip"/>
 
 
     <RelativeLayout

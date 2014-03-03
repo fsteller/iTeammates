@@ -36,14 +36,17 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_margin="2dip"
         android:layout_weight="1"
+        android:layout_margin="2dip"
         android:layout_width="0dip"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             layout="@layout/fragment_listview"/>
+
     </LinearLayout>
 
 </LinearLayout>

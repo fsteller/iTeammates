@@ -5,9 +5,15 @@
     android:background="@color/teammates_header_background"
     android:id="@+id/fragment_basic_info"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:paddingTop="10dip"
+    android:paddingStart="10dip"
+    android:paddingLeft="10dip"
+    android:paddingEnd="10dip"
+    android:paddingRight="10dip">
 
     <TextView
+
         android:id="@id/collection_title_label"
         android:text="@string/name"
         android:gravity="center_vertical"

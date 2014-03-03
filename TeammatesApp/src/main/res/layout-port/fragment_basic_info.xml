@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
+    android:paddingStart="10dip"
+    android:paddingLeft="10dip"
+    android:paddingEnd="10dip"
+    android:paddingRight="10dip"
     android:id="@+id/fragment_basic_info"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/teammates_header_background"
