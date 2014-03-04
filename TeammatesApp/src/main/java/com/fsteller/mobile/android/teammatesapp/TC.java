@@ -42,6 +42,10 @@ public interface TC {
         public static final int About = 11013;       //Menu Action
     }
 
+    public static interface MediaStore {
+        public static Uri MEDIA_CONTENT_URI = android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI;
+    }
+
     public static interface DatabaseActions {
 
         public static final int TeamAddedToDb = 101;

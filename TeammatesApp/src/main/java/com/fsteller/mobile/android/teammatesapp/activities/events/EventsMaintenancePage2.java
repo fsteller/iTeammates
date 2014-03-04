@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,6 +29,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragmen
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_TimePicker;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
+import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -112,23 +112,12 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
             controlView.setText(getResources().getString(R.string.eventsMaintenance_titleControlLabel));
             descriptionLabel.setText(getResources().getString(R.string.eventsMaintenance_titleDescriptionLabel));
 
+            button.setOnClickListener(new ImageUtils.PickImage(context));
             setupDateTextView(context, dateFrom, fm);
             setupTimeTextView(context, timeFrom, fm);
             setupDateTextView(context, dateTo, fm);
             setupTimeTextView(context, timeTo, fm);
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "Raising intent to pick image up...");
-                    final Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    startActivityForResult(Intent.createChooser
-                            (intent, getString(R.string.selectPicture)), TC.Activity.ContextActionRequest.PickImage);
-                }
-            });
         }
         Log.d(TAG, "onCreated");
         return rootView;

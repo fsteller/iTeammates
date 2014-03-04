@@ -117,20 +117,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
         headerTitle.setText(getResources().getString(R.string.teamsMaintenance_titleLabel));
         headerDescription.setText(getResources().getString(R.string.teamsMaintenance_titleDescriptionLabel));
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Raising intent to pick image up...");
-                final Intent intent = new Intent(Intent.ACTION_GET_CONTENT,
-                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-
-                intent.setType("image/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                startActivityForResult(Intent.createChooser
-                        (intent, getString(R.string.selectPicture)), TC.Activity.ContextActionRequest.PickImage);
-            }
-        });
+        button.setOnClickListener(new ImageUtils.PickImage(this));
 
         this.mListView.setOnScrollListener(this);
         this.mCursorAdapter = new ContactsAdapter(this);
