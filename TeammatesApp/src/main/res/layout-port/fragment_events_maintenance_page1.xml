@@ -12,7 +12,6 @@
         layout="@layout/fragment_maintenance_header"/>
 
     <include
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/fragment_collection_events_participants"/>

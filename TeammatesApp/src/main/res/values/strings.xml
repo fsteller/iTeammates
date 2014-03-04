@@ -58,7 +58,7 @@
     <string name="name">Name</string>
     <string name="LookupKey">Lookup Key</string>
     <string name="teamsMaintenance_titleLabel">Teams</string>
-    <string name="teamsMaintenance_titleDescriptionLabel">Please, provide a team name and an optional image&#8230;</string>
+    <string name="teamsMaintenance_titleDescriptionLabel">Please, provide a team name and an optional image.</string>
     <string name="selectPicture">Please Select a Picture</string>
     <string name="action_finish">Done</string>
     <string name="no_entity_name">It is required to set a name on this step.</string>
@@ -67,7 +67,7 @@
     <string name="creation_prefix">Created at: %s</string>
     <string name="teamsPage_actionTitle">Teams Actions</string>
     <string name="eventsMaintenance_titleLabel">Events</string>
-    <string name="eventsMaintenance_titleDescriptionLabel">Please, provide an event name, a description, and an optional image&#8230;</string>
+    <string name="eventsMaintenance_titleDescriptionLabel">Please, provide an event name, a description, and an optional image.</string>
     <string name="description">Description</string>
     <string name="action_next">Next</string>
     <string name="eventsMaintenance_titleControlLabel">Calendar</string>
@@ -78,6 +78,5 @@
     <string name="eventsMaintenance_DescriptionLabel">Description</string>
     <string name="eventsMaintenance_descriptionHint">Type Description</string>
     <string name="no_participants">There is no participants able</string>
-
 
 </resources>

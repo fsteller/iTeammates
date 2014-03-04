@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@color/holo_gray_background"
+              android:layout_gravity="clip_vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:columnOrderPreserved="true"
+              android:alignmentMode="alignMargins"
+              android:orientation="horizontal"
+              android:baselineAligned="false"
+              android:columnCount="2"
+              android:padding="1dip"
+              android:rowCount="1"
+              android:useDefaultMargins="true">
+
+    <LinearLayout
+        android:layout_margin="2dip"
+        android:layout_weight="0.7"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/fragment_left_side"
+        android:layout_height="match_parent"
+        android:layout_width="0dip">
+
+        <include
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/fragment_maintenance_header"/>
+
+        <include
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            layout="@layout/fragment_basic_info"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingStart="10dip"
+        android:paddingLeft="10dip"
+        android:paddingEnd="10dip"
+        android:paddingRight="10dip"
+        android:layout_margin="2dip"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/fragment_right_side"
+        android:layout_height="match_parent"
+        android:layout_width="0dip"
+        android:background="@color/holo_white">
+
+        <TextView
+            android:id="@id/fromLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/dateFrom_label"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@id/dateFrom_edit"
+                android:layout_height="wrap_content"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:gravity="center_horizontal"
+                style="@android:style/Widget.Holo.EditText"/>
+
+            <TextView
+                android:id="@id/timeFrom_edit"
+                android:layout_height="wrap_content"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:gravity="center_horizontal"
+                style="@android:style/Widget.Holo.EditText"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/dateTo_label"
+            android:id="@id/dateTo_label"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@id/dateTo_edit"
+                android:layout_height="wrap_content"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:gravity="center_horizontal"
+                style="@android:style/Widget.Holo.EditText"/>
+
+            <TextView
+                android:id="@id/timeTo_edit"
+                android:layout_height="wrap_content"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:gravity="center_horizontal"
+                style="@android:style/Widget.Holo.EditText"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@id/date_monthLabel"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/repetition_label"
+            android:id="@id/repetition_label"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@id/calendarRepetition_spinner"
+            android:spinnerMode="dropdown"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/timeZone_label"
+            android:id="@id/timeZone_label"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeZone_spinner"
+            android:spinnerMode="dropdown"/>
+
+    </LinearLayout>
+</LinearLayout>

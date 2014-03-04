@@ -83,7 +83,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         final Bundle extras = mIntent != null && mIntent.hasExtra(TC.ENTITY.EXTRAS) ?
                 mIntent.getBundleExtra(TC.ENTITY.EXTRAS) : savedInstanceState;
 
-        this.setContentView(R.layout.activity_teams_maintenance);
+        this.setContentView(R.layout.activity_teams_maintenance_page1);
 
         this.mEntity.loadData(this, extras);
         this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
