@@ -34,7 +34,7 @@
         android:scrollbars="none"
         android:clipToPadding="false"
         android:scrollbarStyle="outsideOverlay"
-        android:horizontalSpacing="10dip"
+        android:horizontalSpacing="5dip"
         android:choiceMode="multipleChoice"
         android:background="@drawable/holo_card_clean"
         android:layout_below="@id/android:empty"

@@ -2,6 +2,7 @@ package com.fsteller.mobile.android.teammatesapp.utils.image;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,13 +11,17 @@ import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 
 import com.fsteller.mobile.android.teammatesapp.BuildConfig;
+import com.fsteller.mobile.android.teammatesapp.R;
+import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.VersionTools;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 
 /**
  * Project: iTeammates
@@ -170,6 +175,39 @@ public final class ImageUtils {
             // If the decoding failed, returns null
             return image;
         }
+
+    }
+
+
+    public static class PickImage implements View.OnClickListener {
+
+        private Activity mActivity = null;
+
+        public PickImage(final Activity activity) {
+            if (activity == null)
+                throw new InvalidParameterException("Parameter context can not be null");
+
+            this.mActivity = activity;
+        }
+
+        @Override
+        public void onClick(final View v) {
+            Log.d(TAG, "Raising intent to pick image up...");
+            final Intent intent = new Intent(Intent.ACTION_GET_CONTENT, TC.MediaStore.MEDIA_CONTENT_URI);
+
+            intent.setType("image/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+            intent.putExtra("outputY", mActivity.getString(R.dimen.imageHeight));
+            intent.putExtra("outputX", mActivity.getString(R.dimen.imageWidth));
+            intent.putExtra("scale", "true");
+            intent.putExtra("crop", "true");
+
+            mActivity.startActivityForResult(Intent.createChooser
+                    (intent, mActivity.getString(R.string.selectPicture)), TC.Activity.ContextActionRequest.PickImage);
+        }
+
 
     }
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -32,6 +31,7 @@ import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
+import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
 
 /**
  * Project: iTeammates
@@ -115,6 +115,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             final TextView eventDescriptionView = (TextView) rootView.findViewById(R.id.collection_description_label);
             final TextView lookupKeyTitleText = (TextView) rootView.findViewById(R.id.collection_lookup_key_text);
             final TextView lookupKeyTitleView = (TextView) rootView.findViewById(R.id.collection_lookup_key_label);
+            final ImageButton button = (ImageButton) rootView.findViewById(R.id.header_button);
 
             eventNameText.setSelectAllOnFocus(true);
             eventNameText.setHint(getResources().getString(R.string.eventsMaintenance_lookupTitle1_hint));
@@ -135,7 +136,6 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                 }
             });
 
-
             eventDescriptionText.addTextChangedListener(new Text.AfterTextChangedWatcher() {
                 @Override
                 public void afterTextChanged(final Editable s) {
@@ -151,19 +151,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                 }
             });
 
-            final ImageButton button = (ImageButton) rootView.findViewById(R.id.header_button);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "Raising intent to pick image up...");
-                    final Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    startActivityForResult(Intent.createChooser
-                            (intent, getString(R.string.selectPicture)), TC.Activity.ContextActionRequest.PickImage);
-                }
-            });
+            button.setOnClickListener(new ImageUtils.PickImage(getActivity()));
         }
         Log.d(TAG, "onCreated");
         return rootView;
