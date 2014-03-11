@@ -1,10 +1,13 @@
 package com.fsteller.mobile.android.teammatesapp;
 
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract.Contacts;
 
 import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
+
+import java.io.File;
 
 /**
  * Project: iTeammates
@@ -43,7 +46,14 @@ public interface TC {
     }
 
     public static interface MediaStore {
-        public static Uri MEDIA_CONTENT_URI = android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI;
+        public static final String TMP_FILE_NAME = "_tmpFile.temp";
+        public static final Uri URI_TMP_FILE = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), TMP_FILE_NAME));
+        public static final Uri MEDIA_CONTENT_URI = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        public static final int Pick_Image = ActivityActions.PickImage;
+
+        public static final int ImageOutputX = 128;
+        public static final int ImageOutputY = 128;
+        public static final int GOOGLEPLAYSERVICES_ERROR = 0x12001;
     }
 
     public static interface DatabaseActions {
@@ -67,7 +77,6 @@ public interface TC {
             public static final int Edit = ActivityActions.Edit;
             public static final int Share = ActivityActions.Share;
             public static final int Delete = ActivityActions.Delete;
-            public static final int PickImage = ActivityActions.PickImage;
         }
 
         public static interface MenuActionRequest {

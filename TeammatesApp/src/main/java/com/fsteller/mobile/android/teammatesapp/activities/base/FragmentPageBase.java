@@ -50,7 +50,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
 
     //</editor-fold>
 
-    //<editor-fold desc="Overridden Methods">
+    //<editor-fold desc="Overridden">
 
     @Override
     public void onResume() {
@@ -135,7 +135,7 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
 
     //</editor-fold>
     //</editor-fold>
-    //<editor-fold desc="Protected Methods">
+    //<editor-fold desc="Protected">
 
     protected final int getPageIndex() {
         return pageIndex;

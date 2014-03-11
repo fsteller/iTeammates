@@ -7,14 +7,15 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
 import com.fsteller.mobile.android.teammatesapp.BuildConfig;
-import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.VersionTools;
 
@@ -63,6 +64,29 @@ public final class ImageUtils {
         mImageLoader.setImageFadeIn(false);
 
         return mImageLoader;
+    }
+
+    public static void PickImage(final Activity mActivity) {
+        Log.d(TAG, "Raising intent to pick  and crop image...");
+
+        final String status = Environment.getExternalStorageState();
+        if (status.equals(Environment.MEDIA_MOUNTED)) {
+
+            final Intent pickCropImageIntent =
+                    new Intent(Intent.ACTION_PICK, TC.MediaStore.MEDIA_CONTENT_URI);
+
+            pickCropImageIntent.setType("image/*");
+            pickCropImageIntent.putExtra("crop", "true");
+            pickCropImageIntent.putExtra("scale", "true");
+            pickCropImageIntent.putExtra("return-data", "true");
+            pickCropImageIntent.putExtra("outputX", TC.MediaStore.ImageOutputY);
+            pickCropImageIntent.putExtra("outputY", TC.MediaStore.ImageOutputX);
+            pickCropImageIntent.putExtra("aspectX", TC.MediaStore.ImageOutputY);
+            pickCropImageIntent.putExtra("aspectY", TC.MediaStore.ImageOutputX);
+            pickCropImageIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG);
+            pickCropImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, TC.MediaStore.URI_TMP_FILE);
+            mActivity.startActivityForResult(pickCropImageIntent, TC.MediaStore.Pick_Image);
+        }
     }
 
     /**
@@ -178,7 +202,6 @@ public final class ImageUtils {
 
     }
 
-
     public static class PickImage implements View.OnClickListener {
 
         private Activity mActivity = null;
@@ -192,20 +215,7 @@ public final class ImageUtils {
 
         @Override
         public void onClick(final View v) {
-            Log.d(TAG, "Raising intent to pick image up...");
-            final Intent intent = new Intent(Intent.ACTION_GET_CONTENT, TC.MediaStore.MEDIA_CONTENT_URI);
-
-            intent.setType("image/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-            intent.putExtra("outputY", mActivity.getString(R.dimen.imageHeight));
-            intent.putExtra("outputX", mActivity.getString(R.dimen.imageWidth));
-            intent.putExtra("scale", "true");
-            intent.putExtra("crop", "true");
-
-            mActivity.startActivityForResult(Intent.createChooser
-                    (intent, mActivity.getString(R.string.selectPicture)), TC.Activity.ContextActionRequest.PickImage);
+            PickImage(mActivity);
         }
 
 

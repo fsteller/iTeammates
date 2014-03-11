@@ -40,7 +40,7 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
 
     //</editor-fold>
 
-    //<editor-fold desc="Protected Methods">
+    //<editor-fold desc="Protected">
 
     protected void restartLoader(final int queryId, LoaderManager.LoaderCallbacks callbacks) {
         LoaderManager mLoaderManager = getLoaderManager();
@@ -60,18 +60,19 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     //<editor-fold desc="Overridden">
 
     @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null || resultCode == Activity.RESULT_CANCELED)
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+
+        if (result == null || resultCode == Activity.RESULT_CANCELED)
             return;
 
-        if (requestCode == TC.Activity.ContextActionRequest.PickImage) {
-            Log.i(TAG, String.format("Image picked up (%s)", data.getData()));
-            final Uri imageUri = data.getData();
-            if (imageUri != null) {
-                mEntity.setImageRef(imageUri);
-            }
+        switch (requestCode) {
+            case TC.MediaStore.Pick_Image:
+                mEntity.setImageRef(TC.MediaStore.URI_TMP_FILE);
+                break;
+            default:
         }
+
     }
 
     @Override

@@ -5,8 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/teammates_header_background"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dip">
+    android:layout_height="wrap_content">
 
     <include
         android:id="@+id/fragment_basic_info"

@@ -66,7 +66,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        this.mEventEntity = (IEventEntity) mCallback;
+        this.mEventEntity = (IEventEntity) mEntity;
     }
 
     @Override

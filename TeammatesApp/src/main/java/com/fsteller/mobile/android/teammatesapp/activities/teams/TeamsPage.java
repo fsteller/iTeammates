@@ -60,7 +60,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
 
     //</editor-fold>
 
-    //<editor-fold desc="Overridden Methods">
+    //<editor-fold desc="Overridden">
 
     @Override
     public void onResume() {
@@ -117,6 +117,51 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
         }
     }
 
+    //<editor-fold desc="LoaderManager.LoaderCallbacks<Cursor>">
+
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
+        /*
+            Creates and return a CursorLoader that will take care of
+            creating a Cursor for the data being displayed.
+        */
+
+        Log.d(TAG, String.format("Creating loader, for TeammatesTeams with searchTerm = '%s', id = %s", mCallback.getSearchTerm(), id));
+        switch (id) {
+            case TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID:
+                return getQueryTeams();
+            case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
+                return getQueryFilteredByTearSearch(mCallback.getSearchTerm());
+            default:
+                Log.e(TAG, "onCreateLoader - incorrect COLLECTION_ID provided (" + id + ")");
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(final Loader<Cursor> cursorLoader, final Cursor data) {
+        if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
+                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1 ||
+                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID2) {
+            mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
+            mCursorAdapter.swapCursor(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(final Loader<Cursor> cursorLoader) {
+        /*
+            When the loader is being reset, clear the cursor from the adapter.
+            This allows the cursor resources to be freed.
+        */
+        if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
+                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1) {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mCursorAdapter.swapCursor(null);
+        }
+    }
+
+    //</editor-fold>
     //<editor-fold desc="AdapterView.OnItemClickListener">
 
     @Override
@@ -168,51 +213,6 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
     }
 
     //</editor-fold>
-    //<editor-fold desc="LoaderManager.LoaderCallbacks<Cursor>">
-
-    @Override
-    public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
-        /*
-            Creates and return a CursorLoader that will take care of
-            creating a Cursor for the data being displayed.
-        */
-
-        Log.d(TAG, String.format("Creating loader, for TeammatesTeams with searchTerm = '%s', id = %s", mCallback.getSearchTerm(), id));
-        switch (id) {
-            case TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID:
-                return getQueryTeams();
-            case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
-                return getQueryFilteredByTearSearch(mCallback.getSearchTerm());
-            default:
-                Log.e(TAG, "onCreateLoader - incorrect COLLECTION_ID provided (" + id + ")");
-                return null;
-        }
-    }
-
-    @Override
-    public void onLoadFinished(final Loader<Cursor> cursorLoader, final Cursor data) {
-        if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
-                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1 ||
-                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID2) {
-            mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
-            mCursorAdapter.swapCursor(data);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(final Loader<Cursor> cursorLoader) {
-        /*
-            When the loader is being reset, clear the cursor from the adapter.
-            This allows the cursor resources to be freed.
-        */
-        if (cursorLoader.getId() == TC.Queries.TeammatesTeams.SIMPLE_QUERY_ID ||
-                cursorLoader.getId() == TC.Queries.TeammatesTeams.FILTER_QUERY_ID1) {
-            mEmptyView.setVisibility(View.VISIBLE);
-            mCursorAdapter.swapCursor(null);
-        }
-    }
-
-    //</editor-fold>
 
     @Override
     protected void processBroadcast(final Intent intent) {
@@ -230,7 +230,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
     //</editor-fold>
 
     //</editor-fold>
-    //<editor-fold desc="Private Methods">
+    //<editor-fold desc="Private">
 
     private Loader<Cursor> getQueryTeams() {
         final String selection = TC.Queries.TeammatesTeams.SELECTION;

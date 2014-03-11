@@ -9,8 +9,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/fragment_basic_info_lookup"
-        android:layout_marginBottom="10dip"/>
+        layout="@layout/fragment_basic_info_lookup"/>
 
     <include
         android:layout_width="match_parent"

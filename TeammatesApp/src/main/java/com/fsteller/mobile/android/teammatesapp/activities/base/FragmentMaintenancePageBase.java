@@ -3,7 +3,6 @@ package com.fsteller.mobile.android.teammatesapp.activities.base;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Intent;
-import android.net.Uri;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
@@ -24,7 +23,7 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase {
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    protected IEntity mCallback = null;
+    protected IEntity mEntity = null;
 
     //</editor-fold>
 
@@ -33,29 +32,30 @@ public abstract class FragmentMaintenancePageBase extends FragmentBase {
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        this.mCallback = (IEntity) activity;
+        this.mEntity = (IEntity) activity;
 
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallback = null;
+        mEntity = null;
     }
 
     @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null || resultCode == Activity.RESULT_CANCELED)
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+
+        if (result == null || resultCode == Activity.RESULT_CANCELED)
             return;
 
-        if (requestCode == TC.Activity.ContextActionRequest.PickImage) {
-            android.util.Log.i(TAG, String.format("Image picked up (%s)", data.getData()));
-            final Uri imageUri = data.getData();
-            if (imageUri != null) {
-                mCallback.setImageRef(imageUri);
-            }
+        switch (requestCode) {
+            case TC.MediaStore.Pick_Image:
+                mEntity.setImageRef(TC.MediaStore.URI_TMP_FILE);
+                break;
+            default:
         }
+
     }
 
     //<editor-fold desc="IMaintenancePage">

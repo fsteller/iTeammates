@@ -26,8 +26,12 @@ import com.fsteller.mobile.android.teammatesapp.activities.notification.Notifica
 import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsMaintenance;
 import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsPage;
 import com.fsteller.mobile.android.teammatesapp.model.Collection;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.ArrayList;
+
+import static com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable;
 
 public final class Teammates extends ActivityBase implements IPageManager {
 
@@ -52,22 +56,6 @@ public final class Teammates extends ActivityBase implements IPageManager {
 
     //</editor-fold>
 
-    //<editor-fold desc="Public">
-
-    void onSectionAttached(final int position) {
-        mTitle = getResources().getStringArray(R.array.app_activities)[position];
-    }
-
-    void restoreActionBar() {
-        final ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(mTitle);
-        }
-    }
-
-    //</editor-fold>
     //<editor-fold desc="Overridden">
 
     //<editor-fold desc="IPageManager">
@@ -163,7 +151,7 @@ public final class Teammates extends ActivityBase implements IPageManager {
 
     //</editor-fold>
     //</editor-fold>
-    //<editor-fold desc="Activity Methods">
+    //<editor-fold desc="Activity">
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -177,6 +165,17 @@ public final class Teammates extends ActivityBase implements IPageManager {
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final int result = isGooglePlayServicesAvailable(this);
+        if (result != ConnectionResult.SUCCESS) {
+            GooglePlayServicesUtil.
+                    getErrorDialog(result, this, TC.MediaStore.GOOGLEPLAYSERVICES_ERROR).show();
+        }
     }
 
     @Override
@@ -207,6 +206,23 @@ public final class Teammates extends ActivityBase implements IPageManager {
     }
 
     //</editor-fold>
+
+    //</editor-fold>
+    //<editor-fold desc="Public">
+
+    void onSectionAttached(final int position) {
+        mTitle = getResources().getStringArray(R.array.app_activities)[position];
+    }
+
+    void restoreActionBar() {
+        final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(mTitle);
+        }
+    }
+
     //</editor-fold>
     //<editor-fold desc="Private">
 

@@ -259,7 +259,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     //</editor-fold>
     //</editor-fold>
-    //<editor-fold desc="Private Methods">
+    //<editor-fold desc="Private">
 
     private Loader<Cursor> getContactsFilteredBySearchTerm(final String searchTerm) {
 

@@ -1,7 +1,15 @@
-TeammatesApp/TeammatesApp.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-.DS_Store
+seeds.txt
+unused.txt
+mapping.txt
+class_files.txt
+local.properties
 
-.idea
+TeammatesApp/TeammatesApp.iml
+
+/.idea
+/.gradle
+/.DS_Store
+
+
+
+

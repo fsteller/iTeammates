@@ -22,8 +22,8 @@
     </RelativeLayout>
 
     <ListView
+        android:layout_marginTop="5dip"
         android:background="@color/teammates_control_transparent"
-        android:layout_marginTop="10dip"
         android:paddingLeft="10dip"
         android:paddingStart="10dip"
         android:paddingRight="10dip"

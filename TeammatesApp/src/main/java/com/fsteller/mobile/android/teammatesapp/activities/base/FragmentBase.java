@@ -52,7 +52,7 @@ public abstract class FragmentBase extends Fragment {
     }
 
     //</editor-fold>
-    //<editor-fold desc="Protected Methods">
+    //<editor-fold desc="Protected">
 
     protected abstract int getFragmentDefaultImage();
 
