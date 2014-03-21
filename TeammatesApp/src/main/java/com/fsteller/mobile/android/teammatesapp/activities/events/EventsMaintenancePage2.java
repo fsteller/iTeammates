@@ -113,11 +113,10 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
             descriptionLabel.setText(getResources().getString(R.string.eventsMaintenance_titleDescriptionLabel));
 
             button.setOnClickListener(new ImageUtils.PickImage(context));
-            setupDateTextView(context, dateFrom, fm);
-            setupTimeTextView(context, timeFrom, fm);
-            setupDateTextView(context, dateTo, fm);
-            setupTimeTextView(context, timeTo, fm);
-
+            setupDateTextView(context, dateFrom, fm, 1);
+            setupTimeTextView(context, timeFrom, fm, 0);
+            setupDateTextView(context, dateTo, fm, 1);
+            setupTimeTextView(context, timeTo, fm, 1);
         }
         Log.d(TAG, "onCreated");
         return rootView;
@@ -201,14 +200,14 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         return new CursorLoader(getActivity(), contentUri, projection, selection, selectionArgs, sortOrder);
     }
 
-    private static void setupDateTextView(final Context context, final TextView view, final FragmentManager fm) {
+    private static void setupDateTextView(final Context context, final TextView view, final FragmentManager fm, final int adtionaldays) {
 
         final Calendar mCalendar = new GregorianCalendar();
         final int mYear = mCalendar.get(Calendar.YEAR);
         final int mMonth = mCalendar.get(Calendar.MONTH);
         final int mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
 
-        view.setText(getDateString(mYear, mMonth, mDay));
+        view.setText(getDateString(mYear, mMonth, mDay, adtionaldays));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -216,8 +215,8 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
                 final DialogFragment_DatePicker datePicker = new DialogFragment_DatePicker(mDay, mMonth, mYear, new
                         DialogFragment_DatePicker.DatePickerDialogListener() {
                             @Override
-                            public void onDatePicked(final int selectYear, final int selectMonth, final int selectDay) {
-                                view.setText(getDateString(selectYear, selectMonth, selectDay));
+                            public void onDatePicked(final int selectedYear, final int selectedMonth, final int selectedDay) {
+                                view.setText(getDateString(selectedYear, selectedMonth, selectedDay, 0));
                             }
                         });
                 datePicker.setShowsDialog(true);
@@ -228,13 +227,13 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         view.setClickable(true);
     }
 
-    private static void setupTimeTextView(final Context context, final TextView view, final FragmentManager fm) {
+    private static void setupTimeTextView(final Context context, final TextView view, final FragmentManager fm, final int additionalHours) {
 
         final Calendar mCalendar = new GregorianCalendar();
         final int mMinutes = mCalendar.get(Calendar.MINUTE);
         final int mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
 
-        view.setText(getTimeString(mHour, mMinutes));
+        view.setText(getTimeString(mHour, mMinutes, additionalHours));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -243,7 +242,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
                         DialogFragment_TimePicker.TimePickerDialogListener() {
                             @Override
                             public void onTimePicked(final int selectedHour, final int selectMinutes) {
-                                view.setText(getTimeString(selectedHour, selectMinutes));
+                                view.setText(getTimeString(selectedHour, selectMinutes, 0));
                             }
                         });
                 timePicker.setShowsDialog(true);
@@ -254,14 +253,14 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         view.setClickable(true);
     }
 
-    private static String getDateString(final int selectYear, final int selectMonth, final int selectDay) {
+    private static String getDateString(final int selectedYear, final int selectedMonth, final int selectedDay, final int additionalDays) {
         final DateFormat dateFormat = DateFormat.getDateInstance();
-        return dateFormat.format(new GregorianCalendar(selectYear, selectMonth, selectDay).getTime());
+        return dateFormat.format(new GregorianCalendar(selectedYear, selectedMonth, selectedDay + additionalDays).getTime());
     }
 
-    private static String getTimeString(final int selectedHour, final int selectMinutes) {
+    private static String getTimeString(final int selectedHour, final int selectMinutes, final int additionalHours) {
         final DateFormat dateFormat = DateFormat.getTimeInstance();
-        return dateFormat.format(new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, selectedHour, selectMinutes).getTime());
+        return dateFormat.format(new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, selectedHour + additionalHours, selectMinutes).getTime());
     }
 
     //</editor-fold>
