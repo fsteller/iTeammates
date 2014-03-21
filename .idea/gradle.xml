@@ -8,8 +8,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/TeammatesApp" />
+            <option value="D:\Desarrollo\android-studio\AndroidStudioProjects\iTeammates" />
+            <option value="D:\Desarrollo\android-studio\AndroidStudioProjects\iTeammates\TeammatesApp" />
           </set>
         </option>
       </GradleProjectSettings>

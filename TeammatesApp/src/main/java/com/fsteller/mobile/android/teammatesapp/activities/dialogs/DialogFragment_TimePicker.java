@@ -19,7 +19,6 @@ public class DialogFragment_TimePicker extends DialogFragment {
 
     private int mHour = 0;
     private int mMinutes = 0;
-    private TimePicker mTimePicker = null;
     private TimePickerDialogListener mListener = null;
 
     /* The activity that creates an instance of this dialog fragment must
@@ -29,8 +28,10 @@ public class DialogFragment_TimePicker extends DialogFragment {
         public void onTimePicked(final int selectedHour, final int selectMinutes);
     }
 
-    public DialogFragment_TimePicker(final TimePickerDialogListener listener) {
+    public DialogFragment_TimePicker(final int hour, final int minutes, final TimePickerDialogListener listener) {
         super();
+        this.mHour = hour;
+        this.mMinutes = minutes;
         this.mListener = listener;
     }
 
@@ -47,18 +48,19 @@ public class DialogFragment_TimePicker extends DialogFragment {
         final View rootView = inflater.inflate(R.layout.dialog_time_picker, null);
 
         if (rootView != null) {
-            mTimePicker = (TimePicker) rootView.findViewById(R.id.date_timePicker);
+            final TimePicker mTimePicker = (TimePicker) rootView.findViewById(R.id.date_timePicker);
             mTimePicker.setCurrentHour(Calendar.HOUR);
             mTimePicker.setCurrentMinute(Calendar.MINUTE);
             mTimePicker.setOnTimeChangedListener(
                     new TimePicker.OnTimeChangedListener() {
                         @Override
-                public void onTimeChanged(final TimePicker view, final int hourOfDay, final int minutes) {
-                    mMinutes = minutes;
-                    mHour = hourOfDay;
+                        public void onTimeChanged(final TimePicker view, final int hourOfDay, final int minutes) {
+                            mMinutes = minutes;
+                            mHour = hourOfDay;
 
-                }
-            });
+                        }
+                    }
+            );
         }
 
         builder.setPositiveButton(R.string.action_finish, new DialogInterface.OnClickListener() {

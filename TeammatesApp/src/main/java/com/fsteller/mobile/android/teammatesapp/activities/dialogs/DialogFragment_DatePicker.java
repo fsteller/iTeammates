@@ -29,7 +29,6 @@ public class DialogFragment_DatePicker extends DialogFragment {
     private int mDay = 1;
     private int mMonth = 1;
     private int mYear = 2000;
-    private DatePicker cv = null;
     private DatePickerDialogListener mListener = null;
 
     /* The Fragment that creates an instance of this dialog fragment must
@@ -39,8 +38,11 @@ public class DialogFragment_DatePicker extends DialogFragment {
         public void onDatePicked(final int selectYear, final int selectMonth, final int selectDay);
     }
 
-    public DialogFragment_DatePicker(final DatePickerDialogListener listener) {
+    public DialogFragment_DatePicker(final int day, final int month, final int year, final DatePickerDialogListener listener) {
         super();
+        this.mDay = day;
+        this.mMonth = month;
+        this.mYear = year;
         this.mListener = listener;
     }
 
@@ -59,7 +61,7 @@ public class DialogFragment_DatePicker extends DialogFragment {
         if (rootView != null) {
             final TextView mWeekDay = (TextView) rootView.findViewById(R.id.date_weekDayLabel);
 
-            cv = (DatePicker) rootView.findViewById(R.id.date_pickerCalendar);
+            final DatePicker cv = (DatePicker) rootView.findViewById(R.id.date_pickerCalendar);
             cv.init(Calendar.DAY_OF_YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH,
                     new DatePicker.OnDateChangedListener() {
                         @Override
@@ -70,7 +72,8 @@ public class DialogFragment_DatePicker extends DialogFragment {
 
                             mWeekDay.setText(getWeekDay(year, month, day));
                         }
-                    });
+                    }
+            );
 
         }
 

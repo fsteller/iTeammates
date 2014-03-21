@@ -202,18 +202,24 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
     }
 
     private static void setupDateTextView(final Context context, final TextView view, final FragmentManager fm) {
-        final DateFormat dateFormat = DateFormat.getDateInstance();
 
+        final Calendar mCalendar = new GregorianCalendar();
+        final int mYear = mCalendar.get(Calendar.YEAR);
+        final int mMonth = mCalendar.get(Calendar.MONTH);
+        final int mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+
+        view.setText(getDateString(mYear, mMonth, mDay));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 Toast.makeText(context, context.getResources().getText(R.string.select_date), Toast.LENGTH_SHORT).show();
-                final DialogFragment_DatePicker datePicker = new DialogFragment_DatePicker(new DialogFragment_DatePicker.DatePickerDialogListener() {
-                    @Override
-                    public void onDatePicked(int selectYear, int selectMonth, int selectDay) {
-                        view.setText(dateFormat.format(new GregorianCalendar(selectYear, selectMonth, selectDay).getTime()));
-                    }
-                });
+                final DialogFragment_DatePicker datePicker = new DialogFragment_DatePicker(mDay, mMonth, mYear, new
+                        DialogFragment_DatePicker.DatePickerDialogListener() {
+                            @Override
+                            public void onDatePicked(final int selectYear, final int selectMonth, final int selectDay) {
+                                view.setText(getDateString(selectYear, selectMonth, selectDay));
+                            }
+                        });
                 datePicker.setShowsDialog(true);
                 datePicker.setRetainInstance(true);
                 datePicker.show(fm, "date_picker");
@@ -223,18 +229,23 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
     }
 
     private static void setupTimeTextView(final Context context, final TextView view, final FragmentManager fm) {
-        final DateFormat dateFormat = DateFormat.getTimeInstance();
 
+        final Calendar mCalendar = new GregorianCalendar();
+        final int mMinutes = mCalendar.get(Calendar.MINUTE);
+        final int mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
+
+        view.setText(getTimeString(mHour, mMinutes));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 Toast.makeText(context, context.getResources().getText(R.string.select_time), Toast.LENGTH_SHORT).show();
-                final DialogFragment_TimePicker timePicker = new DialogFragment_TimePicker(new DialogFragment_TimePicker.TimePickerDialogListener() {
-                    @Override
-                    public void onTimePicked(final int selectedHour, final int selectMinutes) {
-                        view.setText(dateFormat.format(new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, selectedHour, selectMinutes).getTime()));
-                    }
-                });
+                final DialogFragment_TimePicker timePicker = new DialogFragment_TimePicker(mHour, mMinutes, new
+                        DialogFragment_TimePicker.TimePickerDialogListener() {
+                            @Override
+                            public void onTimePicked(final int selectedHour, final int selectMinutes) {
+                                view.setText(getTimeString(selectedHour, selectMinutes));
+                            }
+                        });
                 timePicker.setShowsDialog(true);
                 timePicker.setRetainInstance(true);
                 timePicker.show(fm, "time_picker");
@@ -243,5 +254,16 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         view.setClickable(true);
     }
 
+    private static String getDateString(final int selectYear, final int selectMonth, final int selectDay) {
+        final DateFormat dateFormat = DateFormat.getDateInstance();
+        return dateFormat.format(new GregorianCalendar(selectYear, selectMonth, selectDay).getTime());
+    }
+
+    private static String getTimeString(final int selectedHour, final int selectMinutes) {
+        final DateFormat dateFormat = DateFormat.getTimeInstance();
+        return dateFormat.format(new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, selectedHour, selectMinutes).getTime());
+    }
+
     //</editor-fold>
+
 }
