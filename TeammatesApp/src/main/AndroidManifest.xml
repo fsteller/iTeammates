@@ -37,7 +37,7 @@
 
         <!-- Content provider used to store data with within the app -->
         <provider
-            android:name=".helpers.database.TeammatesProvider"
+            android:name=".handlers.database.ContentProvider"
             android:authorities="com.fsteller.community.teammates.provider"
             android:exported="false"/>
 

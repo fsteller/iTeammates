@@ -8,15 +8,15 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.fsteller.mobile.android.teammatesapp.helpers.HelperAccount;
-import com.fsteller.mobile.android.teammatesapp.helpers.HelperDatabase;
+import com.fsteller.mobile.android.teammatesapp.handlers.AccountHandler;
+import com.fsteller.mobile.android.teammatesapp.handlers.DatabaseHandler;
 
 import java.util.ArrayList;
 
 /**
  * Project: ${PROJECT_NAME}
  * Package: ${PACKAGE_NAME}
- *
+ * <p/>
  * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
@@ -58,7 +58,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     @Override
     public boolean addData(final Intent data) {
-        final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
+        final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
@@ -84,7 +84,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     @Override
     public boolean updateData(final Intent data) {
-        final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
+        final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
@@ -110,7 +110,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     @Override
     public boolean deleteData(final Intent data) {
-        final HelperDatabase mHelperDatabase = HelperDatabase.getInstance(this);
+        final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
@@ -149,13 +149,13 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     //</editor-fold>
     //<editor-fold desc="Protected Methods">
 
-    protected HelperDatabase getHelperDatabase() {
+    protected DatabaseHandler getHelperDatabase() {
 
-        return HelperDatabase.getInstance(this);
+        return DatabaseHandler.getInstance(this);
     }
 
-    protected HelperAccount getHelperAccount() {
-        return HelperAccount.getInstance(this);
+    protected AccountHandler getHelperAccount() {
+        return AccountHandler.getInstance(this);
     }
 
     //</editor-fold>

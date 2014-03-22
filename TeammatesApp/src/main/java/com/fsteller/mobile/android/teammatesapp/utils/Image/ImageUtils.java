@@ -19,9 +19,15 @@ import com.fsteller.mobile.android.teammatesapp.BuildConfig;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.utils.VersionTools;
 
+import org.apache.http.util.ByteArrayBuffer;
+
+import java.io.BufferedInputStream;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.InvalidParameterException;
 
 /**
@@ -65,6 +71,28 @@ public final class ImageUtils {
 
         return mImageLoader;
     }
+
+    public static byte[] getImageAsByteArray(final String url) {
+        try {
+            final URL imageUrl = new URL(url);
+            final URLConnection ucon = imageUrl.openConnection();
+
+            final InputStream is = ucon.getInputStream();
+            final ByteArrayBuffer baf = new ByteArrayBuffer(500);
+            final BufferedInputStream bis = new BufferedInputStream(is);
+
+            int current;
+            while ((current = bis.read()) != -1) {
+                baf.append((byte) current);
+            }
+            return baf.toByteArray();
+        } catch (final Exception e) {
+            Log.d(TAG, "Error: " + e.toString());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static void PickImage(final Activity mActivity) {
         Log.d(TAG, "Raising intent to pick  and crop image...");

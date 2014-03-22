@@ -5,7 +5,7 @@ import android.os.Environment;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract.Contacts;
 
-import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
+import com.fsteller.mobile.android.teammatesapp.handlers.database.Contract;
 
 import java.io.File;
 
@@ -54,6 +54,11 @@ public interface TC {
         public static final int ImageOutputX = 128;
         public static final int ImageOutputY = 128;
         public static final int GOOGLEPLAYSERVICES_ERROR = 0x12001;
+    }
+
+    public static interface MediaContentTypes {
+        public static final int Image = 0;
+        //Todo: add more media content types
     }
 
     public static interface DatabaseActions {
@@ -212,26 +217,26 @@ public interface TC {
             final static int SIMPLE_QUERY_ID = _TeammatesTeams + 1;
             final static int FILTER_QUERY_ID1 = _TeammatesTeams + 2;
             final static int FILTER_QUERY_ID2 = _TeammatesTeams + 3;
-            final static Uri CONTENT_URI = TeammatesContract.Teams.CONTENT_URI;
-            final static Uri FILTER_URI = TeammatesContract.Teams.CONTENT_FILTER_URI;
-            final static String SELECTION = TeammatesContract.Teams.NAME + "<>''";
-            final static String SORT_ORDER = TeammatesContract.Teams.DEFAULT_SORT_ORDER;
+            final static Uri CONTENT_URI = Contract.Teams.CONTENT_URI;
+            final static Uri FILTER_URI = Contract.Teams.CONTENT_FILTER_URI;
+            final static String SELECTION = Contract.Teams.NAME + "<>''";
+            final static String SORT_ORDER = Contract.Teams.DEFAULT_SORT_ORDER;
 
             final static String[] PROJECTION = {
-                    TeammatesContract.Teams._ID,
-                    TeammatesContract.Teams.NAME,
-                    TeammatesContract.Teams.IMAGE_REF,
-                    TeammatesContract.Teams.UPDATED_AT,
-                    TeammatesContract.Teams.CREATED_AT,
+                    Contract.Teams._ID,
+                    Contract.Teams.NAME,
+                    Contract.Teams.IMAGE_REF,
+                    Contract.Teams.UPDATED_AT,
+                    Contract.Teams.CREATED_AT,
             };
 
             final static String[] TEAM_CONTACT_PROJECTION = {
-                    TeammatesContract.Teams.Contacts.TEAM_ID,
-                    TeammatesContract.Teams.NAME,
-                    TeammatesContract.Teams.IMAGE_REF,
-                    TeammatesContract.Teams.UPDATED_AT,
-                    TeammatesContract.Teams.CREATED_AT,
-                    TeammatesContract.Teams.Contacts.TOKEN
+                    Contract.Teams.Contacts.TEAM_ID,
+                    Contract.Teams.NAME,
+                    Contract.Teams.IMAGE_REF,
+                    Contract.Teams.UPDATED_AT,
+                    Contract.Teams.CREATED_AT,
+                    Contract.Teams.Contacts.TOKEN
             };
 
             // The query column numbers which map to each value in the projection
@@ -256,19 +261,19 @@ public interface TC {
             final static int FILTER_QUERY_ID1 = _EventsQuery + 1;
             final static int FILTER_QUERY_ID2 = _EventsQuery + 2;
 
-            final static Uri CONTENT_URI = TeammatesContract.Events.CONTENT_URI;
-            final static Uri FILTER_URI = TeammatesContract.Events.CONTENT_FILTER_URI;
-            final static String SELECTION = TeammatesContract.Events.NAME + "<>''";
-            final static String SORT_ORDER = TeammatesContract.Events.DEFAULT_SORT_ORDER;
+            final static Uri CONTENT_URI = Contract.Events.CONTENT_URI;
+            final static Uri FILTER_URI = Contract.Events.CONTENT_FILTER_URI;
+            final static String SELECTION = Contract.Events.NAME + "<>''";
+            final static String SORT_ORDER = Contract.Events.DEFAULT_SORT_ORDER;
             final static String[] EVENTS_PROJECTION = {
-                    TeammatesContract.Events._ID,
-                    TeammatesContract.Events.NAME,
-                    TeammatesContract.Events.IMAGE_REF,
-                    TeammatesContract.Events.UPDATED_AT,
-                    TeammatesContract.Events.CREATED_AT,
-                    TeammatesContract.Events.PLACE_ID,
-                    TeammatesContract.Events.SCHEDULE_ID,
-                    TeammatesContract.Events.CALENDAR_ID
+                    Contract.Events._ID,
+                    Contract.Events.NAME,
+                    Contract.Events.IMAGE_REF,
+                    Contract.Events.UPDATED_AT,
+                    Contract.Events.CREATED_AT,
+                    Contract.Events.PLACE_ID,
+                    Contract.Events.SCHEDULE_ID,
+                    Contract.Events.CALENDAR_ID
             };
 
             // The query column numbers which map to each value in the projection
