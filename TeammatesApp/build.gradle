@@ -46,7 +46,7 @@ android {
         }
         release {
             zipAlign true
-            runProguard true
+            runProguard false
             debuggable true
             jniDebugBuild true
             versionNameSuffix '1.0'

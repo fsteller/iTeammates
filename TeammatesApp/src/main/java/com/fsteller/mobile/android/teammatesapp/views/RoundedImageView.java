@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.utils.image;
+package com.fsteller.mobile.android.teammatesapp.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,23 +14,24 @@ import android.widget.ImageView;
 
 /**
  * Project: iTeammates
- * Subpackage: utils.image
+ * Subpackage: image
  * <p/>
  * Description:
+ * <p/>
  * Created by fsteller on 12/30/13.
  */
 final class RoundedImageView extends ImageView {
 
-    public RoundedImageView(Context context) {
+    public RoundedImageView(final Context context) {
         super(context);
         // TODO Auto-generated constructor stub
     }
 
-    public RoundedImageView(Context context, AttributeSet attrs) {
+    public RoundedImageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public RoundedImageView(Context context, AttributeSet attrs, int defStyle) {
+    public RoundedImageView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 

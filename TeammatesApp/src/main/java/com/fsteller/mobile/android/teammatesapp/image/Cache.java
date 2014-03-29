@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.utils.image;
+package com.fsteller.mobile.android.teammatesapp.image;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -11,48 +11,51 @@ import com.fsteller.mobile.android.teammatesapp.BuildConfig;
 
 /**
  * Project: iTeammates
- * Subpackage: utils.image
+ * Subpackage: image
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public final class ImageCache {
-    private static final String TAG = "ImageCache";
+public final class Cache {
+
+    private static final String TAG = "Cache";
     private LruCache<String, Bitmap> mMemoryCache;
 
     /**
-     * Creating a new ImageCache object using the specified parameters.
+     * Private constructor used in order to prevent instantiation of this class.
+     * Creating a new Cache object using the specified parameters.
      *
      * @param memCacheSizePercent The cache size as a percent of available app memory.
      */
-    private ImageCache(float memCacheSizePercent) {
+    private Cache(float memCacheSizePercent) {
         init(memCacheSizePercent);
     }
 
     /**
-     * Find and return an existing ImageCache stored in a {@link ImageCache.RetainFragment}, if not found a new
-     * one is created using the supplied params and saved to a {@link ImageCache.RetainFragment}.
+     * Find and return an existing Cache stored in a {@link Cache.RetainFragment}, if not found a new
+     * one is created using the supplied params and saved to a {@link Cache.RetainFragment}.
      *
      * @param fragmentManager     The fragments manager to use when dealing with the retained fragments.
      * @param memCacheSizePercent The cache size as a percent of available app memory.
-     * @return An existing retained ImageCache object or a new one if one did not exist
+     * @return An existing retained Cache object or a new one if one did not exist
      */
-    public static ImageCache getInstance(
+    public static Cache getInstance(
             FragmentManager fragmentManager, float memCacheSizePercent) {
 
         // Search for, or create an instance of the non-UI RetainFragment
         final RetainFragment mRetainFragment = findOrCreateRetainFragment(fragmentManager);
 
-        // See if we already have an ImageCache stored in RetainFragment
-        ImageCache imageCache = (ImageCache) mRetainFragment.getObject();
+        // See if we already have an Cache stored in RetainFragment
+        Cache cache = (Cache) mRetainFragment.getObject();
 
-        // No existing ImageCache, create one and store it in RetainFragment
-        if (imageCache == null) {
-            imageCache = new ImageCache(memCacheSizePercent);
-            mRetainFragment.setObject(imageCache);
+        // No existing Cache, create one and store it in RetainFragment
+        if (cache == null) {
+            cache = new Cache(memCacheSizePercent);
+            mRetainFragment.setObject(cache);
         }
 
-        return imageCache;
+        return cache;
     }
 
     /**
@@ -61,7 +64,7 @@ public final class ImageCache {
      * @param bitmap The bitmap to calculate the size of.
      * @return size of bitmap in bytes.
      */
-    public static int getBitmapSize(Bitmap bitmap) {
+    public static int getBitmapSize(final Bitmap bitmap) {
         return bitmap.getByteCount();
     }
 
@@ -94,7 +97,7 @@ public final class ImageCache {
      * @return The existing instance of the Fragment or the new instance if just
      * created.
      */
-    public static RetainFragment findOrCreateRetainFragment(FragmentManager fm) {
+    public static RetainFragment findOrCreateRetainFragment(final FragmentManager fm) {
         // Check to see if we have retained the worker fragments.
         RetainFragment mRetainFragment = (RetainFragment) fm.findFragmentByTag(TAG);
 
@@ -138,7 +141,7 @@ public final class ImageCache {
      * @param data   Unique identifier for the bitmap to store
      * @param bitmap The bitmap to store
      */
-    public void addBitmapToCache(String data, Bitmap bitmap) {
+    public void addBitmapToCache(final String data, final Bitmap bitmap) {
         if (data == null || bitmap == null) {
             return;
         }
@@ -155,7 +158,7 @@ public final class ImageCache {
      * @param data Unique identifier for which item to get
      * @return The bitmap if found in cache, null otherwise
      */
-    public Bitmap getBitmapFromMemCache(String data) {
+    public Bitmap getBitmapFromMemCache(final String data) {
         if (mMemoryCache != null) {
             final Bitmap memBitmap = mMemoryCache.get(data);
             if (memBitmap != null) {
@@ -170,7 +173,7 @@ public final class ImageCache {
 
     /**
      * A simple non-UI Fragment that stores a single Object and is retained over configuration
-     * changes. It will be used to retain the ImageCache object.
+     * changes. It will be used to retain the Cache object.
      */
     public static class RetainFragment extends Fragment {
         private Object mObject;
@@ -182,7 +185,7 @@ public final class ImageCache {
         }
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
             // Make sure this Fragment is retained over a configuration change
@@ -203,7 +206,7 @@ public final class ImageCache {
          *
          * @param object The object to store
          */
-        public void setObject(Object object) {
+        public void setObject(final Object object) {
             mObject = object;
         }
     }

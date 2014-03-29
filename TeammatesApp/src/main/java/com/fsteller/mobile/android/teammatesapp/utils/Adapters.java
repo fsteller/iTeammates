@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageLoader;
+import com.fsteller.mobile.android.teammatesapp.image.Loader;
 
 import java.util.Locale;
 
@@ -132,9 +132,9 @@ public final class Adapters {
             return -1;
         }
 
-        protected static void setImageView(final ImageView view, final ImageLoader mListImageLoader, final String imageData) {
-            if (mListImageLoader != null && isNullOrEmpty(imageData))
-                mListImageLoader.loadImage(imageData, view);
+        protected static void setImageView(final ImageView view, final Loader mListLoader, final String imageData) {
+            if (mListLoader != null && isNullOrEmpty(imageData))
+                mListLoader.loadImage(imageData, view);
             else
                 view.setImageResource(R.drawable.ic_default_picture);
         }

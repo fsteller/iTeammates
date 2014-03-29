@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageLoader;
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
+import com.fsteller.mobile.android.teammatesapp.image.Loader;
+import com.fsteller.mobile.android.teammatesapp.image.Utils;
 
 /**
  * Project: iTeammates
@@ -23,7 +23,7 @@ public abstract class FragmentBase extends Fragment {
     protected View mEmptyView = null;
     protected AbsListView mListView = null;
     protected InputMethodManager imm = null;
-    protected static ImageLoader mImageLoader = null;
+    protected static Loader mLoader = null;
 
     protected final HideInputClass mHideInputClass = new HideInputClass();
 
@@ -35,8 +35,8 @@ public abstract class FragmentBase extends Fragment {
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (mImageLoader == null)
-            mImageLoader = ImageUtils.setupImageLoader(getActivity(), getFragmentDefaultImage());
+        if (mLoader == null)
+            mLoader = Utils.setupImageLoader(getActivity(), getFragmentDefaultImage());
     }
 
     @Override
@@ -46,8 +46,8 @@ public abstract class FragmentBase extends Fragment {
             In the case onPause() is called during a fling the image loader is
             un-paused to let any remaining background work complete.
         */
-        if (mImageLoader != null)
-            mImageLoader.setPauseWork(false);
+        if (mLoader != null)
+            mLoader.setPauseWork(false);
 
     }
 

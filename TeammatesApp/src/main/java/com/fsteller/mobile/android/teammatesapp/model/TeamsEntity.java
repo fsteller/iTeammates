@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.helpers.database.TeammatesContract;
+import com.fsteller.mobile.android.teammatesapp.database.Contract;
 import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
 import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;
@@ -62,7 +62,7 @@ public class TeamsEntity extends AbstractEntity implements ITeamEntity, IMainten
 
                     final int id = teamsIds.get(0);
                     final String[] projection = TC.Queries.TeammatesTeams.TEAM_CONTACT_PROJECTION;
-                    final Uri teamsContactsUri = TeammatesContract.Teams.Contacts.getTeamContactUri(id);
+                    final Uri teamsContactsUri = Contract.Teams.Contacts.getTeamContactUri(id);
                     final Cursor data = context.getContentResolver().query(teamsContactsUri, projection, null, null, null);
 
                     if (data != null) {

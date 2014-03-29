@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Project: ${PROJECT_NAME}
- * Package: ${PACKAGE_NAME}
+ * Subpackage: ${PACKAGE_NAME}
  * <p/>
  * Description:
  * Created by fsteller on 2/9/14.

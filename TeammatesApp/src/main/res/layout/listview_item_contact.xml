@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:id="@id/contact_image"
         android:scaleType="centerCrop"
-        class="com.fsteller.mobile.android.teammatesapp.utils.image.RoundedImageView"/>
+        class="com.fsteller.mobile.android.teammatesapp.views.RoundedImageView"/>
 
     <RelativeLayout
         android:weightSum="1"

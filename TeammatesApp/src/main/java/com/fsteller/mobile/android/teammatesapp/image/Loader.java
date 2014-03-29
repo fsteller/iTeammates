@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.utils.image;
+package com.fsteller.mobile.android.teammatesapp.image;
 
 import android.app.FragmentManager;
 import android.content.Context;
@@ -20,13 +20,15 @@ import java.lang.ref.WeakReference;
 
 /**
  * Project: iTeammates
- * Subpackage: utils.image
+ * Subpackage: image
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public abstract class ImageLoader {
-    private static final String TAG = "ImageProcessor";
+public abstract class Loader {
+
+    private static final String TAG = Loader.class.getSimpleName();
     private static final int FADE_IN_TIME = 200;
 
     private final int mImageSize;
@@ -34,12 +36,12 @@ public abstract class ImageLoader {
     private final Object mPauseWorkLock = new Object();
 
     private Bitmap mLoadingBitmap;
-    private ImageCache mImageCache;
+    private Cache mCache;
     private boolean mPauseWork = false;
     private boolean mFadeInBitmap = true;
 
 
-    ImageLoader(final Context context, final int imageSize) {
+    Loader(final Context context, final int imageSize) {
         mResources = context.getResources();
         mImageSize = imageSize;
     }
@@ -123,6 +125,31 @@ public abstract class ImageLoader {
     }
 
     /**
+     * Decode and sample down a bitmap from a byte array input to the requested width and height.
+     *
+     * @param imageData the image byte array to be decoded
+     * @param reqWidth The requested width of the resulting bitmap
+     * @param reqHeight The requested height of the resulting bitmap
+     * @return A bitmap sampled down from the original with the same aspect ratio and dimensions
+     * that are equal to or greater than the requested width and height
+     */
+    public static Bitmap decodeSampledBitmapFromByteArray(final byte[] imageData, final int reqWidth, final int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeByteArray(imageData, 0, imageData.length, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeByteArray(imageData, 0, imageData.length, options);
+    }
+
+
+    /**
      * Calculate an inSampleSize for use in a {@link android.graphics.BitmapFactory.Options} object when decoding
      * bitmaps using the decode* methods from {@link android.graphics.BitmapFactory}. This implementation calculates
      * the closest inSampleSize that will result in the final decoded bitmap having a width and
@@ -136,8 +163,7 @@ public abstract class ImageLoader {
      * @param reqHeight The requested height of the resulting bitmap
      * @return The value to be used for inSampleSize
      */
-    public static int calculateInSampleSize(final BitmapFactory.Options options,
-                                            final int reqWidth, final int reqHeight) {
+    public static int calculateInSampleSize(final BitmapFactory.Options options, final int reqWidth, final int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -177,7 +203,7 @@ public abstract class ImageLoader {
 
     /**
      * Load an image specified by the data parameter into an ImageView (override
-     * {@link ImageLoader#processBitmap(Context, Object)} to define the processing logic). If the image is
+     * {@link Loader#processBitmap(Context, Object)} to define the processing logic). If the image is
      * found in the memory cache, it is set immediately, otherwise an {@link android.os.AsyncTask} will be
      * created to asynchronously load the bitmap.
      *
@@ -192,8 +218,8 @@ public abstract class ImageLoader {
 
         Bitmap bitmap = null;
 
-        if (mImageCache != null) {
-            bitmap = mImageCache.getBitmapFromMemCache(String.valueOf(data));
+        if (mCache != null) {
+            bitmap = mCache.getBitmapFromMemCache(String.valueOf(data));
         }
 
         if (bitmap != null) {
@@ -218,14 +244,14 @@ public abstract class ImageLoader {
     }
 
     /**
-     * Adds an {@link ImageCache} to this image loader.
+     * Adds an {@link Cache} to this image loader.
      *
      * @param fragmentManager     A FragmentManager to use to retain the cache over configuration
      *                            changes such as an orientation change.
      * @param memCacheSizePercent The cache size as a percent of available app memory.
      */
     public void addImageCache(final FragmentManager fragmentManager, final float memCacheSizePercent) {
-        mImageCache = ImageCache.getInstance(fragmentManager, memCacheSizePercent);
+        mCache = Cache.getInstance(fragmentManager, memCacheSizePercent);
     }
 
     /**
@@ -241,7 +267,7 @@ public abstract class ImageLoader {
      * example, you could resize a large bitmap here, or pull down an image from the network.
      *
      * @param data The data to identify which image to process, as provided by
-     *             {@link ImageLoader#loadImage(Object, android.widget.ImageView)}
+     *             {@link Loader#loadImage(Object, android.widget.ImageView)}
      * @return The processed bitmap
      */
     protected abstract Bitmap processBitmap(final Context context, final Object data);
@@ -353,8 +379,8 @@ public abstract class ImageLoader {
             // bitmap to the cache for future use. Note we don't check if the task was cancelled
             // here, if it was, and the thread is still running, we may as well add the processed
             // bitmap to our cache as it might be used again in the future
-            if (bitmap != null && mImageCache != null) {
-                mImageCache.addBitmapToCache(dataString, bitmap);
+            if (bitmap != null && mCache != null) {
+                mCache.addBitmapToCache(dataString, bitmap);
             }
 
             if (BuildConfig.DEBUG) {
