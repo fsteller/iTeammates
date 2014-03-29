@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.fsteller.mobile.android.teammatesapp.handlers.AccountHandler;
 import com.fsteller.mobile.android.teammatesapp.handlers.DatabaseHandler;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
  * Description:
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public class TeammatesApp extends Application implements TeammatesApplicationCallback {
+public class TeammatesApp extends Application implements DatabaseHandler.Callback {
 
     //<editor-fold desc="Constants">
 
@@ -49,32 +48,27 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
         Log.i(TAG, "onCreated");
     }
 
-    @Override
-    public String toString() {
-        return TAG;
-    }
-
-    //<editor-fold desc="TeammatesApplicationCallback">
+    //<editor-fold desc="Callback">
 
     @Override
     public boolean addData(final Intent data) {
-        final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
+        //final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
             return false;
 
-        Log.d(TAG, String.format("Adding data (%s) to: %s", data, mHelperDatabase));
+        Log.d(TAG, String.format("Adding data (%s)", data));
         final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
-                mHelperDatabase.addTeam(this, extras);
+                DatabaseHandler.addTeam(this, extras);
                 break;
             case TC.Activity.Maintenance.EVENTS:
-                mHelperDatabase.addEvent(this, extras);
+                DatabaseHandler.addEvent(this, extras);
                 break;
             case TC.Activity.Maintenance.NOTIFICATION:
-                mHelperDatabase.addNotification(this, extras);
+                DatabaseHandler.addNotification(this, extras);
                 break;
             default:
                 return false;
@@ -84,23 +78,22 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     @Override
     public boolean updateData(final Intent data) {
-        final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
+        //final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
-
         if (extras == null)
             return false;
 
-        Log.d(TAG, String.format("Updating data (%s) from: %s", data, mHelperDatabase));
+        //Log.d(TAG, String.format("Updating data (%s) from: %s", data, mHelperDatabase));
         final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
-                mHelperDatabase.updateTeam(this, extras);
+                DatabaseHandler.updateTeam(this, extras);
                 break;
             case TC.Activity.Maintenance.EVENTS:
-                mHelperDatabase.updateEvent(this, extras);
+                DatabaseHandler.updateEvent(this, extras);
                 break;
             case TC.Activity.Maintenance.NOTIFICATION:
-                mHelperDatabase.updateNotification(this, extras);
+                DatabaseHandler.updateNotification(this, extras);
                 break;
             default:
                 return false;
@@ -110,23 +103,23 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
 
     @Override
     public boolean deleteData(final Intent data) {
-        final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
+        //final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
             return false;
 
-        Log.d(TAG, String.format("Deleting data (%s) from: %s", data, mHelperDatabase));
+        ///Log.d(TAG, String.format("Deleting data (%s) from: %s", data, mHelperDatabase));
         final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
-                mHelperDatabase.deleteTeams(this, extras);
+                DatabaseHandler.deleteTeams(this, extras);
                 break;
             case TC.Activity.Maintenance.EVENTS:
-                mHelperDatabase.deleteEvents(this, extras);
+                DatabaseHandler.deleteEvents(this, extras);
                 break;
             case TC.Activity.Maintenance.NOTIFICATION:
-                mHelperDatabase.deleteNotifications(this, extras);
+                DatabaseHandler.deleteNotifications(this, extras);
                 break;
             default:
                 return false;
@@ -135,7 +128,7 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     }
 
     @Override
-    public void onSendLocalBroadcastCallback(final Object sender, final String receiverPermission, final int action, final ArrayList params) {
+    public void onSendLocalBroadcastCallback(final String receiverPermission, final int action, final ArrayList params) {
         Log.d(TAG, String.format("sendBroadcast: %s", receiverPermission));
         final Intent intent = new Intent(receiverPermission);
 
@@ -145,18 +138,6 @@ public class TeammatesApp extends Application implements TeammatesApplicationCal
     }
 
     //</editor-fold>
-
-    //</editor-fold>
-    //<editor-fold desc="Protected Methods">
-
-    protected DatabaseHandler getHelperDatabase() {
-
-        return DatabaseHandler.getInstance(this);
-    }
-
-    protected AccountHandler getHelperAccount() {
-        return AccountHandler.getInstance(this);
-    }
 
     //</editor-fold>
 }

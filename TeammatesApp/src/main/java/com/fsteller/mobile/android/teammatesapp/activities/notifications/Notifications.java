@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.activities.notification;
+package com.fsteller.mobile.android.teammatesapp.activities.notifications;
 
 /**
  * Project: ${PROJECT_NAME}

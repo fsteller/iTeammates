@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.activities.notification;
+package com.fsteller.mobile.android.teammatesapp.activities.notifications;
 
 import android.app.LoaderManager;
 import android.content.Intent;

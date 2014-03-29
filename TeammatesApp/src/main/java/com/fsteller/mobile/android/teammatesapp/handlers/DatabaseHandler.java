@@ -4,15 +4,17 @@ import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.TeammatesApplicationCallback;
-import com.fsteller.mobile.android.teammatesapp.handlers.database.Contract;
-import com.fsteller.mobile.android.teammatesapp.handlers.database.Helper;
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
+import com.fsteller.mobile.android.teammatesapp.TeammatesApp;
+import com.fsteller.mobile.android.teammatesapp.database.Contract;
+import com.fsteller.mobile.android.teammatesapp.database.Helper;
+import com.fsteller.mobile.android.teammatesapp.image.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +36,6 @@ public final class DatabaseHandler {
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    private TeammatesApplicationCallback mContext = null;
     private static DatabaseHandler mHelperDatabase = null;
     private final Helper sqlHelper;
 
@@ -48,7 +49,6 @@ public final class DatabaseHandler {
      */
     private DatabaseHandler(final Context context) {
         this.sqlHelper = new Helper(context);
-        this.mContext = (TeammatesApplicationCallback) context;
     }
 
     //</editor-fold>
@@ -57,7 +57,7 @@ public final class DatabaseHandler {
 
     //<editor-fold desc="Add to database Methods">
 
-    public void addTeam(final Context context, final Bundle data) {
+    public static void addTeam(final TeammatesApp context, final Bundle data) {
 
         if (data == null)
             return;
@@ -100,7 +100,7 @@ public final class DatabaseHandler {
                                     .build());
                         try {
                             context.getContentResolver().applyBatch(Contract.AUTHORITY, ops);
-                            callback(TC.DatabaseActions.TeamAddedToDb);
+                            sendCallback(context, TC.DatabaseActions.TeamAddedToDb);
                             return;
                         } catch (Exception e) {
                             Log.e(TAG, String.format("Error processing INSERT operation with Uri: %s", contactUri), e);
@@ -115,7 +115,7 @@ public final class DatabaseHandler {
         }.start();
     }
 
-    public void addEvent(final Context context, final Bundle data) {
+    public static void addEvent(final Context context, final Bundle data) {
 
         if (data == null)
             return;
@@ -128,7 +128,7 @@ public final class DatabaseHandler {
         }.start();
     }
 
-    public void addNotification(final Context context, final Bundle data) {
+    public static void addNotification(final Context context, final Bundle data) {
 
         if (data == null)
             return;
@@ -144,7 +144,7 @@ public final class DatabaseHandler {
     //</editor-fold>
     //<editor-fold desc="Update on database Methods">
 
-    public void updateTeam(final Context context, final Bundle data) {
+    public static void updateTeam(final TeammatesApp context, final Bundle data) {
 
         if (data == null)
             return;
@@ -184,7 +184,7 @@ public final class DatabaseHandler {
                                     .build());
                         try {
                             context.getContentResolver().applyBatch(Contract.AUTHORITY, ops);
-                            callback(TC.DatabaseActions.TeamAddedToDb);
+                            sendCallback(context, TC.DatabaseActions.TeamAddedToDb);
                         } catch (Exception e) {
                             Log.e(TAG, String.format("Error processing INSERT operation with Uri: %s", uri), e);
                             revertTransaction(uri, e);
@@ -195,7 +195,7 @@ public final class DatabaseHandler {
         }.start();
     }
 
-    public void updateEvent(final Context context, final Bundle data) {
+    public static void updateEvent(final Context context, final Bundle data) {
 
         if (data == null)
             return;
@@ -208,7 +208,7 @@ public final class DatabaseHandler {
         }.start();
     }
 
-    public void updateNotification(final Context context, final Bundle data) {
+    public static void updateNotification(final Context context, final Bundle data) {
 
         if (data == null)
             return;
@@ -224,7 +224,7 @@ public final class DatabaseHandler {
     //</editor-fold>
     //<editor-fold desc="Delete from database Methods">
 
-    public void deleteTeams(final Context context, final Bundle data) {
+    public static void deleteTeams(final TeammatesApp context, final Bundle data) {
 
         new Thread() {
 
@@ -243,7 +243,7 @@ public final class DatabaseHandler {
 
                         try {
                             context.getContentResolver().applyBatch(Contract.AUTHORITY, ops);
-                            callback(TC.DatabaseActions.TeamDeletedFromDb);
+                            sendCallback(context, TC.DatabaseActions.TeamDeletedFromDb);
                         } catch (Exception e) {
                             Log.e(TAG, String.format("Error processing DELETE operation with Uri: %s", Contract.Teams.CONTENT_URI), e);
                             revertTransaction(null, e);
@@ -255,7 +255,7 @@ public final class DatabaseHandler {
         }.start();
     }
 
-    public void deleteEvents(final Context context, final Bundle data) {
+    public static void deleteEvents(final Context context, final Bundle data) {
 
         if (data == null)
             return;
@@ -268,7 +268,7 @@ public final class DatabaseHandler {
         }.start();
     }
 
-    public void deleteNotifications(final Context context, final Bundle data) {
+    public static void deleteNotifications(final Context context, final Bundle data) {
 
         if (data == null)
             return;
@@ -282,14 +282,30 @@ public final class DatabaseHandler {
     }
 
     //</editor-fold>
+    //<editor-fold desc="Add to database Methods">
 
+    public static byte[] getMediaContent(final Context context, final Uri imageUri) {
+
+        byte[] mBytes = null;
+        final Cursor mCursor = context.getContentResolver()
+                .query(imageUri, TC.Queries.MediaContent.PROJECTION, TC.Queries.MediaContent.SELECTION, null, null);
+
+        if (mCursor != null) {
+            mBytes = mCursor.getBlob(0);
+            mCursor.close();
+        }
+
+        return mBytes;
+    }
+
+    //</editor-fold>
     //</editor-fold>
     //<editor-fold desc="Private Methods">
 
-    private String persistImageMediaContent(final Context context, final String imageDiskRef, final long createdAt, final long updatedAt) {
+    private static String persistImageMediaContent(final Context context, final String imageDiskRef, final long createdAt, final long updatedAt) {
 
         // Transform  imageDiskRef (Uri referenced file) to a byte[]
-        final byte[] imageByteArray = ImageUtils.getImageAsByteArray(imageDiskRef);
+        final byte[] imageByteArray = Utils.getImageAsByteArray(imageDiskRef);
         final ContentValues mediaContentTableContentValues = new ContentValues();
         mediaContentTableContentValues.put(Contract.MediaContent.CREATED_AT, createdAt);
         mediaContentTableContentValues.put(Contract.MediaContent.UPDATED_AT, updatedAt);
@@ -309,38 +325,30 @@ public final class DatabaseHandler {
     }
 
 
-    private void callback(final int action) {
-        if (mContext != null) {
+    private static void sendCallback(final Callback callback, final int action) {
+        if (callback != null) {
             Log.d(TAG, String.format("Callback action required: %s", action));
-            mContext.onSendLocalBroadcastCallback(this, TC.Broadcast.DB_UPDATE_TEAMS_RECEIVE, action, null);
+            callback.onSendLocalBroadcastCallback(TC.Broadcast.DB_UPDATE_TEAMS_RECEIVE, action, null);
         }
     }
 
-    private void revertTransaction(Uri uri, Exception e) {
+    private static void revertTransaction(final Uri uri, final Exception e) {
         Log.e(TAG, String.format("Unknown error during insert for uri (%s). Reverting transaction.", uri), e);
         //Todo: revert trx
     }
 
     //</editor-fold>
-    //<editor-fold desc="Overridden Methods">
 
+    public static interface Callback {
 
-    @Override
-    public String toString() {
-        return String.format("DatabaseHelper.%s", sqlHelper);
+        public boolean addData(final Intent data);
+
+        public boolean updateData(final Intent data);
+
+        public boolean deleteData(final Intent data);
+
+        public void onSendLocalBroadcastCallback(final String receiverPermission, final int action, final ArrayList params);
+
     }
 
-    //</editor-fold>
-
-    /**
-     * Static method used to instantiate ${@link DatabaseHandler} class.
-     *
-     * @param context Brings global information about an application environment to the database.
-     * @return Returns a singleton instance of ${@link DatabaseHandler} class.
-     */
-    public static DatabaseHandler getInstance(final Context context) {
-        if (mHelperDatabase == null)
-            mHelperDatabase = new DatabaseHandler(context);
-        return mHelperDatabase;
-    }
 }

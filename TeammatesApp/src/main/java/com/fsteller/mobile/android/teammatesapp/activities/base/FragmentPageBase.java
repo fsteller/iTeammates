@@ -92,11 +92,11 @@ public abstract class FragmentPageBase extends FragmentBase implements AbsListVi
     @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
         // Pause image loader to ensure smoother scrolling when flinging
-        if (mImageLoader != null) {
+        if (mLoader != null) {
             if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING)
-                mImageLoader.setPauseWork(true);
+                mLoader.setPauseWork(true);
             else
-                mImageLoader.setPauseWork(false);
+                mLoader.setPauseWork(false);
         }
         hideSoftKeyboard(view);
     }

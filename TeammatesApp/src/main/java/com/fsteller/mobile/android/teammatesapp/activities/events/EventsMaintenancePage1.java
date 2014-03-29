@@ -27,11 +27,11 @@ import android.widget.TextView;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
+import com.fsteller.mobile.android.teammatesapp.image.Utils;
 import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
 
 /**
  * Project: iTeammates
@@ -80,7 +80,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             calendarAdapter = new Adapters.CalendarAdapter(mActivity);
             teamsAdapter = new EventsParticipantsAdapter(mActivity);
 
-            mImageLoader.loadImage(mEventEntity.getImageRef(), titleImage);
+            mLoader.loadImage(mEventEntity.getImageRef(), titleImage);
             headerSpinner.setOnItemSelectedListener(this);
             headerSpinner.setAdapter(calendarAdapter);
             mListView.setOnScrollListener(this);
@@ -151,7 +151,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
                 }
             });
 
-            button.setOnClickListener(new ImageUtils.PickImage(getActivity()));
+            button.setOnClickListener(new Utils.PickImage(getActivity()));
         }
         Log.d(TAG, "onCreated");
         return rootView;
@@ -170,11 +170,11 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
         // Pause image loader to ensure smoother scrolling when flinging
-        if (mImageLoader != null) {
+        if (mLoader != null) {
             if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING)
-                mImageLoader.setPauseWork(true);
+                mLoader.setPauseWork(true);
             else
-                mImageLoader.setPauseWork(false);
+                mLoader.setPauseWork(false);
         }
         hideSoftKeyboard(view);
     }
@@ -356,7 +356,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             teamItem.team_check.setTag(id);
             teamItem.team_check.setChecked(mEventEntity.isItemCollected(EventEntity.TEAMS, id));
             setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mEventEntity.getSearchTerm());
-            setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
+            setImageView(teamItem.team_thumbnail, mLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeammatesTeams.CREATED_AT));
         }

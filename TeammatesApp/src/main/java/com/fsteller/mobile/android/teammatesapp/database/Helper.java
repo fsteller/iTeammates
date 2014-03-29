@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.handlers.database;
+package com.fsteller.mobile.android.teammatesapp.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,7 +7,7 @@ import android.util.Log;
 
 /**
  * Project: iTeammates
- * Subpackage: handlers.database
+ * Subpackage: database
  * <p/>
  * Description: ins in charge of create and upgrade the iTeammates data base, it takes advantage of
  * ${@link Constants} static class in order
@@ -17,8 +17,9 @@ import android.util.Log;
  */
 public final class Helper extends SQLiteOpenHelper {
 
+    //<editor-fold desc="Constants">
     private static final String TAG = Helper.class.getSimpleName();
-
+    //</editor-fold>
     //<editor-fold desc="Constructor">
 
     /**

@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.handlers.database;
+package com.fsteller.mobile.android.teammatesapp.database;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -11,10 +11,10 @@ import java.util.List;
 
 /**
  * Project: iTeammates
- * Subpackage: handlers.database
+ * Subpackage: database
  * <p/>
  * Description: This is the iTeammates database contract class used to with
- * ${@link com.fsteller.mobile.android.teammatesapp.handlers.database.ContentProvider} in order to
+ * ${@link com.fsteller.mobile.android.teammatesapp.database.ContentProvider} in order to
  * be able to add, delete, and update registries.<p/>
  * Inside this class you would find interfaces and subclasses related to metadata required to
  * perform database operations.
@@ -111,6 +111,7 @@ public final class Contract {
     public static final class Teams implements TeamsColumns {
 
         //<editor-fold desc="Constants">
+
         static final String PATH = TABLE_NAME;
         static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
         static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
@@ -130,15 +131,18 @@ public final class Contract {
          */
         private Teams() {
         }
+
         //</editor-fold >
 
         //<editor-fold desc="pubic methods">
+
         public static Uri getTeamDataUri(final long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
         //</editor-fold>
         //<editor-fold desc="Protected Methods">
+
         static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(Teams.TABLE_NAME);
@@ -161,21 +165,6 @@ public final class Contract {
             return builder;
         }
 
-        protected static String[] getProjection(final String[] projection) {
-            int i = 0;
-            if (projection != null)
-                for (final String columnName : projection)
-                    projection[i++] = fixColumnName(columnName);
-            return projection;
-        }
-
-        //</editor-fold>
-        //<editor-fold desc="Private Methods">
-        private static String fixColumnName(String columnName) {
-            return COLUMNS.contains(columnName) ?
-                    String.format("%s.%s", TABLE_NAME, columnName) :
-                    columnName;
-        }
         //</editor-fold>
 
         //<editor-fold desc="Inner Classes">
@@ -183,6 +172,7 @@ public final class Contract {
         public final static class Contacts implements ContactsColumns {
 
             //<editor-fold desc="Constants">
+
             static final String PATH = Teams.PATH + "/#/" + TABLE_NAME;
             static final String ID_PATH = PATH + ITEM_NUMERIC_SUFFIX;
             public static final String CONTENT_DIRECTORY = TABLE_NAME;
@@ -197,9 +187,11 @@ public final class Contract {
              */
             private Contacts() {
             }
+
             //</editor-fold>
 
             //<editor-fold desc="pubic methods">
+
             public static Uri getTeamContactUri(int id) {
                 final Uri result = getTeamDataUri(id);
                 return Uri.withAppendedPath(result, CONTENT_DIRECTORY);
@@ -207,6 +199,7 @@ public final class Contract {
 
             //</editor-fold>
             //<editor-fold desc="Protected Methods">
+
             static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
                 final List<String> segments = uri.getPathSegments();
                 if (segments != null && code == ContentProvider.TEAM_CONTACTS) {
@@ -229,21 +222,6 @@ public final class Contract {
                 return null;
             }
 
-            protected static String[] getProjection(final String[] projection) {
-                int i = 0;
-                if (projection != null)
-                    for (final String columnName : projection)
-                        projection[i++] = fixColumnName(columnName);
-                return projection;
-            }
-
-            //</editor-fold>
-            //<editor-fold desc="Private Methods">
-            private static String fixColumnName(final String columnName) {
-                return COLUMNS.contains(columnName) ?
-                        String.format("%s.%s", TABLE_NAME, columnName) :
-                        Teams.fixColumnName(columnName);
-            }
             //</editor-fold>
         }
 
@@ -254,6 +232,7 @@ public final class Contract {
     public static final class Events implements EventsColumns {
 
         //<editor-fold desc="Constants">
+
         static final String PATH = TABLE_NAME;
         protected static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
         static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
@@ -275,16 +254,19 @@ public final class Contract {
          */
         private Events() {
         }
+
         //</editor-fold>
 
         //<editor-fold desc="pubic methods">
+
         public static Uri getEventDataUri(final long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
         //</editor-fold>
         //<editor-fold desc="protected methods">
-        protected static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
+
+        static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(Events.TABLE_NAME);
 
@@ -306,32 +288,19 @@ public final class Contract {
             return builder;
         }
 
-        protected static String[] getProjection(final String[] projection) {
-            int i = 0;
-            if (projection != null)
-                for (final String columnName : projection)
-                    projection[i++] = fixColumnName(columnName);
-            return projection;
-        }
+        //</editor-fold>
 
-        //</editor-fold>
-        //<editor-fold desc="private methods">
-        private static String fixColumnName(final String columnName) {
-            return COLUMNS.contains(columnName) ?
-                    String.format("%s.%s", TABLE_NAME, columnName) :
-                    Teams.fixColumnName(columnName);
-        }
-        //</editor-fold>
     }
 
     public static final class MediaContent implements MediaContentColumns {
 
         //<editor-fold desc="Constants">
-        static final String PATH = TABLE_NAME;
-        static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
-        static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
-        static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
+
+        public static final String PATH = TABLE_NAME;
+        public static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
+        public static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
+        public static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
+        public static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
         public static final Uri CONTENT_FILTER_URI = Uri.withAppendedPath(CONTENT_URI, ITEM_FILTER_PATH_SUFFIX);
@@ -346,6 +315,11 @@ public final class Contract {
          */
         private MediaContent() {
         }
+
+        static SQLiteQueryBuilder getQueryBuilder(Uri uri, int matcher) {
+            return null;
+        }
+
         //</editor-fold >
 
     }

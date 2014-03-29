@@ -39,7 +39,7 @@ android {
         debug {
             zipAlign true
             debuggable true
-            runProguard false
+            runProguard true
             jniDebugBuild true
             versionNameSuffix '1.0'
             packageNameSuffix '.debug'

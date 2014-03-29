@@ -21,8 +21,8 @@ import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragmen
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_Share;
 import com.fsteller.mobile.android.teammatesapp.activities.events.EventsMaintenance;
 import com.fsteller.mobile.android.teammatesapp.activities.events.EventsPage;
-import com.fsteller.mobile.android.teammatesapp.activities.notification.Notifications;
-import com.fsteller.mobile.android.teammatesapp.activities.notification.NotificationsPage;
+import com.fsteller.mobile.android.teammatesapp.activities.notifications.Notifications;
+import com.fsteller.mobile.android.teammatesapp.activities.notifications.NotificationsPage;
 import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsMaintenance;
 import com.fsteller.mobile.android.teammatesapp.activities.teams.TeamsPage;
 import com.fsteller.mobile.android.teammatesapp.model.Collection;

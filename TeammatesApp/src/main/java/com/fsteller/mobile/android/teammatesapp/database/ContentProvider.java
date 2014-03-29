@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.handlers.database;
+package com.fsteller.mobile.android.teammatesapp.database;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -15,14 +15,13 @@ import java.util.Arrays;
 
 /**
  * Project: iTeammates
- * Subpackage: handlers.database
+ * Subpackage: database
  * <p/>
  * Description:
  * <p/>
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public final class ContentProvider extends android.content.ContentProvider {
-
 
     //<editor-fold desc="Constants">
 
@@ -42,7 +41,6 @@ public final class ContentProvider extends android.content.ContentProvider {
 
     static final int MEDIA_CONTENT = 9001;
     static final int MEDIA_CONTENT_ID = 9002;
-    static final int MEDIA_CONTENT_FILTER = 9003;
 
     //</editor-fold>
     //<editor-fold desc="Variables">
@@ -56,16 +54,9 @@ public final class ContentProvider extends android.content.ContentProvider {
         // Table teams related uris
         URI_MATCHER.addURI(Contract.AUTHORITY, Contract.Teams.PATH, TEAMS);
         URI_MATCHER.addURI(Contract.AUTHORITY, Contract.Teams.PATH_ID, TEAM_ID);
+        URI_MATCHER.addURI(Contract.AUTHORITY, Contract.Teams.PATH_TEXT_FILTER, TEAM_FILTER);
         URI_MATCHER.addURI(Contract.AUTHORITY, Contract.Teams.PATH_EMPTY_FILTER, TEAM_FILTER);
         URI_MATCHER.addURI(Contract.AUTHORITY, Contract.Teams.PATH_NUMERIC_FILTER, TEAM_FILTER);
-        URI_MATCHER.addURI(Contract.AUTHORITY, Contract.Teams.PATH_TEXT_FILTER, TEAM_FILTER);
-
-        /* Unused code
-
-            //URI_MATCHER.addURI(Contract.AUTHORITY, Contract.TeamsMaintenance.PATH_FILTER, TEAM_FILTER);
-            //SearchManager.SUGGEST_URI_PATH_QUERY
-            //URI_MATCHER.addURI(Contract.AUTHORITY, Contract.TeamsMaintenance.PATH_EXPRESSION_FILTER, TEAM_EX_FILTER_MATCH);
-        */
 
         // Table teams.contacts related uris
         URI_MATCHER.addURI(Contract.AUTHORITY, Contract.Teams.Contacts.PATH, TEAM_CONTACTS);
@@ -74,8 +65,6 @@ public final class ContentProvider extends android.content.ContentProvider {
         // Table mediaContent related uris
         URI_MATCHER.addURI(Contract.AUTHORITY, Contract.MediaContent.PATH, MEDIA_CONTENT);
         URI_MATCHER.addURI(Contract.AUTHORITY, Contract.MediaContent.PATH_ID, MEDIA_CONTENT_ID);
-        URI_MATCHER.addURI(Contract.AUTHORITY, Contract.MediaContent.PATH_EMPTY_FILTER, MEDIA_CONTENT_FILTER);
-        URI_MATCHER.addURI(Contract.AUTHORITY, Contract.MediaContent.PATH_NUMERIC_FILTER, MEDIA_CONTENT_FILTER);
     }
 
     //</editor-fold>
@@ -108,7 +97,6 @@ public final class ContentProvider extends android.content.ContentProvider {
 
             //------------------- MediaContent ----------------
             case MEDIA_CONTENT:
-            case MEDIA_CONTENT_FILTER:
                 return Contract.MediaContent.CONTENT_TYPE;
             case MEDIA_CONTENT_ID:
                 return Contract.MediaContent.CONTENT_ITEM_TYPE;
@@ -186,6 +174,10 @@ public final class ContentProvider extends android.content.ContentProvider {
             case TEAM_CONTACTS:
             case TEAM_CONTACT_ID:
                 return mQuery(Contract.Teams.Contacts.getQueryBuilder(uri, matcher),
+                        projection, selection, selectionArgs, sortOrder);
+            case MEDIA_CONTENT:
+            case MEDIA_CONTENT_ID:
+                return mQuery(Contract.MediaContent.getQueryBuilder(uri, matcher),
                         projection, selection, selectionArgs, sortOrder);
             default:
                 Log.e(TAG, String.format("Error: uri(%s) doesn't support Query operation.", uri));

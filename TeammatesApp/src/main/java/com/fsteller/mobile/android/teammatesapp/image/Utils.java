@@ -1,11 +1,13 @@
-package com.fsteller.mobile.android.teammatesapp.utils.image;
+package com.fsteller.mobile.android.teammatesapp.image;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.UriMatcher;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.ContactsContract;
@@ -15,9 +17,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.fsteller.mobile.android.teammatesapp.BuildConfig;
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.utils.VersionTools;
+import com.fsteller.mobile.android.teammatesapp.database.Contract;
+import com.fsteller.mobile.android.teammatesapp.handlers.DatabaseHandler;
 
 import org.apache.http.util.ByteArrayBuffer;
 
@@ -32,28 +34,41 @@ import java.security.InvalidParameterException;
 
 /**
  * Project: iTeammates
- * Subpackage: utils.image
+ * Subpackage: image
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
-public final class ImageUtils {
+public final class Utils {
 
-    private static final String TAG = ImageUtils.class.getSimpleName();
+    //<editor-fold desc="Constants">
 
-    private ImageUtils() {
+    private static final String TAG = Utils.class.getSimpleName();
+
+    //</editor-fold>
+    //<editor-fold desc="Constructor">
+
+    /**
+     * Private constructor used in order to prevent instantiation of this class.
+     */
+    private Utils() {
     }
 
-    public static ImageLoader setupImageLoader(final Activity activity, final int defaultImageRefId) {
+    //</editor-fold>
+
+    //<editor-fold desc="Public">
+
+    public static Loader setupImageLoader(final Activity activity, final int defaultImageRefId) {
         return setupImageLoader(activity, defaultImageRefId, ImageProcessor.getInstance());
     }
 
-    public static ImageLoader setupImageLoader(final Activity activity, final int defaultImageRefId, final BitmapProcessor callback) {
+    public static Loader setupImageLoader(final Activity activity, final int defaultImageRefId, final BitmapProcessor callback) {
 
-        final ImageLoader mImageLoader = new ImageLoader(activity, getListPreferredItemHeight(activity)) {
-
+        final Loader mLoader = new Loader(activity, getListPreferredItemHeight(activity)) {
             @Override
             protected Bitmap processBitmap(final Context context, final Object data) {
+
                 Bitmap result = null;
                 if (callback != null && data != null) {
                     if (data instanceof String)
@@ -65,11 +80,11 @@ public final class ImageUtils {
             }
         };
 
-        mImageLoader.addImageCache(activity.getFragmentManager(), 0.1f);
-        mImageLoader.setLoadingImage(defaultImageRefId);
-        mImageLoader.setImageFadeIn(false);
+        mLoader.addImageCache(activity.getFragmentManager(), 0.1f);
+        mLoader.setLoadingImage(defaultImageRefId);
+        mLoader.setImageFadeIn(false);
 
-        return mImageLoader;
+        return mLoader;
     }
 
     public static byte[] getImageAsByteArray(final String url) {
@@ -92,7 +107,6 @@ public final class ImageUtils {
         }
         return null;
     }
-
 
     public static void PickImage(final Activity mActivity) {
         Log.d(TAG, "Raising intent to pick  and crop image...");
@@ -117,6 +131,9 @@ public final class ImageUtils {
         }
     }
 
+    //</editor-fold>
+    //<editor-fold desc="private">
+
     /**
      * Gets the preferred height for each item in the ListView, in pixels, after accounting for
      * screen density. ImageProcessor uses this value to resize thumbnail images to match the ListView
@@ -124,7 +141,7 @@ public final class ImageUtils {
      *
      * @return The preferred height in pixels, based on the current theme.
      */
-    protected static int getListPreferredItemHeight(final Activity activity) {
+    private static int getListPreferredItemHeight(final Activity activity) {
 
         final TypedValue typedValue = new TypedValue();
 
@@ -143,42 +160,63 @@ public final class ImageUtils {
         return (int) typedValue.getDimension(metrics);
     }
 
-    protected static final class ImageProcessor implements BitmapProcessor {
+    //</editor-fold>
+    //<editor-fold desc="Inner Classes">
+
+    public static final class PickImage implements View.OnClickListener {
+
+        private Activity mActivity = null;
+
+        public PickImage(final Activity activity) {
+            if (activity == null)
+                throw new InvalidParameterException("Parameter context can not be null");
+
+            this.mActivity = activity;
+        }
+
+        @Override
+        public void onClick(final View v) {
+            PickImage(mActivity);
+        }
+
+    }
+
+    private static final class ImageProcessor implements BitmapProcessor {
+
+        //<editor-fold desc="Constants">
+
+        private static final String TAG = ImageProcessor.class.getSimpleName();
+        private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+
+        private static final int IMAGE_FROM_FILE = 1001;
+        private static final int IMAGE_FROM_CONTACTS = 1002;
+        private static final int IMAGE_FROM_DATABASE = 1003;
+
+        //</editor-fold>
+        //<editor-fold desc="Static">
+
+        static {
+            // List of uris supported to be processed as image
+            //URI_MATCHER.addURI("", "*", IMAGE_FROM_FILE);
+            URI_MATCHER.addURI(ContactsContract.AUTHORITY, "contacts/#/*", IMAGE_FROM_CONTACTS);
+            URI_MATCHER.addURI(Contract.AUTHORITY, Contract.MediaContent.PATH_ID, IMAGE_FROM_DATABASE);
+        }
+
+        //</editor-fold>
+
+        //<editor-fold desc="Variables">
 
         private static ImageProcessor instance = null;
+
+        //</editor-fold>
+        //<editor-fold desc="Constructor">
 
         private ImageProcessor() {
         }
 
-        public static ImageProcessor getInstance() {
-            if (instance == null)
-                instance = new ImageProcessor();
-            return instance;
-        }
+        //</editor-fold>
 
-        @Override
-        public final Bitmap loadImage(final Context context, final String imageData, final int imageSize) {
-
-            Uri thumbUri = null;
-            if (context != null)
-                //   Ensures the Fragment is still added to an activity. As this method is called in a
-                //   background thread, there's the possibility the Fragment is no longer attached and
-                //   added to an activity. If so, no need to spend resources loading the contact photo.
-                if (VersionTools.hasHoneycomb())
-                    // If Android 3.0 or later, converts the Uri passed as a string to a Uri object.
-                    thumbUri = Uri.parse(imageData);
-                else {
-                    // For versions prior to Android 3.0, appends the string argument to the content
-                    // Uri for the teams table.
-                    final Uri contentUri = ContactsContract.Contacts.CONTENT_URI;
-                    if (contentUri != null) {
-                        final Uri contactUri = Uri.withAppendedPath(contentUri, imageData);
-                        if (contactUri != null)
-                            thumbUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
-                    }
-                }
-            return loadImage(context, thumbUri, imageSize);
-        }
+        //<editor-fold desc="Overrides">
 
         @Override
         public final Bitmap loadImage(final Context context, final Uri imageUri, final int imageSize) {
@@ -188,6 +226,43 @@ public final class ImageUtils {
             // added to an activity. If so, no need to spend resources loading the contact photo.
             if (context == null)
                 return null;
+
+            switch (URI_MATCHER.match(imageUri)) {
+                case IMAGE_FROM_FILE:
+                case IMAGE_FROM_CONTACTS:
+                    return loadImageUri(context, imageUri, imageSize);
+                case IMAGE_FROM_DATABASE:
+                    return loadImageFromDb(context, imageUri, imageSize);
+                default:
+                    Log.e(TAG, String.format("Load image from uri: %s is not supported", imageUri));
+            }
+
+            return null;
+        }
+
+        @Override
+        public final Bitmap loadImage(final Context context, final String imageData, final int imageSize) {
+            return loadImage(context, Uri.parse(imageData), imageSize);
+        }
+
+        //</editor-fold>
+        //<editor-fold desc="Public">
+
+        public static ImageProcessor getInstance() {
+            if (instance == null)
+                instance = new ImageProcessor();
+            return instance;
+        }
+
+        //</editor-fold>
+        //<editor-fold desc="Private">
+
+        private static Bitmap loadImageFromDb(final Context context, final Uri imageUri, final int imageSize) {
+            final byte[] imageData = DatabaseHandler.getMediaContent(context, imageUri);
+            return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+        }
+
+        private static Bitmap loadImageUri(final Context context, final Uri imageUri, final int imageSize) {
 
             // Instantiates an AssetFileDescriptor. Given a content Uri pointing to an image file, the
             // ContentResolver can return an AssetFileDescriptor for the file.
@@ -207,46 +282,25 @@ public final class ImageUtils {
                     if (fileDescriptor != null)
                         // Decodes a Bitmap from the image pointed to by the FileDescriptor, and scales it
                         // to the specified width and height
-                        image = ImageLoader.decodeSampledBitmapFromDescriptor(fileDescriptor, imageSize, imageSize);
+                        image = Loader.decodeSampledBitmapFromDescriptor(fileDescriptor, imageSize, imageSize);
                 }
             } catch (FileNotFoundException e) {
-                // If the file pointed to by the thumbnail URI doesn't exist, or the file can't be
-                // opened in "read" mode, ContentResolver.openAssetFileDescriptor throws a
-                // FileNotFoundException.
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Contact photo thumbnail not found for contact " + imageUri + ": " + e.toString());
-
-            } finally { // If an AssetFileDescriptor was returned, try to close it
+                Log.d(TAG, "Photo thumbnail not found at Uri: " + imageUri + ", error: " + e.toString());
+            } finally {
+                // If an AssetFileDescriptor was returned, try to close it
                 if (afd != null)
                     try {
                         afd.close();
-                    } catch (IOException ignored) {
+                    } catch (final IOException e) {
+                        e.printStackTrace();
                     }
             }
-
             // If the decoding failed, returns null
             return image;
         }
 
+        //</editor-fold>
     }
 
-    public static class PickImage implements View.OnClickListener {
-
-        private Activity mActivity = null;
-
-        public PickImage(final Activity activity) {
-            if (activity == null)
-                throw new InvalidParameterException("Parameter context can not be null");
-
-            this.mActivity = activity;
-        }
-
-        @Override
-        public void onClick(final View v) {
-            PickImage(mActivity);
-        }
-
-
-    }
-
+//</editor-fold>
 }

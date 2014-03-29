@@ -302,7 +302,7 @@ public final class TeamsPage extends FragmentPageBase implements LoaderManager.L
             final int id = cursor.getInt(TC.Queries.TeammatesTeams.ID);
             final TeamItem teamItem = (TeamItem) view.getTag();
 
-            setImageView(teamItem.team_thumbnail, mImageLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
+            setImageView(teamItem.team_thumbnail, mLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
             setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mCallback.getSearchTerm());
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
             setDateText(teamItem.team_creation, getResources().getString(R.string.creation_prefix), cursor.getLong(TC.Queries.TeammatesTeams.CREATED_AT));

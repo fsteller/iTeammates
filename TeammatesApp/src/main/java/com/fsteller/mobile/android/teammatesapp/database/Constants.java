@@ -1,4 +1,4 @@
-package com.fsteller.mobile.android.teammatesapp.handlers.database;
+package com.fsteller.mobile.android.teammatesapp.database;
 
 import android.provider.BaseColumns;
 
@@ -6,7 +6,7 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 
 /**
  * Project: iTeammates
- * Subpackage: handlers.database
+ * Subpackage: database
  * <p/>
  * Description: Contains all the database objects used for maintenance. Those objects implements
  * {@link Constants.TABLE} abstract class

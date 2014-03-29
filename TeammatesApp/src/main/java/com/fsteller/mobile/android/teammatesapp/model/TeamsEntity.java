@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
-import com.fsteller.mobile.android.teammatesapp.handlers.database.Contract;
+import com.fsteller.mobile.android.teammatesapp.database.Contract;
 import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
 import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;

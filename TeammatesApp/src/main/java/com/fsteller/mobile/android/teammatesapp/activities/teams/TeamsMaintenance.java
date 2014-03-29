@@ -4,7 +4,6 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,13 +28,13 @@ import android.widget.Toast;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
+import com.fsteller.mobile.android.teammatesapp.image.Loader;
+import com.fsteller.mobile.android.teammatesapp.image.Utils;
 import com.fsteller.mobile.android.teammatesapp.model.TeamsEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageLoader;
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
 
 /**
  * Project: iTeammates
@@ -54,7 +53,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     //<editor-fold desc="Variables">
 
     private SimpleCursorAdapter mCursorAdapter = null;
-    private ImageLoader mImageLoader = null;
+    private Loader mLoader = null;
     private EditText collectionName = null;
     private EditText collectionKey = null;
     private ImageView headerImage = null;
@@ -86,7 +85,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         this.setContentView(R.layout.activity_teams_maintenance_page1);
 
         this.mEntity.loadData(this, extras);
-        this.mImageLoader = ImageUtils.setupImageLoader(this, R.drawable.ic_default_picture);
+        this.mLoader = Utils.setupImageLoader(this, R.drawable.ic_default_picture);
         this.collectionKey = (EditText) findViewById(R.id.collection_lookup_key_text);
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
         this.headerImage = (ImageView) findViewById(R.id.header_image);
@@ -117,7 +116,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
         headerTitle.setText(getResources().getString(R.string.teamsMaintenance_titleLabel));
         headerDescription.setText(getResources().getString(R.string.teamsMaintenance_titleDescriptionLabel));
-        button.setOnClickListener(new ImageUtils.PickImage(this));
+        button.setOnClickListener(new Utils.PickImage(this));
 
         this.mListView.setOnScrollListener(this);
         this.mCursorAdapter = new ContactsAdapter(this);
@@ -158,7 +157,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         super.onResume();
 
         this.restartLoader(TC.Queries.PhoneContacts.SIMPLE_QUERY_ID, this);
-        this.mImageLoader.loadImage(mEntity.getImageRef(), headerImage);
+        this.mLoader.loadImage(mEntity.getImageRef(), headerImage);
         this.collectionName.setText(mEntity.getEntityName());
         this.collectionKey.setText(mEntity.getSearchTerm());
     }
@@ -193,7 +192,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     //<editor-fold desc="LoaderManager.LoaderCallbacks<Cursor>">
 
     @Override
-    public Loader<Cursor> onCreateLoader(final int id, final Bundle bundle) {
+    public android.content.Loader onCreateLoader(final int id, final Bundle bundle) {
         switch (id) {
             case TC.Queries.PhoneContacts.SIMPLE_QUERY_ID:
             case TC.Queries.PhoneContacts.FILTER_QUERY_ID1:
@@ -205,7 +204,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     }
 
     @Override
-    public void onLoadFinished(final Loader<Cursor> cursorLoader, final Cursor data) {
+    public void onLoadFinished(final android.content.Loader cursorLoader, final Cursor data) {
 
         if (mCursorAdapter != null) {
             mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
@@ -214,7 +213,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     }
 
     @Override
-    public void onLoaderReset(final Loader<Cursor> cursorLoader) {
+    public void onLoaderReset(final android.content.Loader cursorLoader) {
 
         if (cursorLoader != null && mCursorAdapter != null) {
             mEmptyView.setVisibility(View.VISIBLE);
@@ -229,11 +228,11 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
         // Pause image loader to ensure smoother scrolling when flinging
         final boolean scrollFling = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING;
-        if (mImageLoader != null) {
+        if (mLoader != null) {
             if (scrollFling)
-                mImageLoader.setPauseWork(true);
+                mLoader.setPauseWork(true);
             else
-                mImageLoader.setPauseWork(false);
+                mLoader.setPauseWork(false);
         }
         if (scrollFling)
             hideSoftKeyboard(view);
@@ -261,7 +260,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     //</editor-fold>
     //<editor-fold desc="Private">
 
-    private Loader<Cursor> getContactsFilteredBySearchTerm(final String searchTerm) {
+    private android.content.Loader getContactsFilteredBySearchTerm(final String searchTerm) {
 
         final String selection = TC.Queries.PhoneContacts.SELECTION;
         final String sortOrder = TC.Queries.PhoneContacts.SORT_ORDER;
@@ -315,7 +314,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
             mContactItem.contact_check.setChecked(mEntity.isItemCollected(TeamsEntity.TEAMS, id));
             setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.PhoneContacts.CONTACT_STATUS));
             setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.PhoneContacts.CONTACT_NAME), mEntity.getSearchTerm());
-            setImageView(mContactItem.contact_thumbnail, mImageLoader, cursor.getString(TC.Queries.PhoneContacts.CONTACT_PHOTO_DATA));
+            setImageView(mContactItem.contact_thumbnail, mLoader, cursor.getString(TC.Queries.PhoneContacts.CONTACT_PHOTO_DATA));
         }
 
         @Override

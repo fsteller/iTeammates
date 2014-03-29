@@ -5,7 +5,7 @@ import android.os.Environment;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract.Contacts;
 
-import com.fsteller.mobile.android.teammatesapp.handlers.database.Contract;
+import com.fsteller.mobile.android.teammatesapp.database.Contract;
 
 import java.io.File;
 
@@ -250,11 +250,31 @@ public interface TC {
             final static int SORT_KEY = 1;
         }
 
+        public interface MediaContent {
+
+            final static String SELECTION = null;
+
+            final static String[] PROJECTION = {
+                    Contract.MediaContent._ID,
+                    Contract.MediaContent.MEDIA_TYPE,
+                    Contract.MediaContent.MEDIA_BLOB,
+                    Contract.MediaContent.UPDATED_AT,
+                    Contract.MediaContent.CREATED_AT,
+            };
+
+            final static int ID = 0;
+            final static int MEDIA_TYPE = 1;
+            final static int MEDIA_BLOB = 2;
+            final static int UPDATED_AT = 3;
+            final static int CREATED_AT = 4;
+        }
+
         public interface TeammatesTeamsAndPhoneContacts {
 
             final static int SIMPLE_QUERY_ID = _TeammatesTeamsAndPhoneContacts;
 
         }
+
 
         public interface EventsQuery {
             final static int SIMPLE_QUERY_ID = _EventsQuery;

@@ -27,9 +27,9 @@ import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_DatePicker;
 import com.fsteller.mobile.android.teammatesapp.activities.dialogs.DialogFragment_TimePicker;
+import com.fsteller.mobile.android.teammatesapp.image.Utils;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
-import com.fsteller.mobile.android.teammatesapp.utils.image.ImageUtils;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -78,7 +78,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
 
             calendarAdapter = new Adapters.CalendarAdapter(mActivity);
             imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            mImageLoader.loadImage(mEventEntity.getImageRef(), titleImage);
+            mLoader.loadImage(mEventEntity.getImageRef(), titleImage);
             headerSpinner.setOnItemSelectedListener(this);
             headerSpinner.setAdapter(calendarAdapter);
         }
@@ -112,7 +112,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
             controlView.setText(getResources().getString(R.string.eventsMaintenance_titleControlLabel));
             descriptionLabel.setText(getResources().getString(R.string.eventsMaintenance_titleDescriptionLabel));
 
-            button.setOnClickListener(new ImageUtils.PickImage(context));
+            button.setOnClickListener(new Utils.PickImage(context));
             setupDateTextView(context, dateFrom, fm);
             setupTimeTextView(context, timeFrom, fm);
             setupDateTextView(context, dateTo, fm);
