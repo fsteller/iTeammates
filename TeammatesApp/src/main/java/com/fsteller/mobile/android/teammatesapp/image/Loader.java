@@ -125,6 +125,31 @@ public abstract class Loader {
     }
 
     /**
+     * Decode and sample down a bitmap from a byte array input to the requested width and height.
+     *
+     * @param imageData the image byte array to be decoded
+     * @param reqWidth The requested width of the resulting bitmap
+     * @param reqHeight The requested height of the resulting bitmap
+     * @return A bitmap sampled down from the original with the same aspect ratio and dimensions
+     * that are equal to or greater than the requested width and height
+     */
+    public static Bitmap decodeSampledBitmapFromByteArray(final byte[] imageData, final int reqWidth, final int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeByteArray(imageData, 0, imageData.length, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeByteArray(imageData, 0, imageData.length, options);
+    }
+
+
+    /**
      * Calculate an inSampleSize for use in a {@link android.graphics.BitmapFactory.Options} object when decoding
      * bitmaps using the decode* methods from {@link android.graphics.BitmapFactory}. This implementation calculates
      * the closest inSampleSize that will result in the final decoded bitmap having a width and

@@ -18,7 +18,9 @@ import android.util.Log;
 public final class Helper extends SQLiteOpenHelper {
 
     //<editor-fold desc="Constants">
+
     private static final String TAG = Helper.class.getSimpleName();
+
     //</editor-fold>
     //<editor-fold desc="Constructor">
 

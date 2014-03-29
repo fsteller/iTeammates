@@ -13,7 +13,6 @@ import android.util.Log;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.TeammatesApp;
 import com.fsteller.mobile.android.teammatesapp.database.Contract;
-import com.fsteller.mobile.android.teammatesapp.database.Helper;
 import com.fsteller.mobile.android.teammatesapp.image.Utils;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import java.util.Calendar;
  * <p/>
  * Description: Singleton class that handles and contains the logic to create, update, or delete
  * database records of any kind for the iTeammates application.
- * To get an instances of this class use static method getInstance(Context) static method.
  * <p/>
  * Created by fhernandezs on 03/01/14 for iTeammates.
  */
@@ -34,21 +32,14 @@ public final class DatabaseHandler {
     //<editor-fold desc="Constants">
     private static final String TAG = DatabaseHandler.class.getSimpleName();
     //</editor-fold>
-    //<editor-fold desc="Variables">
-
-    private static DatabaseHandler mHelperDatabase = null;
-    private final Helper sqlHelper;
-
-    //</editor-fold>
     //<editor-fold desc="Constructor">
 
     /**
      * Private constructor used in order to prevent instantiation of this class.
      *
-     * @param context Brings global information about an application environment to the database.
      */
-    private DatabaseHandler(final Context context) {
-        this.sqlHelper = new Helper(context);
+    private DatabaseHandler() {
+
     }
 
     //</editor-fold>
@@ -282,15 +273,16 @@ public final class DatabaseHandler {
     }
 
     //</editor-fold>
-    //<editor-fold desc="Add to database Methods">
+    //<editor-fold desc="Query database Methods">
 
     public static byte[] getMediaContent(final Context context, final Uri imageUri) {
 
         byte[] mBytes = null;
         final Cursor mCursor = context.getContentResolver()
-                .query(imageUri, TC.Queries.MediaContent.PROJECTION, TC.Queries.MediaContent.SELECTION, null, null);
+                .query(imageUri, TC.Queries.MediaContent.PROJECTION_MEDIA, TC.Queries.MediaContent.SELECTION, null, null);
 
         if (mCursor != null) {
+            mCursor.moveToFirst();
             mBytes = mCursor.getBlob(0);
             mCursor.close();
         }

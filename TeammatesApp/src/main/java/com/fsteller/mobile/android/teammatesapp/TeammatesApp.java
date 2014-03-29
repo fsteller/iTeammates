@@ -52,7 +52,6 @@ public class TeammatesApp extends Application implements DatabaseHandler.Callbac
 
     @Override
     public boolean addData(final Intent data) {
-        //final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
@@ -78,12 +77,10 @@ public class TeammatesApp extends Application implements DatabaseHandler.Callbac
 
     @Override
     public boolean updateData(final Intent data) {
-        //final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
         if (extras == null)
             return false;
 
-        //Log.d(TAG, String.format("Updating data (%s) from: %s", data, mHelperDatabase));
         final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:
@@ -103,13 +100,11 @@ public class TeammatesApp extends Application implements DatabaseHandler.Callbac
 
     @Override
     public boolean deleteData(final Intent data) {
-        //final DatabaseHandler mHelperDatabase = DatabaseHandler.getInstance(this);
         final Bundle extras = data.getBundleExtra(TC.ENTITY.EXTRAS);
 
         if (extras == null)
             return false;
 
-        ///Log.d(TAG, String.format("Deleting data (%s) from: %s", data, mHelperDatabase));
         final int tag = extras.getInt(TC.ENTITY.COLLECTION_ID, -1);
         switch (tag) {
             case TC.Activity.Maintenance.TEAMS:

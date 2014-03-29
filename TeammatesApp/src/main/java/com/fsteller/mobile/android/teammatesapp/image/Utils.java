@@ -7,7 +7,6 @@ import android.content.UriMatcher;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.ContactsContract;
@@ -194,19 +193,17 @@ public final class Utils {
 
         //</editor-fold>
         //<editor-fold desc="Static">
+        private static ImageProcessor instance = null;
 
+        //</editor-fold>
+
+        //<editor-fold desc="Variables">
         static {
             // List of uris supported to be processed as image
             //URI_MATCHER.addURI("", "*", IMAGE_FROM_FILE);
             URI_MATCHER.addURI(ContactsContract.AUTHORITY, "contacts/#/*", IMAGE_FROM_CONTACTS);
             URI_MATCHER.addURI(Contract.AUTHORITY, Contract.MediaContent.PATH_ID, IMAGE_FROM_DATABASE);
         }
-
-        //</editor-fold>
-
-        //<editor-fold desc="Variables">
-
-        private static ImageProcessor instance = null;
 
         //</editor-fold>
         //<editor-fold desc="Constructor">
@@ -218,49 +215,21 @@ public final class Utils {
 
         //<editor-fold desc="Overrides">
 
-        @Override
-        public final Bitmap loadImage(final Context context, final Uri imageUri, final int imageSize) {
-
-            // Ensures the Fragment is still added to an activity. As this method is called in a
-            // background thread, there's the possibility the Fragment is no longer attached and
-            // added to an activity. If so, no need to spend resources loading the contact photo.
-            if (context == null)
-                return null;
-
-            switch (URI_MATCHER.match(imageUri)) {
-                case IMAGE_FROM_FILE:
-                case IMAGE_FROM_CONTACTS:
-                    return loadImageUri(context, imageUri, imageSize);
-                case IMAGE_FROM_DATABASE:
-                    return loadImageFromDb(context, imageUri, imageSize);
-                default:
-                    Log.e(TAG, String.format("Load image from uri: %s is not supported", imageUri));
-            }
-
-            return null;
-        }
-
-        @Override
-        public final Bitmap loadImage(final Context context, final String imageData, final int imageSize) {
-            return loadImage(context, Uri.parse(imageData), imageSize);
-        }
-
-        //</editor-fold>
-        //<editor-fold desc="Public">
-
         public static ImageProcessor getInstance() {
             if (instance == null)
                 instance = new ImageProcessor();
             return instance;
         }
 
-        //</editor-fold>
-        //<editor-fold desc="Private">
-
         private static Bitmap loadImageFromDb(final Context context, final Uri imageUri, final int imageSize) {
             final byte[] imageData = DatabaseHandler.getMediaContent(context, imageUri);
-            return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+            return Loader.decodeSampledBitmapFromByteArray(imageData, imageSize, imageSize);
+
+            //return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
         }
+
+        //</editor-fold>
+        //<editor-fold desc="Public">
 
         private static Bitmap loadImageUri(final Context context, final Uri imageUri, final int imageSize) {
 
@@ -297,6 +266,37 @@ public final class Utils {
             }
             // If the decoding failed, returns null
             return image;
+        }
+
+        //</editor-fold>
+        //<editor-fold desc="Private">
+
+        @Override
+        public final Bitmap loadImage(final Context context, final Uri imageUri, final int imageSize) {
+
+            // Ensures the Fragment is still added to an activity. As this method is called in a
+            // background thread, there's the possibility the Fragment is no longer attached and
+            // added to an activity. If so, no need to spend resources loading the contact photo.
+            if (context == null || imageUri == null)
+                return null;
+
+            switch (URI_MATCHER.match(imageUri)) {
+                case IMAGE_FROM_DATABASE:
+                    return loadImageFromDb(context, imageUri, imageSize);
+                case IMAGE_FROM_FILE:
+                case IMAGE_FROM_CONTACTS:
+                default:
+                    return loadImageUri(context, imageUri, imageSize);
+                //Log.e(TAG, String.format("Load image from uri: %s is not supported", imageUri));
+            }
+
+            //return null;
+        }
+
+        @Override
+        public final Bitmap loadImage(final Context context, final String imageData, final int imageSize) {
+            return context == null || imageData == null || imageData.isEmpty() ? null :
+                    loadImage(context, Uri.parse(imageData), imageSize);
         }
 
         //</editor-fold>

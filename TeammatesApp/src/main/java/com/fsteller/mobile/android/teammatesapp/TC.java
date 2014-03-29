@@ -262,6 +262,10 @@ public interface TC {
                     Contract.MediaContent.CREATED_AT,
             };
 
+            final static String[] PROJECTION_MEDIA = {
+                    Contract.MediaContent.MEDIA_BLOB,
+            };
+
             final static int ID = 0;
             final static int MEDIA_TYPE = 1;
             final static int MEDIA_BLOB = 2;

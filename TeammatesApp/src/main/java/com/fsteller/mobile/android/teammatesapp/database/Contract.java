@@ -25,19 +25,18 @@ public final class Contract {
 
     //<editor-fold desc="Main Variables">
 
-    private static final String SCHEME = "content://";
-    private static final String ITEM_TEXT_SUFFIX = "/*";
-    private static final String ITEM_NUMERIC_SUFFIX = "/#";
-    private static final String ITEM_FILTER_PATH_SUFFIX = "filter";
-
     /**
      * String representation of the authority related to the iTeammates database.
      */
     public static final String AUTHORITY = "com.fsteller.community.teammates.provider";
+    private static final String SCHEME = "content://";
     /**
      * Authority used to access iTeammates database.
      */
     private static final Uri AUTHORITY_URI = Uri.parse(SCHEME + AUTHORITY);
+    private static final String ITEM_TEXT_SUFFIX = "/*";
+    private static final String ITEM_NUMERIC_SUFFIX = "/#";
+    private static final String ITEM_FILTER_PATH_SUFFIX = "filter";
 
     //</editor-fold >
     //<editor-fold desc="Constructor">
@@ -113,18 +112,6 @@ public final class Contract {
         //<editor-fold desc="Constants">
 
         static final String PATH = TABLE_NAME;
-        static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
-        static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
-        static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
-
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
-        public static final Uri CONTENT_FILTER_URI = Uri.withAppendedPath(CONTENT_URI, ITEM_FILTER_PATH_SUFFIX);
-        public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
-        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
-
-        //</editor-fold">
-        //<editor-fold desc="Constructor">
 
         /**
          * Private constructor used in order to prevent instantiation of this class.
@@ -132,16 +119,13 @@ public final class Contract {
         private Teams() {
         }
 
-        //</editor-fold >
-
-        //<editor-fold desc="pubic methods">
+        static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
 
         public static Uri getTeamDataUri(final long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        //</editor-fold>
-        //<editor-fold desc="Protected Methods">
+        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
 
         static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
@@ -165,22 +149,15 @@ public final class Contract {
             return builder;
         }
 
-        //</editor-fold>
-
-        //<editor-fold desc="Inner Classes">
+        static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
 
         public final static class Contacts implements ContactsColumns {
 
             //<editor-fold desc="Constants">
 
+            public static final String CONTENT_DIRECTORY = TABLE_NAME;
             static final String PATH = Teams.PATH + "/#/" + TABLE_NAME;
             static final String ID_PATH = PATH + ITEM_NUMERIC_SUFFIX;
-            public static final String CONTENT_DIRECTORY = TABLE_NAME;
-            public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
-            public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
-
-            //</editor-fold>
-            //<editor-fold desc="Constructor">
 
             /**
              * Private constructor used in order to prevent instantiation of this class.
@@ -188,17 +165,12 @@ public final class Contract {
             private Contacts() {
             }
 
-            //</editor-fold>
-
-            //<editor-fold desc="pubic methods">
-
             public static Uri getTeamContactUri(int id) {
                 final Uri result = getTeamDataUri(id);
                 return Uri.withAppendedPath(result, CONTENT_DIRECTORY);
             }
 
-            //</editor-fold>
-            //<editor-fold desc="Protected Methods">
+            public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
 
             static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
                 final List<String> segments = uri.getPathSegments();
@@ -222,8 +194,50 @@ public final class Contract {
                 return null;
             }
 
+            public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
+
+            //</editor-fold>
+            //<editor-fold desc="Constructor">
+
+
+            //</editor-fold>
+
+            //<editor-fold desc="pubic methods">
+
+
+            //</editor-fold>
+            //<editor-fold desc="Protected Methods">
+
+
             //</editor-fold>
         }
+
+        static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
+        public static final Uri CONTENT_FILTER_URI = Uri.withAppendedPath(CONTENT_URI, ITEM_FILTER_PATH_SUFFIX);
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
+
+        //</editor-fold">
+        //<editor-fold desc="Constructor">
+
+
+        //</editor-fold >
+
+        //<editor-fold desc="pubic methods">
+
+
+        //</editor-fold>
+        //<editor-fold desc="Protected Methods">
+
+
+
+        //</editor-fold>
+
+        //<editor-fold desc="Inner Classes">
+
+
 
         //</editor-fold>
 
@@ -234,20 +248,6 @@ public final class Contract {
         //<editor-fold desc="Constants">
 
         static final String PATH = TABLE_NAME;
-        protected static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
-        protected static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
-        protected static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
-
-        //protected static final String PATH_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
-
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
-        public static final Uri CONTENT_FILTER_URI = Uri.withAppendedPath(CONTENT_URI, ITEM_FILTER_PATH_SUFFIX);
-        public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
-        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
-
-        //</editor-fold>
-        //<editor-fold desc="Constructor">
 
         /**
          * Private constructor used in order to prevent instantiation of this class.
@@ -255,16 +255,13 @@ public final class Contract {
         private Events() {
         }
 
-        //</editor-fold>
-
-        //<editor-fold desc="pubic methods">
+        protected static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
 
         public static Uri getEventDataUri(final long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        //</editor-fold>
-        //<editor-fold desc="protected methods">
+        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
 
         static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
@@ -288,6 +285,30 @@ public final class Contract {
             return builder;
         }
 
+        protected static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
+        protected static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
+
+        //protected static final String PATH_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
+        public static final Uri CONTENT_FILTER_URI = Uri.withAppendedPath(CONTENT_URI, ITEM_FILTER_PATH_SUFFIX);
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
+
+        //</editor-fold>
+        //<editor-fold desc="Constructor">
+
+
+        //</editor-fold>
+
+        //<editor-fold desc="pubic methods">
+
+
+        //</editor-fold>
+        //<editor-fold desc="protected methods">
+
+
+
         //</editor-fold>
 
     }
@@ -297,7 +318,31 @@ public final class Contract {
         //<editor-fold desc="Constants">
 
         public static final String PATH = TABLE_NAME;
+
+        /**
+         * Private constructor used in order to prevent instantiation of this class.
+         */
+        private MediaContent() {
+        }
+
         public static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
+
+        static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
+            final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+            builder.setTables(MediaContent.TABLE_NAME);
+
+            switch (code) {
+                case ContentProvider.MEDIA_CONTENT:
+                case ContentProvider.MEDIA_CONTENT_ID:
+                    if (!MediaContent.TABLE_NAME.equals(uri.getLastPathSegment()))
+                        builder.appendWhere(String.format("%s = %s", MediaContent._ID, uri.getLastPathSegment()));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Cannot generate query statement for uri (" + uri + "). Unsupported uri code: " + code);
+            }
+            return builder;
+        }
+
         public static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
         public static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
         public static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
@@ -310,15 +355,6 @@ public final class Contract {
         //</editor-fold">
         //<editor-fold desc="Constructor">
 
-        /**
-         * Private constructor used in order to prevent instantiation of this class.
-         */
-        private MediaContent() {
-        }
-
-        static SQLiteQueryBuilder getQueryBuilder(Uri uri, int matcher) {
-            return null;
-        }
 
         //</editor-fold >
 
