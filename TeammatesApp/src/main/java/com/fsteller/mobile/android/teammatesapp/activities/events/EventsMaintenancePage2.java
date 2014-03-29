@@ -112,7 +112,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
             controlView.setText(getResources().getString(R.string.eventsMaintenance_titleControlLabel));
             descriptionLabel.setText(getResources().getString(R.string.eventsMaintenance_titleDescriptionLabel));
 
-            button.setOnClickListener(new ImageUtils.PickImage(context));
+            button.setOnClickListener(new Utils.PickImage(context));
             setupDateTextView(context, dateFrom, fm, 1);
             setupTimeTextView(context, timeFrom, fm, 0);
             setupDateTextView(context, dateTo, fm, 1);
