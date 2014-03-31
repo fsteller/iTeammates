@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.fsteller.mobile.android.teammatesapp.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -31,19 +30,16 @@ public class DialogFragment_DatePicker extends DialogFragment {
     private int mYear = 2000;
     private DatePickerDialogListener mListener = null;
 
-    /* The Fragment that creates an instance of this dialog fragment must
-     * pass as parameter an implementation of this interface in order to receive event callbacks.
-     * Each method passes the DialogFragment in case the host needs to query it. */
-    public static interface DatePickerDialogListener {
-        public void onDatePicked(final int selectYear, final int selectMonth, final int selectDay);
-    }
-
     public DialogFragment_DatePicker(final int day, final int month, final int year, final DatePickerDialogListener listener) {
         super();
         this.mDay = day;
         this.mMonth = month;
         this.mYear = year;
         this.mListener = listener;
+    }
+
+    private static String getWeekDay(final int year, final int month, final int day) {
+        return new SimpleDateFormat("EEEE").format(new GregorianCalendar(year, month, day).getTime());
     }
 
     @Override
@@ -61,8 +57,8 @@ public class DialogFragment_DatePicker extends DialogFragment {
         if (rootView != null) {
             final TextView mWeekDay = (TextView) rootView.findViewById(R.id.date_weekDayLabel);
 
-            final DatePicker cv = (DatePicker) rootView.findViewById(R.id.date_pickerCalendar);
-            cv.init(Calendar.DAY_OF_YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH,
+            final DatePicker mDatePicker = (DatePicker) rootView.findViewById(R.id.date_pickerCalendar);
+            mDatePicker.init(mYear, mMonth, mDay,
                     new DatePicker.OnDateChangedListener() {
                         @Override
                         public void onDateChanged(final DatePicker view, final int year, final int month, final int day) {
@@ -93,7 +89,10 @@ public class DialogFragment_DatePicker extends DialogFragment {
         return result;
     }
 
-    private static String getWeekDay(final int year, final int month, final int day) {
-        return new SimpleDateFormat("EEEE").format(new GregorianCalendar(year, month, day).getTime());
+    /* The Fragment that creates an instance of this dialog fragment must
+     * pass as parameter an implementation of this interface in order to receive event callbacks.
+     * Each method passes the DialogFragment in case the host needs to query it. */
+    public static interface DatePickerDialogListener {
+        public void onDatePicked(final int selectYear, final int selectMonth, final int selectDay);
     }
 }

@@ -13,20 +13,11 @@ import android.widget.TimePicker;
 
 import com.fsteller.mobile.android.teammatesapp.R;
 
-import java.util.Calendar;
-
 public class DialogFragment_TimePicker extends DialogFragment {
 
     private int mHour = 0;
     private int mMinutes = 0;
     private TimePickerDialogListener mListener = null;
-
-    /* The activity that creates an instance of this dialog fragment must
-         * implement this interface in order to receive event callbacks.
-         * Each method passes the DialogFragment in case the host needs to query it. */
-    public interface TimePickerDialogListener {
-        public void onTimePicked(final int selectedHour, final int selectMinutes);
-    }
 
     public DialogFragment_TimePicker(final int hour, final int minutes, final TimePickerDialogListener listener) {
         super();
@@ -49,8 +40,8 @@ public class DialogFragment_TimePicker extends DialogFragment {
 
         if (rootView != null) {
             final TimePicker mTimePicker = (TimePicker) rootView.findViewById(R.id.date_timePicker);
-            mTimePicker.setCurrentHour(Calendar.HOUR);
-            mTimePicker.setCurrentMinute(Calendar.MINUTE);
+            mTimePicker.setCurrentHour(mHour);
+            mTimePicker.setCurrentMinute(mMinutes);
             mTimePicker.setOnTimeChangedListener(
                     new TimePicker.OnTimeChangedListener() {
                         @Override
@@ -76,5 +67,12 @@ public class DialogFragment_TimePicker extends DialogFragment {
         setStyle(STYLE_NORMAL, android.R.style.Theme_Dialog);
         result.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return result;
+    }
+
+    /* The activity that creates an instance of this dialog fragment must
+         * implement this interface in order to receive event callbacks.
+         * Each method passes the DialogFragment in case the host needs to query it. */
+    public interface TimePickerDialogListener {
+        public void onTimePicked(final int selectedHour, final int selectMinutes);
     }
 }

@@ -29,21 +29,24 @@ public abstract class ActivityBase extends Activity {
 
     //</editor-fold>
     //<editor-fold desc="Variables">
-
-    private InputMethodManager imm = null;
     protected final HideSoftInputClass mHideSoftInputClass = new HideSoftInputClass();
     protected TeammatesApp app;
+    private InputMethodManager imm = null;
 
     //</editor-fold>
 
     //<editor-fold desc="Public">
 
-    void setIsKeyBoardEnabled(final boolean enable) {
-        getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
+    protected static boolean isNullOrEmpty(final String txt) {
+        return txt == null || txt.isEmpty();
     }
 
     //</editor-fold>
     //<editor-fold desc="Overridden">
+
+    private void setIsKeyBoardEnabled(final boolean enable) {
+        getWindow().setSoftInputMode(enable ? SOFT_INPUT_MODE_VISIBLE : SOFT_INPUT_MODE_HIDDEN);
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -52,9 +55,10 @@ public abstract class ActivityBase extends Activity {
         if (BuildConfig.DEBUG)
             VersionTools.enableStrictMode();
 
-        this.app = (TeammatesApp) getApplication();
-        this.imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        this.setIsKeyBoardEnabled(true);
+        setIsKeyBoardEnabled(true);
+        app = (TeammatesApp) getApplication();
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
     }
 
     @Override
@@ -65,22 +69,18 @@ public abstract class ActivityBase extends Activity {
 
     @Override
     protected void onStop() {
-        super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.app = null;
-        this.imm = null;
+        super.onStop();
     }
 
     //</editor-fold>
     //<editor-fold desc="Protected">
 
-    protected static boolean isNullOrEmpty(String txt) {
-        return txt == null || txt.isEmpty();
+    @Override
+    protected void onDestroy() {
+        this.app = null;
+        this.imm = null;
+        super.onDestroy();
     }
 
     protected void hideSoftKeyboard(final View view) {

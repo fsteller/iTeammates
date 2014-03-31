@@ -22,9 +22,10 @@ import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
 
 /**
  * Project: iTeammates
- * Package: activities.events
+ * Subpackage: activities.events
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
 public final class EventsMaintenance extends ActivityMaintenanceBase implements IEventEntity, Button.OnClickListener {
@@ -33,14 +34,13 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     private static final int LAST_PAGE = 3;
     private static final int FIRST_PAGE = 0;
+    private int currentPage = FIRST_PAGE;
     private static final String TAG = EventsMaintenance.class.getSimpleName();
-    private static final Class pages[] = new Class[]{EventsMaintenancePage1.class, EventsMaintenancePage2.class};
 
     //</editor-fold>
     //<editor-fold desc="Variables">
-
+    private static final Class pages[] = new Class[]{EventsMaintenancePage1.class, EventsMaintenancePage2.class};
     private IEventEntity mEventEntity = null;
-    private int currentPage = FIRST_PAGE;
 
     //</editor-fold>
     //<editor-fold desc="Constructor">

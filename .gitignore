@@ -4,7 +4,7 @@ mapping.txt
 class_files.txt
 local.properties
 
-TeammatesApp/TeammatesApp.iml
+TeammatesApp/iTeammatesApp.iml
 
 /.idea
 /.gradle

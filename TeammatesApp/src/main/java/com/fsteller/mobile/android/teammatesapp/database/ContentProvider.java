@@ -25,26 +25,21 @@ public final class ContentProvider extends android.content.ContentProvider {
 
     //<editor-fold desc="Constants">
 
-    private static final String TAG = ContentProvider.class.getSimpleName();
-    private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-
     static final int TEAMS = 1001;
     static final int TEAM_ID = 1002;
     static final int TEAM_FILTER = 1003;
-
     static final int TEAM_CONTACTS = 2001;
     static final int TEAM_CONTACT_ID = 2002;
-
     static final int EVENTS = 3001;
     static final int EVENT_ID = 3002;
     static final int EVENT_FILTER = 3003;
-
     static final int MEDIA_CONTENT = 9001;
     static final int MEDIA_CONTENT_ID = 9002;
+    private static final String TAG = ContentProvider.class.getSimpleName();
+    private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     //</editor-fold>
     //<editor-fold desc="Variables">
-
     private Helper teammatesDbHelper;
 
     //</editor-fold>
@@ -189,27 +184,27 @@ public final class ContentProvider extends android.content.ContentProvider {
     //<editor-fold desc="Private Methods">
 
     private Uri mInsert(final Uri uri, final String tableName, final ContentValues values) {
-        long rowId = -1;
-        Uri result = null;
         final SQLiteDatabase db = teammatesDbHelper.getWritableDatabase();
 
         if (db != null) {
             try {
-                rowId = db.insertOrThrow(tableName, null, values);
+
+                final Context mContext = getContext();
+                final long rowId = db.insertOrThrow(tableName, null, values);
+                if (rowId != -1 && mContext != null) {
+                    final Uri itemUri = ContentUris.withAppendedId(uri, rowId);
+                    mContext.getContentResolver().notifyChange(itemUri, null);
+                    return itemUri;
+                } else {
+                    Log.e(TAG, String.format("Table %s failed to INSERT %s into %s", tableName, values, uri));
+                }
+
             } catch (Exception e) {
                 Log.e(TAG, String.format("Unhandled error during INSERT operation: %s", e.getMessage()), e);
                 e.printStackTrace();
             }
         }
-
-        final Context mContext = getContext();
-        if (rowId != -1 && mContext != null) {
-            final Uri itemUri = ContentUris.withAppendedId(uri, rowId);
-            mContext.getContentResolver().notifyChange(itemUri, null);
-            result = itemUri;
-        } else
-            Log.d(TAG, "Failed to INSERT " + values + " to " + uri);
-        return result;
+        return null;
     }
 
     private int mDelete(final Uri uri, final String tableName, final String selection, final String[] selectionArgs) {
