@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
-import com.fsteller.mobile.android.teammatesapp.model.base.INotificacitonsEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.INotificationsEntity;
 
 /**
  * Project: iTeammates
@@ -15,7 +15,7 @@ import com.fsteller.mobile.android.teammatesapp.model.base.INotificacitonsEntity
  * <p/>
  * Created by fsteller on 2/13/14.
  */
-public class NotificationsEntity extends AbstractEntity implements INotificacitonsEntity {
+public class NotificationsEntity extends AbstractEntity implements INotificationsEntity {
 
     public static final int NOTIFICATION = TC.Activity.Maintenance.NOTIFICATION;
     private static final String TAG = NotificationsEntity.class.getSimpleName();

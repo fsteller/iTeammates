@@ -11,15 +11,7 @@ package com.fsteller.mobile.android.teammatesapp.model.base;
  */
 public interface IEventsEntity extends IEntity {
 
-    public static interface Callback {
-        public void OnDateTimeHasBeenUpdated(final IEventsEntity sender, final boolean isDateTimeFrom, final boolean isDateTimeTo);
-    }
-
-    public abstract void setCalendarId(final int calendarId);
-
     public abstract void setCallback(final Callback callback);
-
-    public abstract void setDescription(final String description);
 
     public abstract boolean setTimeTo(final int hour, final int minutes);
 
@@ -31,7 +23,11 @@ public interface IEventsEntity extends IEntity {
 
     public abstract String getDescription();
 
+    public abstract void setDescription(final String description);
+
     public abstract int getCalendarId();
+
+    public abstract void setCalendarId(final int calendarId);
 
     public abstract int getYearFrom();
 
@@ -51,9 +47,9 @@ public interface IEventsEntity extends IEntity {
 
     public abstract int getMinutesFrom();
 
+    public abstract int getMinutesTo();
+
     public static interface Callback {
         public void OnDateTimeHasBeenUpdated(final IEventsEntity sender, final boolean isDateTimeFrom, final boolean isDateTimeTo);
     }
-
-    public abstract int getMinutesTo();
 }
