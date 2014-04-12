@@ -102,28 +102,33 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     //<editor-fold desc="IMaintenance">
 
     @Override
-    public int getEntityId() {
-        return mEntity.getEntityId();
+    public int getId() {
+        return mEntity.getId();
     }
 
     @Override
-    public void setEntityId(final int id) {
-        mEntity.setEntityId(id);
+    public void setId(final int id) {
+        mEntity.setId(id);
     }
 
     @Override
-    public String getEntityName() {
-        return mEntity.getEntityName();
+    public String getName() {
+        return mEntity.getName();
     }
 
     @Override
-    public void setEntityName(final String name) {
-        mEntity.setEntityName(name);
+    public void setName(final String name) {
+        mEntity.setName(name);
     }
 
     @Override
     public Uri getImageRef() {
         return mEntity.getImageRef();
+    }
+
+    @Override
+    public void setImageRef(final String ref) {
+        mEntity.setImageRef(ref);
     }
 
     @Override
@@ -134,11 +139,6 @@ public abstract class ActivityMaintenanceBase extends ActivityBase implements IE
     @Override
     public String getImageRefAsString() {
         return mEntity.getImageRefAsString();
-    }
-
-    @Override
-    public void setImageRef(final String ref) {
-        mEntity.setImageRef(ref);
     }
 
     @Override

@@ -28,16 +28,19 @@ import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.FragmentMaintenancePageBase;
 import com.fsteller.mobile.android.teammatesapp.image.Utils;
-import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
-import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
-import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
+import com.fsteller.mobile.android.teammatesapp.model.EventsEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEventsEntity;
+import com.fsteller.mobile.android.teammatesapp.utils.Adapters.CalendarAdapter;
+import com.fsteller.mobile.android.teammatesapp.utils.Adapters.CursorAdapter;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
+
 
 /**
  * Project: iTeammates
  * Subpackage: activities.events
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 23/01/14.
  */
 public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implements AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -49,13 +52,15 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    private IEventEntity mEventEntity = null;
+    private IEventsEntity mEventEntity = null;
 
     private ImageView titleImage = null;
     private Spinner headerSpinner = null;
+    private EditText decriptionText = null;
+    private EditText titleText = null;
 
     private EventsParticipantsAdapter teamsAdapter = null;
-    private Adapters.CalendarAdapter calendarAdapter = null;
+    private CalendarAdapter calendarAdapter = null;
 
     //</editor-fold>
 
@@ -65,7 +70,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        this.mEventEntity = (IEventEntity) mEntity;
+        this.mEventEntity = (IEventsEntity) mEntity;
     }
 
     @Override
@@ -77,10 +82,9 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
             imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-            calendarAdapter = new Adapters.CalendarAdapter(mActivity);
+            calendarAdapter = new CalendarAdapter(mActivity);
             teamsAdapter = new EventsParticipantsAdapter(mActivity);
 
-            mLoader.loadImage(mEventEntity.getImageRef(), titleImage);
             headerSpinner.setOnItemSelectedListener(this);
             headerSpinner.setAdapter(calendarAdapter);
             mListView.setOnScrollListener(this);
@@ -100,6 +104,8 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             mListView = (AbsListView) rootView.findViewById(R.id.list_view);
             titleImage = (ImageView) rootView.findViewById(R.id.header_image);
             headerSpinner = (Spinner) rootView.findViewById(R.id.header_spinner);
+            titleText = (EditText) rootView.findViewById(R.id.collection_title_text);
+            decriptionText = (EditText) rootView.findViewById(R.id.collection_description_text);
 
             final TextView titleLabel = (TextView) rootView.findViewById(R.id.title_label);
             final TextView controlView = (TextView) rootView.findViewById(R.id.header_control_label);
@@ -119,10 +125,10 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
             eventNameText.setSelectAllOnFocus(true);
             eventNameText.setHint(getResources().getString(R.string.eventsMaintenance_lookupTitle1_hint));
-            eventNameText.setText(mEventEntity.getEntityName());
+            eventNameText.setText(mEventEntity.getName());
 
             eventDescriptionText.setSelectAllOnFocus(true);
-            eventDescriptionText.setText(mEventEntity.getEntityDescription());
+            eventDescriptionText.setText(mEventEntity.getDescription());
             eventDescriptionText.setHint(getResources().getString(R.string.eventsMaintenance_descriptionHint));
             eventDescriptionView.setText(getResources().getString(R.string.eventsMaintenance_DescriptionLabel));
             eventNameView.setText(getResources().getString(R.string.eventsMaintenance_lookupTitle1_label));
@@ -132,14 +138,14 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             eventNameText.addTextChangedListener(new Text.AfterTextChangedWatcher() {
                 @Override
                 public void afterTextChanged(final Editable s) {
-                    mEventEntity.setEntityName(s.toString());
+                    mEventEntity.setName(s.toString());
                 }
             });
 
             eventDescriptionText.addTextChangedListener(new Text.AfterTextChangedWatcher() {
                 @Override
                 public void afterTextChanged(final Editable s) {
-                    mEventEntity.setEntityDescription(s.toString());
+                    mEventEntity.setDescription(s.toString());
                 }
             });
 
@@ -160,8 +166,12 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
     @Override
     public void onResume() {
         super.onResume();
-        restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID, this);
-        restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
+
+        this.restartLoader(TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID, this);
+        this.restartLoader(TC.Queries.TeammatesTeams.FILTER_QUERY_ID1, this);
+        mLoader.loadImage(mEventEntity.getImageRef(), titleImage);
+        decriptionText.setText(mEventEntity.getDescription());
+        titleText.setText(mEventEntity.getName());
     }
 
     //</editor-fold>
@@ -189,10 +199,8 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     @Override
     public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-        final TextView mView = (TextView) parent.findViewById(R.id.spinner_item_title);
-        final CharSequence mCharSequence = mView.getText();
-        if (mCharSequence != null)
-            mEventEntity.setEntityCalendar(mCharSequence.toString());
+        final CalendarAdapter.CalendarItem mCalendarItem = (CalendarAdapter.CalendarItem) view.getTag();
+        this.mEventEntity.setCalendarId(mCalendarItem.id);
     }
 
     @Override
@@ -227,8 +235,9 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         */
         switch (loader.getId()) {
             case TC.Queries.PhoneCalendar.SIMPLE_QUERY_ID:
-                headerSpinner.setVisibility(data.getCount() > 0 ? View.VISIBLE : View.GONE);
                 calendarAdapter.swapCursor(data);
+                headerSpinner.setVisibility(data.getCount() > 0 ? View.VISIBLE : View.GONE);
+                headerSpinner.setSelection(calendarAdapter.getPosition(mEventEntity.getCalendarId()));
                 break;
             case TC.Queries.TeammatesTeams.FILTER_QUERY_ID1:
                 mEmptyView.setVisibility(data.getCount() > 0 ? View.GONE : View.VISIBLE);
@@ -264,6 +273,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     //</editor-fold>
     //<editor-fold desc="Private">
+
     private Loader<Cursor> getParticipantsFilteredByTermSearch(final String searchTerm) {
 
         /*
@@ -297,7 +307,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
 
     //<editor-fold desc="Inner Class">
 
-    private final class EventsParticipantsAdapter extends Adapters.CursorAdapter implements CompoundButton.OnCheckedChangeListener {
+    private final class EventsParticipantsAdapter extends CursorAdapter implements CompoundButton.OnCheckedChangeListener {
 
         final String[] FROM = Text.mergeArrays(
                 TC.Queries.TeammatesTeams.PROJECTION,
@@ -354,7 +364,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
             final TeamItem teamItem = (TeamItem) view.getTag();
 
             teamItem.team_check.setTag(id);
-            teamItem.team_check.setChecked(mEventEntity.isItemCollected(EventEntity.TEAMS, id));
+            teamItem.team_check.setChecked(mEventEntity.isItemCollected(EventsEntity.TEAMS, id));
             setHighlightedText(teamItem.team_title, cursor.getString(TC.Queries.TeammatesTeams.NAME), mEventEntity.getSearchTerm());
             setImageView(teamItem.team_thumbnail, mLoader, cursor.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
             setDateText(teamItem.team_update, getResources().getString(R.string.update_prefix), cursor.getLong(TC.Queries.TeammatesTeams.UPDATED_AT));
@@ -364,7 +374,7 @@ public class EventsMaintenancePage1 extends FragmentMaintenancePageBase implemen
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
             final Integer id = (Integer) buttonView.getTag();
-            mEventEntity.changeCollectionItemState(EventEntity.TEAMS, id, isChecked);
+            mEventEntity.changeCollectionItemState(EventsEntity.TEAMS, id, isChecked);
         }
 
         private final class TeamItem {

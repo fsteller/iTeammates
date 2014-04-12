@@ -65,7 +65,6 @@ public class DialogFragment_DatePicker extends DialogFragment {
                             DialogFragment_DatePicker.this.mDay = day;
                             DialogFragment_DatePicker.this.mYear = year;
                             DialogFragment_DatePicker.this.mMonth = month;
-
                             mWeekDay.setText(getWeekDay(year, month, day));
                         }
                     }

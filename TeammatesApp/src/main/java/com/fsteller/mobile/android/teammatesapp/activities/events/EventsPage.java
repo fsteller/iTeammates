@@ -24,6 +24,7 @@ import com.fsteller.mobile.android.teammatesapp.activities.base.IPageManager;
  * Subpackage: activities.events
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 24/12/13 for iTeammates.
  */
 public final class EventsPage extends FragmentPageBase implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
@@ -103,12 +104,12 @@ public final class EventsPage extends FragmentPageBase implements LoaderManager.
     }
 
     @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+    public boolean onCreateActionMode(final ActionMode mode, final Menu menu) {
         return false;
     }
 
     @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+    public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
         return false;
     }
 
@@ -118,7 +119,7 @@ public final class EventsPage extends FragmentPageBase implements LoaderManager.
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
+    public boolean onQueryTextChange(final String newText) {
         return false;
     }
 

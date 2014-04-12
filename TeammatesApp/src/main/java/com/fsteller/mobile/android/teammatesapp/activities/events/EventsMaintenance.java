@@ -16,9 +16,9 @@ import android.widget.Button;
 import com.fsteller.mobile.android.teammatesapp.R;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.activities.base.ActivityMaintenanceBase;
-import com.fsteller.mobile.android.teammatesapp.model.EventEntity;
+import com.fsteller.mobile.android.teammatesapp.model.EventsEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
-import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.IEventsEntity;
 
 /**
  * Project: iTeammates
@@ -28,7 +28,7 @@ import com.fsteller.mobile.android.teammatesapp.model.base.IEventEntity;
  * <p/>
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
-public final class EventsMaintenance extends ActivityMaintenanceBase implements IEventEntity, Button.OnClickListener {
+public final class EventsMaintenance extends ActivityMaintenanceBase implements IEventsEntity, Button.OnClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -40,14 +40,14 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     //</editor-fold>
     //<editor-fold desc="Variables">
     private static final Class pages[] = new Class[]{EventsMaintenancePage1.class, EventsMaintenancePage2.class};
-    private IEventEntity mEventEntity = null;
+    private IEventsEntity mEventEntity = null;
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
 
     public EventsMaintenance() {
-        super(new EventEntity());
-        mEventEntity = (IEventEntity) mEntity;
+        super(new EventsEntity());
+        mEventEntity = (IEventsEntity) mEntity;
     }
 
     //</editor-fold>
@@ -132,26 +132,101 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
     }
 
     //</editor-fold>
-    //<editor-fold desc="IEventEntity">
+    //<editor-fold desc="IEventsEntity">
 
     @Override
-    public String getEntityDescription() {
-        return mEventEntity.getEntityDescription();
+    public void setCallback(final Callback callback) {
+        mEventEntity.setCallback(callback);
     }
 
     @Override
-    public void setEntityDescription(final String description) {
-        mEventEntity.setEntityDescription(description);
+    public String getDescription() {
+        return mEventEntity.getDescription();
     }
 
     @Override
-    public String getEntityCalendar() {
-        return mEventEntity.getEntityCalendar();
+    public void setDescription(final String description) {
+        mEventEntity.setDescription(description);
     }
 
     @Override
-    public void setEntityCalendar(final String calendar) {
-        mEventEntity.setEntityCalendar(calendar);
+    public int getCalendarId() {
+        return mEventEntity.getCalendarId();
+    }
+
+    @Override
+    public void setCalendarId(final int calendar) {
+        mEventEntity.setCalendarId(calendar);
+    }
+
+    @Override
+    public boolean setDateFrom(int year, int month, int day) {
+        return mEventEntity.setDateFrom(year, month, day);
+    }
+
+    @Override
+    public boolean setDateTo(int year, int month, int day) {
+        return mEventEntity.setDateTo(year, month, day);
+    }
+
+    @Override
+    public boolean setTimeFrom(int hour, int minutes) {
+        return mEventEntity.setTimeFrom(hour, minutes);
+    }
+
+    @Override
+    public boolean setTimeTo(int hour, int minutes) {
+        return mEventEntity.setTimeTo(hour, minutes);
+    }
+
+    @Override
+    public int getYearFrom() {
+        return mEventEntity.getYearFrom();
+    }
+
+    @Override
+    public int getYearTo() {
+        return mEventEntity.getYearTo();
+    }
+
+    @Override
+    public int getMonthFrom() {
+        return mEventEntity.getMonthFrom();
+    }
+
+    @Override
+    public int getMonthTo() {
+        return mEventEntity.getMonthTo();
+    }
+
+    @Override
+    public int getDayFrom() {
+        return mEventEntity.getDayFrom();
+    }
+
+    @Override
+    public int getDayTo() {
+        return mEventEntity.getDayTo();
+    }
+
+    @Override
+    public int getHourFrom() {
+        return mEventEntity.getHourFrom();
+    }
+
+    @Override
+    public int getHourTo() {
+        return mEventEntity.getHourTo();
+    }
+
+    @Override
+    public int getMinutesFrom() {
+        return mEventEntity.getMinutesFrom();
+    }
+
+    @Override
+    public int getMinutesTo() {
+        return mEventEntity.getMinutesTo();
     }
 
     //</editor-fold>
@@ -191,7 +266,7 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
             public void run() {
                 ft.commit();
                 if (ab != null)
-                    ab.setSubtitle(mEntity.getEntityName());
+                    ab.setSubtitle(mEntity.getName());
             }
         });
     }

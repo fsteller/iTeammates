@@ -9,36 +9,69 @@ import android.util.Log;
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.database.Contract;
 import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
-import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
-import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.ITeamsEntity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Project: ${PROJECT_NAME}
- * Package: ${PACKAGE_NAME}
+ * Project: iTeammates
+ * Subpackage: model
  * <p/>
- * Description:
+ * Description: this class represents iTeammates Team (to be) stored at the database.
+ * It must be used in order to get access to a team data,
+ * or to make a new entity that would become a bundle in order to persist it.
+ * <p/>
  * Created by fhernandezs on 13/02/14.
  */
-public class TeamsEntity extends AbstractEntity implements ITeamEntity, IMaintenance {
+public class TeamsEntity extends AbstractEntity implements ITeamsEntity {
+
+    //<editor-fold desc="Constants">
 
     public static final int TEAMS = TC.Activity.Maintenance.TEAMS;
     private static final String TAG = TeamsEntity.class.getSimpleName();
+
+    //</editor-fold>
+    //<editor-fold desc="Variables">
+
+    private String description = "";
+
+    //</editor-fold>
+    //<editor-fold desc="Constructor">
 
     public TeamsEntity() {
         super(TEAMS);
         this.addCollection(TEAMS);
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="ITeamsEntity">
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(final String description) {
+        final String mDescription = description.trim();
+        if (!this.description.equals(mDescription)) {
+            this.description = mDescription;
+            this.setIsRequiredToBeSaved(true);
+        }
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="IMaintenance">
+
     @Override
     public Bundle getResult() {
         final Bundle extras = new Bundle();
 
-        extras.putInt(TC.ENTITY.ID, getEntityId());
+        extras.putInt(TC.ENTITY.ID, getId());
         extras.putInt(TC.ENTITY.COLLECTION_ID, TEAMS);
-        extras.putString(TC.ENTITY.COLLECTION_NAME, getEntityName());
+        extras.putString(TC.ENTITY.COLLECTION_NAME, getName());
         extras.putString(TC.ENTITY.COLLECTION_IMAGE_REF, getImageRefAsString());
         extras.putIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS, getCollection(TEAMS));
         extras.putLong(TC.ENTITY.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
@@ -69,10 +102,10 @@ public class TeamsEntity extends AbstractEntity implements ITeamEntity, IMainten
                         try {
                             data.moveToFirst();
 
-                            setEntityId(id);
-                            setEntityName(data.getString(TC.Queries.TeammatesTeams.NAME));
+                            setId(id);
+                            setName(data.getString(TC.Queries.TeammatesTeams.NAME));
                             setImageRef(data.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
-                            Log.i(TAG, String.format("Loading '%s' contacts...", getEntityName()));
+                            Log.i(TAG, String.format("Loading '%s' contacts...", getName()));
                             addItemToCollection(TEAMS, data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
                             while (data.moveToNext())
                                 addItemToCollection(TEAMS, data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
@@ -90,4 +123,5 @@ public class TeamsEntity extends AbstractEntity implements ITeamEntity, IMainten
         }.start();
     }
 
+    //</editor-fold>
 }

@@ -40,8 +40,10 @@
     <string name="date_month">Month</string>
     <string name="date_weekDay">Day of week</string>
     <string name="date_timeLabel">Selected Time</string>
-    <string name="select_date">Please pick a date</string>
-    <string name="select_time">Please pick time</string>
+    <string name="pick_date">Please pick a date.</string>
+    <string name="pick_date_error">Sorry, the date you chose is not valid.</string>
+    <string name="pick_time">Please pick time.</string>
+    <string name="pick_time_error">Sorry, the time you chose is not valid.</string>
     <string name="timeZone_label">Time zone</string>
     <string name="dateFrom_label">From</string>
     <string name="dateTo_label">To</string>

@@ -14,22 +14,26 @@ import com.fsteller.mobile.android.teammatesapp.image.Utils;
  * Subpackage: activities.base
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 26/12/13 for iTeammates.
  */
 public abstract class FragmentBase extends Fragment {
 
     //<editor-fold desc="Variables">
 
+    protected final HideInputClass mHideInputClass = new HideInputClass();
     protected View mEmptyView = null;
     protected AbsListView mListView = null;
     protected InputMethodManager imm = null;
-    protected static Loader mLoader = null;
-
-    protected final HideInputClass mHideInputClass = new HideInputClass();
+    protected Loader mLoader = null;
 
     //</editor-fold>
 
     //<editor-fold desc="Overridden">
+
+    protected static boolean isNullOrEmpty(final CharSequence text) {
+        return text != null && !String.valueOf(text).trim().isEmpty();
+    }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -38,6 +42,9 @@ public abstract class FragmentBase extends Fragment {
         if (mLoader == null)
             mLoader = Utils.setupImageLoader(getActivity(), getFragmentDefaultImage());
     }
+
+    //</editor-fold>
+    //<editor-fold desc="Protected">
 
     @Override
     public void onPause() {
@@ -51,18 +58,11 @@ public abstract class FragmentBase extends Fragment {
 
     }
 
-    //</editor-fold>
-    //<editor-fold desc="Protected">
-
     protected abstract int getFragmentDefaultImage();
 
     protected void hideSoftKeyboard(final View view) {
         if (imm != null)
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    protected static boolean isNullOrEmpty(final CharSequence text) {
-        return text != null && !String.valueOf(text).trim().isEmpty();
     }
 
     //</editor-fold>

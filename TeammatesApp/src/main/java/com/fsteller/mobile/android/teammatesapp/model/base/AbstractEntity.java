@@ -15,11 +15,11 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
 
     //<editor-fold desc="Variables">
 
+    private final Object mIsRequiredToBeSavedLock = new Object();
     private int id;
     private String name = "";
     private String imageRef = "";
     private boolean mIsRequiredToBeSaved = false;
-    private final Object mIsRequiredToBeSavedLock = new Object();
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -36,19 +36,19 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
         return mIsRequiredToBeSaved;
     }
 
-    public int getEntityId() {
+    public int getId() {
         return id;
     }
 
-    public void setEntityId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getEntityName() {
+    public String getName() {
         return name;
     }
 
-    public void setEntityName(final String name) {
+    public void setName(final String name) {
         final String mName = name.trim();
         if (!this.name.equals(mName)) {
             this.name = mName;
@@ -60,6 +60,14 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
         return Uri.parse(this.imageRef);
     }
 
+    public void setImageRef(final String ref) {
+        final String mRef = ref.trim();
+        if (!this.imageRef.equals(mRef)) {
+            this.imageRef = mRef;
+            this.setIsRequiredToBeSaved(true);
+        }
+    }
+
     public void setImageRef(final Uri ref) {
         setImageRef(ref != null ? ref.toString() : "");
     }
@@ -68,13 +76,21 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
         return this.imageRef;
     }
 
-    public void setImageRef(final String ref) {
-        final String mRef = ref.trim();
-        if (!this.imageRef.equals(mRef)) {
-            this.imageRef = mRef;
-            this.setIsRequiredToBeSaved(true);
+    //<editor-fold desc="Protected">
+
+    protected void startTrackingChanges() {
+        this.setIsRequiredToBeSaved(false);
+    }
+
+    protected void setIsRequiredToBeSaved(final boolean isRequiredToBeSaved) {
+        synchronized (mIsRequiredToBeSavedLock) {
+            this.mIsRequiredToBeSaved = isRequiredToBeSaved;
+            mIsRequiredToBeSavedLock.notifyAll();
         }
     }
+
+    //</editor-fold>
+
 
     //</editor-fold>
     //<editor-fold desc="ICollection">
@@ -118,16 +134,5 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     }
 
     //</editor-fold>
-    //<editor-fold desc="Protected">
-    protected void startTrackingChanges() {
-        this.setIsRequiredToBeSaved(false);
-    }
 
-    protected void setIsRequiredToBeSaved(final boolean isRequiredToBeSaved) {
-        synchronized (mIsRequiredToBeSavedLock) {
-            this.mIsRequiredToBeSaved = isRequiredToBeSaved;
-            mIsRequiredToBeSavedLock.notifyAll();
-        }
-    }
-    //</editor-fold>
 }

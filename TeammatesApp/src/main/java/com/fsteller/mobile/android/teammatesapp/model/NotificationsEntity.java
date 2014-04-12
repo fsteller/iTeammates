@@ -5,22 +5,22 @@ import android.os.Bundle;
 
 import com.fsteller.mobile.android.teammatesapp.TC;
 import com.fsteller.mobile.android.teammatesapp.model.base.AbstractEntity;
-import com.fsteller.mobile.android.teammatesapp.model.base.IMaintenance;
+import com.fsteller.mobile.android.teammatesapp.model.base.INotificacitonsEntity;
 
 /**
- * Project: ${PROJECT_NAME}
- * Package: ${PACKAGE_NAME}
+ * Project: iTeammates
+ * Package: model
  * <p/>
  * Description:
+ * <p/>
  * Created by fsteller on 2/13/14.
  */
-public class NotificationEntity extends AbstractEntity implements IMaintenance {
+public class NotificationsEntity extends AbstractEntity implements INotificacitonsEntity {
 
     public static final int NOTIFICATION = TC.Activity.Maintenance.NOTIFICATION;
+    private static final String TAG = NotificationsEntity.class.getSimpleName();
 
-    private static final String TAG = TeamsEntity.class.getSimpleName();
-
-    protected NotificationEntity() {
+    protected NotificationsEntity() {
         super(NOTIFICATION);
     }
 
@@ -30,7 +30,7 @@ public class NotificationEntity extends AbstractEntity implements IMaintenance {
     }
 
     @Override
-    public void loadData(Context context, Bundle extras) {
+    public void loadData(final Context context, final Bundle extras) {
 
     }
 }

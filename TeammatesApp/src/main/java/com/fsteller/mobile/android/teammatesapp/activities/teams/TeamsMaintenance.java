@@ -32,7 +32,7 @@ import com.fsteller.mobile.android.teammatesapp.image.Loader;
 import com.fsteller.mobile.android.teammatesapp.image.Utils;
 import com.fsteller.mobile.android.teammatesapp.model.TeamsEntity;
 import com.fsteller.mobile.android.teammatesapp.model.base.IEntity;
-import com.fsteller.mobile.android.teammatesapp.model.base.ITeamEntity;
+import com.fsteller.mobile.android.teammatesapp.model.base.ITeamsEntity;
 import com.fsteller.mobile.android.teammatesapp.utils.Adapters;
 import com.fsteller.mobile.android.teammatesapp.utils.Text;
 
@@ -41,9 +41,10 @@ import com.fsteller.mobile.android.teammatesapp.utils.Text;
  * Subpackage: activities.teams
  * <p/>
  * Description:
+ * <p/>
  * Created by fhernandezs on 27/12/13 for iTeammates.
  */
-public final class TeamsMaintenance extends ActivityMaintenanceBase implements ITeamEntity, LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener, Button.OnClickListener {
+public final class TeamsMaintenance extends ActivityMaintenanceBase implements ITeamsEntity, LoaderManager.LoaderCallbacks<Cursor>, AbsListView.OnScrollListener, Button.OnClickListener {
 
     //<editor-fold desc="Constants">
 
@@ -52,8 +53,9 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     //</editor-fold>
     //<editor-fold desc="Variables">
 
-    private SimpleCursorAdapter mCursorAdapter = null;
     private Loader mLoader = null;
+    private ITeamsEntity mTeamsEntity = null;
+    private SimpleCursorAdapter mCursorAdapter = null;
     private EditText collectionName = null;
     private EditText collectionKey = null;
     private ImageView headerImage = null;
@@ -65,7 +67,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     public TeamsMaintenance() {
         super(new TeamsEntity());
-        ITeamEntity mTeamsEntity = (ITeamEntity) mEntity;
+        mTeamsEntity = (ITeamsEntity) mEntity;
     }
 
     //</editor-fold>
@@ -95,7 +97,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         this.collectionName.addTextChangedListener(new Text.AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
-                mEntity.setEntityName(s.toString());
+                mEntity.setName(s.toString());
             }
         });
         this.collectionKey.addTextChangedListener(new Text.AfterTextChangedWatcher() {
@@ -158,7 +160,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
         this.restartLoader(TC.Queries.PhoneContacts.SIMPLE_QUERY_ID, this);
         this.mLoader.loadImage(mEntity.getImageRef(), headerImage);
-        this.collectionName.setText(mEntity.getEntityName());
+        this.collectionName.setText(mEntity.getName());
         this.collectionKey.setText(mEntity.getSearchTerm());
     }
 
@@ -176,7 +178,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     @Override
     protected boolean checkData(final IEntity entity) {
-        if (isNullOrEmpty(getEntityName())) {
+        if (isNullOrEmpty(getName())) {
             showMessage(getResources().getString(R.string.no_entity_name), Toast.LENGTH_SHORT);
             return false;
         }
@@ -257,6 +259,19 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     }
 
     //</editor-fold>
+    //<editor-fold desc="ITeamsEntity">
+
+    @Override
+    public String getDescription() {
+        return mTeamsEntity.getDescription();
+    }
+
+    @Override
+    public void setDescription(final String description) {
+        mTeamsEntity.setDescription(description);
+    }
+    //</editor-fold>
+
     //</editor-fold>
     //<editor-fold desc="Private">
 
