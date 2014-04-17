@@ -225,6 +225,7 @@ public interface TC {
             final static String[] PROJECTION = {
                     Contract.Teams._ID,
                     Contract.Teams.NAME,
+                    Contract.Teams.DESCRIPTION,
                     Contract.Teams.IMAGE_REF,
                     Contract.Teams.UPDATED_AT,
                     Contract.Teams.CREATED_AT,
@@ -233,6 +234,7 @@ public interface TC {
             final static String[] TEAM_CONTACT_PROJECTION = {
                     Contract.Teams.Contacts.TEAM_ID,
                     Contract.Teams.NAME,
+                    Contract.Teams.DESCRIPTION,
                     Contract.Teams.IMAGE_REF,
                     Contract.Teams.UPDATED_AT,
                     Contract.Teams.CREATED_AT,
@@ -243,10 +245,11 @@ public interface TC {
 
             final static int ID = 0;
             final static int NAME = 1;
-            final static int IMAGE_REF = 2;
-            final static int UPDATED_AT = 3;
-            final static int CREATED_AT = 4;
-            final static int CONTACT_TOKEN = 5;
+            final static int DESCRIPTION = 2;
+            final static int IMAGE_REF = 3;
+            final static int UPDATED_AT = 4;
+            final static int CREATED_AT = 5;
+            final static int CONTACT_TOKEN = 6;
             final static int SORT_KEY = 1;
         }
 
@@ -321,6 +324,7 @@ public interface TC {
         public static final String COLLECTION_NAME = "activity_collection_name";
         public static final String COLLECTION_ITEMS = "activity_collection_items";
         public static final String COLLECTION_IMAGE_REF = "activity_collection_image_ref";
+        public static final String COLLECTION_DESCRIPTION = "activity_collection_description";
         public static final String COLLECTION_CREATE_DATE = "activity_collection_create_date";
         public static final String COLLECTION_UPDATE_DATE = "activity_collection_update_date";
     }

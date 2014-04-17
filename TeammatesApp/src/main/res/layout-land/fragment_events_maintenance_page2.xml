@@ -37,6 +37,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
         android:paddingStart="10dip"
         android:paddingLeft="10dip"
         android:paddingEnd="10dip"
@@ -45,7 +47,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        android:id="@+id/fragment_right_side"
+        android:id="@id/fragment_right_side"
         android:layout_height="match_parent"
         android:layout_width="0dip"
         android:background="@color/holo_white">
@@ -55,8 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/dateFrom_label"
-            android:layout_marginTop="10dp"/>
+            android:text="@string/dateFrom_label"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -70,7 +71,7 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:gravity="center_horizontal"
-                style="@android:style/Widget.Holo.EditText"/>
+                style="@android:style/Widget.Holo.Spinner"/>
 
             <TextView
                 android:id="@id/timeFrom_edit"
@@ -79,7 +80,7 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:gravity="center_horizontal"
-                style="@android:style/Widget.Holo.EditText"/>
+                style="@android:style/Widget.Holo.Spinner"/>
 
         </LinearLayout>
 
@@ -88,14 +89,12 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/dateTo_label"
-            android:id="@id/dateTo_label"
-            android:layout_marginTop="10dp"/>
+            android:id="@id/dateTo_label"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-
 
             <TextView
                 android:id="@id/dateTo_edit"
@@ -104,7 +103,7 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:gravity="center_horizontal"
-                style="@android:style/Widget.Holo.EditText"/>
+                style="@android:style/Widget.Holo.Spinner"/>
 
             <TextView
                 android:id="@id/timeTo_edit"
@@ -113,42 +112,35 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:gravity="center_horizontal"
-                style="@android:style/Widget.Holo.EditText"/>
+                style="@android:style/Widget.Holo.Spinner"/>
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@id/date_monthLabel"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/repetition_label"
-            android:id="@id/repetition_label"
-            android:layout_marginTop="10dp"/>
+            android:id="@id/repetition_label"/>
 
-        <Spinner
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@id/calendarRepetition_spinner"
-            android:spinnerMode="dropdown"/>
+            android:id="@id/calendarRepetition_edit"
+            style="@android:style/Widget.Holo.Spinner"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/timeZone_label"
-            android:id="@id/timeZone_label"
-            android:layout_marginTop="10dp"/>
+            android:id="@id/timeZone_label"/>
 
-        <Spinner
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/timeZone_spinner"
-            android:spinnerMode="dropdown"/>
+            android:id="@+id/timeZone_edit"
+            style="@android:style/Widget.Holo.Spinner"/>
 
     </LinearLayout>
 </LinearLayout>

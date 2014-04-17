@@ -76,19 +76,37 @@ final class Constants {
     //</editor-fold>
     //<editor-fold desc="Table Names Constants, used to give names to tables">
     private final static String TEAMS_TABLE_NAME = "teams";
+    //</editor-fold>
+    //<editor-fold desc="SQL DROP Tables Sentences Constants">
+    private final static String TEAMS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + TEAMS_TABLE_NAME + ";";
     private final static String EVENTS_TABLE_NAME = "events";
+    private final static String EVENTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + EVENTS_TABLE_NAME + ";";
     private final static String PLACES_TABLE_NAME = "places";
+    private final static String PLACES_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + PLACES_TABLE_NAME + ";";
     //private final static String CONTACTS_TABLE_NAME = "contacts";
     private final static String CONTACTS_TABLE_NAME = "contacts";
-    private final static String SCHEDULES__TABLE_NAME = "schedules";
+    //private final static String DROP_TABLE_TEAMS_TEAMS = "DROP TABLE IF EXISTS " + TEAMS_TEAMS + ";";
+    private final static String CONTACTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONTACTS_TABLE_NAME + ";";
+    private final static String SCHEDULES_TABLE_NAME = "schedules";
+    //private final static String CONTACTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONTACTS_TABLE_NAME + ";";
+    private final static String SCHEDULES_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + SCHEDULES_TABLE_NAME + ";";
     //private final static String TEAMS_TEAMS = "teams_teams";
     private final static String CONFIGURATION_TABLE_NAME = "configuration";
+    private final static String CONFIGURATION_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONFIGURATION_TABLE_NAME + ";";
     private final static String NOTIFICATIONS_TABLE_NAME = "notifications";
+    private final static String NOTIFICATIONS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + NOTIFICATIONS_TABLE_NAME + ";";
     private final static String EVENTS_CONTACTS_TABLE_NAME = "events_contacts";
+    private final static String EVENTS_CONTACTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + EVENTS_CONTACTS_TABLE_NAME + ";";
     private final static String TEAMS_NOTIFICATIONS_TABLE_NAME = "teams_notifications";
+    private final static String TEAMS_NOTIFICATIONS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + TEAMS_NOTIFICATIONS_TABLE_NAME + ";";
     private final static String CONTACTS_NOTIFICATIONS_TABLE_NAME = "contacts_notifications";
+    private final static String CONTACTS_NOTIFICATIONS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONTACTS_NOTIFICATIONS_TABLE_NAME + ";";
     private final static String MEDIA_CONTENT_TABLE_NAME = "media_content";
+    private final static String MEDIA_CONTENT_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + MEDIA_CONTENT_TABLE_NAME + ";";
     private final static String MEDIA_TYPES_TABLE_NAME = "media_types";
+    private final static String MEDIA_TYPES_TABLE_ADD_DEFAULT_DATA_SCRIPT = "Insert Into " + MEDIA_TYPES_TABLE_NAME
+            + " Values (" + TC.MediaContentTypes.Image + ", \"Images\");";
+    private final static String MEDIA_TYPES_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + MEDIA_TYPES_TABLE_NAME + ";";
     //</editor-fold>
     //<editor-fold desc="ID Fields Names Constants, used with foreign keys referenced fields">
     private final static String TEAM_ID_TABLE_FIELD = "team_id";
@@ -104,114 +122,120 @@ final class Constants {
     //<editor-fold desc="Regular Field Names Constants, used to give name to the tables columns">
     private final static String NAME_TABLE_FIELD = "name";
     private final static String BODY_TABLE_FIELD = "body";
+
+    //</editor-fold>
+    //<editor-fold desc="Fields Configuration Constants, used to setup columns during tables creation">
     private final static String COLOR_TABLE_FIELD = "color";
     private final static String CONTACT_TOKEN_TABLE_FIELD = "token";
-    private final static String SCHEDULE_DATA_TABLE_FIELD = "schedule_data";
+    private final static String DESCRIPTION_TABLE_FIELD = "description";
     private final static String DIRECTIONS_DATA_TABLE_FIELD = "directions_data";
     private final static String IMAGE_REFERENCE_TABLE_FIELD = "image_ref";
+    private final static String DATE_FROM_TABLE_FIELD = "date_from";
+    private final static String DATE_TO_TABLE_FIELD = "date_to";
+
+    //</editor-fold>
     private final static String CREATED_AT_TABLE_FILED = "date_creation";
     private final static String UPDATED_AT_TABLE_FIELD = "date_updated";
     private final static String MEDIA_TYPE_TABLE_FIELD = "media_type";
     private final static String MEDIA_BLOB_TABLE_FIELD = "media_blob";
     private final static String MEDIA_TYPE_DESC_TABLE_FIELD = "media_type_desc";
-
     private final static String ID_TABLE_FIELD = BaseColumns._ID;
-
-    //</editor-fold>
-    //<editor-fold desc="Fields Configuration Constants, used to setup columns during tables creation">
-    private final static String FIELD_ID_PRIMARYKEY_CONFIGURATION = " Integer Not Null Primary Key Autoincrement, ";
-    private final static String FIELD_ID_FOREIGNKEY_CONFIGURATION = " Integer Not Null, ";
-    private final static String FIELD_NAME_CONFIGURATION = " Text Not Null, ";
-    private final static String FIELD_CREATED_AT_CONFIGURATION = " Int Not Null, ";
-    private final static String FIELD_UPDATED_AT_CONFIGURATION = " Int Not Null, ";
-    private final static String FIELD_IMAGE_REFERENCE_CONFIGURATION = " Text, ";
-    //</editor-fold>
-
+    private final static String FIELD_ID_PRIMARYKEY_CONFIGURATION = " Integer Not Null Primary Key Autoincrement";
+    private final static String FIELD_ID_FOREIGNKEY_CONFIGURATION = " Integer Not Null";
+    private final static String FIELD_IMAGE_REFERENCE_CONFIGURATION = " Text default ''";
+    private final static String FIELD_NAME_CONFIGURATION = " Text Not Null";
+    private final static String FIELD_DESCRIPTION_CONFIGURATION = " Text Default ''";
+    private final static String FIELD_DATE_CONFIGURATION = " Int Not Null";
+    private final static String NEXT_CONF = ", ";
     //<editor-fold desc="SQL Create Tables Sentences Constants">
     private final static String TEAMS_TABLE_CREATE_SCRIPT = "Create Table " + TEAMS_TABLE_NAME + " ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
-            + NAME_TABLE_FIELD + FIELD_NAME_CONFIGURATION
-            + CREATED_AT_TABLE_FILED + FIELD_CREATED_AT_CONFIGURATION
-            + UPDATED_AT_TABLE_FIELD + FIELD_UPDATED_AT_CONFIGURATION
-            + IMAGE_REFERENCE_TABLE_FIELD + FIELD_IMAGE_REFERENCE_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
+            + NAME_TABLE_FIELD + FIELD_NAME_CONFIGURATION + NEXT_CONF
+            + DESCRIPTION_TABLE_FIELD + FIELD_DESCRIPTION_CONFIGURATION + NEXT_CONF
+            + IMAGE_REFERENCE_TABLE_FIELD + FIELD_IMAGE_REFERENCE_CONFIGURATION + NEXT_CONF
+            + CREATED_AT_TABLE_FILED + FIELD_DATE_CONFIGURATION + NEXT_CONF
+            + UPDATED_AT_TABLE_FIELD + FIELD_DATE_CONFIGURATION + NEXT_CONF
             + "Unique(" + NAME_TABLE_FIELD + ") On Conflict Ignore);";
     private final static String EVENTS_TABLE_CREATE_SCRIPT = "Create Table " + EVENTS_TABLE_NAME + " ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
-            + NAME_TABLE_FIELD + FIELD_NAME_CONFIGURATION
-            + CREATED_AT_TABLE_FILED + FIELD_CREATED_AT_CONFIGURATION
-            + UPDATED_AT_TABLE_FIELD + FIELD_UPDATED_AT_CONFIGURATION
-            + IMAGE_REFERENCE_TABLE_FIELD + FIELD_IMAGE_REFERENCE_CONFIGURATION
-            + PLACE_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
-            + SCHEDULE_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
-            + CALENDAR_ID_TABLE_FIELD + " Text, "
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
+            + NAME_TABLE_FIELD + FIELD_NAME_CONFIGURATION + NEXT_CONF
+            + DESCRIPTION_TABLE_FIELD + FIELD_DESCRIPTION_CONFIGURATION + NEXT_CONF
+            + IMAGE_REFERENCE_TABLE_FIELD + FIELD_IMAGE_REFERENCE_CONFIGURATION + NEXT_CONF
+            + CREATED_AT_TABLE_FILED + FIELD_DATE_CONFIGURATION + NEXT_CONF
+            + UPDATED_AT_TABLE_FIELD + FIELD_DATE_CONFIGURATION + NEXT_CONF
+            + PLACE_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
+            + SCHEDULE_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
+            + CALENDAR_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + "Foreign key (" + PLACE_ID_TABLE_FIELD + ") References " + PLACES_TABLE_NAME + " (" + ID_TABLE_FIELD + ") On Delete Cascade, "
-            + "Foreign key (" + SCHEDULE_ID_TABLE_FIELD + ") References " + SCHEDULES__TABLE_NAME + " (" + ID_TABLE_FIELD + ") On Delete Cascade, "
+            + "Foreign key (" + SCHEDULE_ID_TABLE_FIELD + ") References " + SCHEDULES_TABLE_NAME + " (" + ID_TABLE_FIELD + ") On Delete Cascade, "
             + "Unique(" + NAME_TABLE_FIELD + ") On Conflict Ignore);";
     private final static String PLACES_TABLE_CREATE_SCRIPT = "Create Table " + PLACES_TABLE_NAME + " ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
             + DIRECTIONS_DATA_TABLE_FIELD + " text );";
     /*private final static String CONTACTS_TABLE_CREATE_SCRIPT = "Create Table " + CONTACTS_TABLE_NAME +" ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
             + CONTACT_TOKEN_TABLE_FIELD + " Text Not Null,"
             + " Unique(" + CONTACT_TOKEN_TABLE_FIELD + ") On Conflict Ignore);";*/
-    private final static String SCHEDULES_TABLE_CREATE_SCRIPT = "Create Table " + SCHEDULES__TABLE_NAME + " ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
-            + SCHEDULE_DATA_TABLE_FIELD + " text );";
+    private final static String SCHEDULES_TABLE_CREATE_SCRIPT = "Create Table " + SCHEDULES_TABLE_NAME + " ( "
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
+            + CREATED_AT_TABLE_FILED + FIELD_DATE_CONFIGURATION + NEXT_CONF
+            + UPDATED_AT_TABLE_FIELD + FIELD_DATE_CONFIGURATION + NEXT_CONF
+            + DATE_FROM_TABLE_FIELD + FIELD_DATE_CONFIGURATION + NEXT_CONF
+            + DATE_TO_TABLE_FIELD + FIELD_DATE_CONFIGURATION + ");";
     private final static String NOTIFICATIONS_TABLE_CREATE_SCRIPT = "Create Table " + NOTIFICATIONS_TABLE_NAME + " ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
             + BODY_TABLE_FIELD + " text,"
             + COLOR_TABLE_FIELD + " int );";
     private final static String CONFIGURATION_TABLE_CREATE_SCRIPT = "Create Table " + CONFIGURATION_TABLE_NAME + " ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
             + ACCOUNT_ID_TABLE_FIELD + " text );";
     /*private final static String CREATE_TABLE_TEAMS_TEAMS = "Create Table " + TEAMS_TEAMS + " ( "
-            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
-            + FIELD_PARENT_ID + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
+            + FIELD_PARENT_ID + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + "Primary Key (" + TEAM_ID_TABLE_FIELD + ", " + FIELD_PARENT_ID + "),"
             + " Foreign key (" + TEAM_ID_TABLE_FIELD + ") References " + TEAMS_TABLE_NAME + " (" + ID_TABLE_FIELD + "), "
             + " Foreign key (" + FIELD_PARENT_ID + ") References " + TEAMS_TABLE_NAME + "  (" + ID_TABLE_FIELD + "));";*/
    /* private final static String CONTACTS_TABLE_CREATE_SCRIPT = "Create Table " + CONTACTS_TABLE_NAME + " ( "
-            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
-            + CONTACT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
+            + CONTACT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + "Primary Key (" + TEAM_ID_TABLE_FIELD + ", " + CONTACT_ID_TABLE_FIELD + ")"
             + " Foreign key (" + TEAM_ID_TABLE_FIELD + ") References " + TEAMS_TABLE_NAME + " (" + ID_TABLE_FIELD + "), "
             + " Foreign key (" + CONTACT_ID_TABLE_FIELD + ") References " + CONTACTS_TABLE_NAME + " (" + ID_TABLE_FIELD + "));";*/
     private final static String CONTACTS_TABLE_CREATE_SCRIPT = "Create Table " + CONTACTS_TABLE_NAME + " ("
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
-            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
+            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + CONTACT_TOKEN_TABLE_FIELD + " Integer Not Null, "
             + "Unique(" + TEAM_ID_TABLE_FIELD + ", " + CONTACT_TOKEN_TABLE_FIELD + ") On Conflict Ignore, "
             + "Foreign key (" + TEAM_ID_TABLE_FIELD + ") References " + TEAMS_TABLE_NAME + " (" + ID_TABLE_FIELD + ") On Delete Cascade);";
     private final static String EVENTS_CONTACTS_TABLE_CREATE_SCRIPT = "Create Table " + EVENTS_CONTACTS_TABLE_NAME + " ( "
-            + EVENT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
-            + CONTACT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + EVENT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
+            + CONTACT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + "Primary Key (" + EVENT_ID_TABLE_FIELD + ", " + CONTACT_ID_TABLE_FIELD + ") "
             + "Foreign key (" + EVENT_ID_TABLE_FIELD + ") References " + EVENTS_TABLE_NAME + "(" + ID_TABLE_FIELD + "), "
             + "Foreign key (" + CONTACT_ID_TABLE_FIELD + ") References " + CONTACTS_TABLE_NAME + " (" + ID_TABLE_FIELD + "));";
     private final static String TEAMS_NOTIFICATIONS_TABLE_CREATE_SCRIPT = "Create Table " + TEAMS_NOTIFICATIONS_TABLE_NAME + " ( "
-            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
-            + NOTIFICATION_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + TEAM_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
+            + NOTIFICATION_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + "Primary Key (" + TEAM_ID_TABLE_FIELD + ", " + NOTIFICATION_ID_TABLE_FIELD + ") "
             + "Foreign key (" + TEAM_ID_TABLE_FIELD + ") References " + TEAMS_TABLE_NAME + " (" + ID_TABLE_FIELD + "), "
             + "Foreign key (" + NOTIFICATION_ID_TABLE_FIELD + ") References " + NOTIFICATIONS_TABLE_NAME + " (" + ID_TABLE_FIELD + "));";
     private final static String CONTACTS_NOTIFICATIONS_TABLE_CREATE_SCRIPT = "Create Table " + CONTACTS_NOTIFICATIONS_TABLE_NAME + " ( "
-            + CONTACT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
-            + NOTIFICATION_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + CONTACT_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
+            + NOTIFICATION_ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + "Primary Key (" + CONTACT_ID_TABLE_FIELD + ", " + NOTIFICATION_ID_TABLE_FIELD + ") "
             + "Foreign key (" + CONTACT_ID_TABLE_FIELD + ") References " + CONTACTS_TABLE_NAME + " (" + ID_TABLE_FIELD + "), "
             + "Foreign key (" + NOTIFICATION_ID_TABLE_FIELD + ") References " + NOTIFICATIONS_TABLE_NAME + " (" + ID_TABLE_FIELD + "));";
     private final static String MEDIA_CONTENT_TABLE_CREATE_SCRIPT = "Create Table " + MEDIA_CONTENT_TABLE_NAME + " ( "
-            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION
-            + MEDIA_TYPE_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_PRIMARYKEY_CONFIGURATION + NEXT_CONF
+            + MEDIA_TYPE_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + MEDIA_BLOB_TABLE_FIELD + " BLOB Not Null, "
-            + CREATED_AT_TABLE_FILED + FIELD_CREATED_AT_CONFIGURATION
-            + UPDATED_AT_TABLE_FIELD + FIELD_UPDATED_AT_CONFIGURATION
+            + CREATED_AT_TABLE_FILED + FIELD_DATE_CONFIGURATION + NEXT_CONF
+            + UPDATED_AT_TABLE_FIELD + FIELD_DATE_CONFIGURATION + NEXT_CONF
             + "Foreign key (" + MEDIA_TYPE_TABLE_FIELD + ") References " + MEDIA_TYPES_TABLE_NAME + " (" + ID_TABLE_FIELD + "));";
     private final static String MEDIA_TYPES_TABLE_CREATE_SCRIPT = "Create Table " + MEDIA_TYPES_TABLE_NAME + " ("
-            + ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION
+            + ID_TABLE_FIELD + FIELD_ID_FOREIGNKEY_CONFIGURATION + NEXT_CONF
             + MEDIA_TYPE_DESC_TABLE_FIELD + " Text Not Null, "
             + "Primary Key (" + ID_TABLE_FIELD + "));";
-
     //</editor-fold>
     //<editor-fold desc="SQL Add Default Table Rows Sentences Constants">
     private final static String TEAMS_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
@@ -222,32 +246,11 @@ final class Constants {
     private final static String NOTIFICATIONS_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
     private final static String CONFIGURATION_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
     private final static String MEDIA_CONTENT_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
-    private final static String MEDIA_TYPES_TABLE_ADD_DEFAULT_DATA_SCRIPT = "Insert Into " + MEDIA_TYPES_TABLE_NAME
-            + " Values (" + TC.MediaContentTypes.Image + ", \"Images\");";
-
     //private final static String ADD_DEFAULTS_TABLE_TEAMS_TEAMS = ";";
     private final static String CONTACTS_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
     private final static String EVENTS_CONTACTS_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
     private final static String TEAMS_NOTIFICATIONS_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
     private final static String CONTACTS_NOTIFICATIONS_TABLE_ADD_DEFAULT_DATA_SCRIPT = ";";
-
-    //</editor-fold>
-    //<editor-fold desc="SQL DROP Tables Sentences Constants">
-    private final static String TEAMS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + TEAMS_TABLE_NAME + ";";
-    private final static String EVENTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + EVENTS_TABLE_NAME + ";";
-    private final static String PLACES_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + PLACES_TABLE_NAME + ";";
-    //private final static String CONTACTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONTACTS_TABLE_NAME + ";";
-    private final static String SCHEDULES_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + SCHEDULES__TABLE_NAME + ";";
-    private final static String NOTIFICATIONS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + NOTIFICATIONS_TABLE_NAME + ";";
-    private final static String CONFIGURATION_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONFIGURATION_TABLE_NAME + ";";
-    private final static String MEDIA_CONTENT_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + MEDIA_CONTENT_TABLE_NAME + ";";
-    private final static String MEDIA_TYPES_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + MEDIA_TYPES_TABLE_NAME + ";";
-
-    //private final static String DROP_TABLE_TEAMS_TEAMS = "DROP TABLE IF EXISTS " + TEAMS_TEAMS + ";";
-    private final static String CONTACTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONTACTS_TABLE_NAME + ";";
-    private final static String EVENTS_CONTACTS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + EVENTS_CONTACTS_TABLE_NAME + ";";
-    private final static String TEAMS_NOTIFICATIONS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + TEAMS_NOTIFICATIONS_TABLE_NAME + ";";
-    private final static String CONTACTS_NOTIFICATIONS_TABLE_DROP_SCRIPT = "DROP TABLE IF EXISTS " + CONTACTS_NOTIFICATIONS_TABLE_NAME + ";";
 
     //</editor-fold>
 
@@ -307,7 +310,7 @@ final class Constants {
     private static final class TableTeams extends TABLE {
         TableTeams() {
             super(TEAMS_TABLE_NAME, TEAMS_TABLE_CREATE_SCRIPT, TEAMS_TABLE_ADD_DEFAULT_DATA_SCRIPT, TEAMS_TABLE_DROP_SCRIPT,
-                    ID_TABLE_FIELD, NAME_TABLE_FIELD, IMAGE_REFERENCE_TABLE_FIELD, UPDATED_AT_TABLE_FIELD, CREATED_AT_TABLE_FILED);
+                    ID_TABLE_FIELD, NAME_TABLE_FIELD, DESCRIPTION_TABLE_FIELD, IMAGE_REFERENCE_TABLE_FIELD, UPDATED_AT_TABLE_FIELD, CREATED_AT_TABLE_FILED);
         }
     }
 
@@ -348,8 +351,8 @@ final class Constants {
      */
     private static final class TableSchedules extends TABLE {
         TableSchedules() {
-            super(SCHEDULES__TABLE_NAME, SCHEDULES_TABLE_CREATE_SCRIPT, SCHEDULES_TABLE_ADD_DEFAULT_DATA_SCRIPT, SCHEDULES_TABLE_DROP_SCRIPT,
-                    ID_TABLE_FIELD, SCHEDULE_DATA_TABLE_FIELD);
+            super(SCHEDULES_TABLE_NAME, SCHEDULES_TABLE_CREATE_SCRIPT, SCHEDULES_TABLE_ADD_DEFAULT_DATA_SCRIPT, SCHEDULES_TABLE_DROP_SCRIPT,
+                    ID_TABLE_FIELD, DATE_FROM_TABLE_FIELD);
         }
     }
 

@@ -7,13 +7,11 @@
               android:orientation="vertical">
 
     <include
-        android:id="@+id/aa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/fragment_maintenance_header"/>
 
     <include
-        android:id="@+id/aa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/fragment_basic_info"
@@ -24,8 +22,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/holo_card_white"
-        android:layout_margin="10dip"
-        android:padding="10dp">
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip">
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,15 +31,12 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/dateFrom_label"
             android:id="@id/fromLabel"
-            android:layout_below="@id/description_edit"
-            android:layout_alignLeft="@id/description_edit"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dip"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@id/date_monthLabel"
-            android:layout_below="@id/description_edit"
             android:layout_centerHorizontal="true"/>
 
 
@@ -56,7 +51,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignRight="@id/date_monthLabel"
             android:layout_alignEnd="@id/date_monthLabel"
-            style="@android:style/Widget.Holo.EditText"/>
+            style="@android:style/Widget.Holo.Spinner"/>
 
         <TextView
             android:focusable="false"
@@ -69,7 +64,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignLeft="@id/date_monthLabel"
             android:layout_alignStart="@id/date_monthLabel"
-            style="@android:style/Widget.Holo.EditText"/>
+            style="@android:style/Widget.Holo.Spinner"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,7 +75,7 @@
             android:layout_below="@id/dateFrom_edit"
             android:layout_alignLeft="@id/dateFrom_edit"
             android:layout_alignStart="@id/dateFrom_edit"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dip"/>
 
         <TextView
             android:focusable="false"
@@ -92,7 +87,7 @@
             android:layout_alignRight="@id/date_monthLabel"
             android:layout_alignEnd="@id/date_monthLabel"
             android:layout_below="@id/dateTo_label"
-            style="@android:style/Widget.Holo.EditText"/>
+            style="@android:style/Widget.Holo.Spinner"/>
 
         <TextView
             android:focusable="false"
@@ -104,7 +99,7 @@
             android:layout_alignTop="@id/dateTo_edit"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            style="@android:style/Widget.Holo.EditText"/>
+            style="@android:style/Widget.Holo.Spinner"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,21 +107,21 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/repetition_label"
             android:id="@id/repetition_label"
-            android:layout_below="@+id/dateTo_edit"
+            android:layout_below="@id/dateTo_edit"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dip"/>
 
-        <Spinner
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@id/calendarRepetition_spinner"
-            android:spinnerMode="dropdown"
+            android:id="@id/calendarRepetition_edit"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@id/repetition_label"/>
+            android:layout_below="@id/repetition_label"
+            style="@android:style/Widget.Holo.Spinner"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -134,19 +129,21 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/timeZone_label"
             android:id="@id/timeZone_label"
-            android:layout_below="@id/calendarRepetition_spinner"
+            android:layout_below="@id/calendarRepetition_edit"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dip"/>
 
-        <Spinner
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/timeZone_spinner"
-            android:spinnerMode="dropdown"
+            android:id="@id/timeZone_edit"
             android:layout_below="@id/timeZone_label"
+            android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            style="@android:style/Widget.Holo.Spinner"/>
 
     </RelativeLayout>
 

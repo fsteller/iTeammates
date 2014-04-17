@@ -11,6 +11,7 @@ import com.fsteller.mobile.android.teammatesapp.model.base.IEventsEntity;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Project: iTeammates
@@ -36,6 +37,8 @@ public class EventsEntity extends AbstractEntity implements IEventsEntity {
 
     private Callback mCallback = null;
 
+    private int minutesTo = 50;
+    private int minutesFrom = 0;
     private int calendarId = -1;
     private int yearFrom = mCalendar.get(Calendar.YEAR);
     private int yearTo = mCalendar.get(Calendar.YEAR);
@@ -45,9 +48,10 @@ public class EventsEntity extends AbstractEntity implements IEventsEntity {
     private int dayTo = mCalendar.get(Calendar.DAY_OF_MONTH) + 1;
     private int hourFrom = mCalendar.get(Calendar.HOUR_OF_DAY) + 1;
     private int hourTo = mCalendar.get(Calendar.HOUR_OF_DAY) + 2;
-    private int minutesFrom = 0;
-    private int minutesTo = 50;
+
+
     private String description = "";
+    private String mTimeZone = TimeZone.getDefault().getID();
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -270,6 +274,21 @@ public class EventsEntity extends AbstractEntity implements IEventsEntity {
     @Override
     public int getMinutesTo() {
         return minutesTo;
+    }
+
+    @Override
+    public String getTimeZone() {
+        return mTimeZone;
+    }
+
+    @Override
+    public void setTimeZone(final String timeZone) {
+        mTimeZone = timeZone;
+        setIsRequiredToBeSaved(true);
+
+        // Notifies that TimeZone value has been changed
+        if (mCallback != null)
+            mCallback.OnTimeZoneHasBeenUpdated(this);
     }
 
     //</editor-fold>

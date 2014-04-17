@@ -181,7 +181,17 @@ public final class Teammates extends ActivityBase implements
         return super.onCreateOptionsMenu(menu);
     }
 
+    //</editor-fold>
     //<editor-fold desc="GooglePlayServicesClient.ConnectionCallbacks">
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="GooglePlayServicesClient.OnConnectionFailedListener">
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -208,29 +218,20 @@ public final class Teammates extends ActivityBase implements
     }
 
     //</editor-fold>
-    //<editor-fold desc="GooglePlayServicesClient.OnConnectionFailedListener">
-
-    @Override
-    protected void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(STATE_RESOLVING_ERROR, mResolvingError);
-    }
-
-    //</editor-fold>
-
-    //</editor-fold>
     //<editor-fold desc="IPageManager">
 
     @Override
     public void onConnected(final Bundle bundle) {
         mResolvingError = false;
-        showMessage("User is connected!", Toast.LENGTH_LONG);
+        showMessage("Connected!", Toast.LENGTH_SHORT);
     }
 
     @Override
     public void onConnectionSuspended(final int i) {
-
+        mGoogleApiClient.connect();
     }
+
+    //<editor-fold desc="ICollection">
 
     @Override
     public void onConnectionFailed(final ConnectionResult result) {
@@ -266,7 +267,6 @@ public final class Teammates extends ActivityBase implements
         return mCollection.getSearchTerm();
     }
 
-    //<editor-fold desc="ICollection">
     @Override
     public void setSearchTerm(final String newTerm) {
         mCollection.setSearchTerm(newTerm);
@@ -275,6 +275,16 @@ public final class Teammates extends ActivityBase implements
     @Override
     public boolean addCollection(final Integer collectionId) {
         return mCollection.addCollection(collectionId);
+    }
+
+    @Override
+    public boolean isItemCollected(final Integer collectionId, final Integer itemId) {
+        return mCollection.isItemCollected(collectionId, itemId);
+    }
+
+    @Override
+    public int getCollectionSize(final Integer collectionId) {
+        return mCollection.getCollectionSize(collectionId);
     }
 
     @Override
@@ -287,6 +297,9 @@ public final class Teammates extends ActivityBase implements
         mCollection.clearCollection(collectionId);
     }
 
+    //</editor-fold>
+    //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
+
     @Override
     public boolean addItemToCollection(final Integer collectionId, final Integer itemId) {
         return mCollection.addItemToCollection(collectionId, itemId);
@@ -296,28 +309,27 @@ public final class Teammates extends ActivityBase implements
     public boolean removeItemFromCollection(final Integer collectionId, final Integer itemId) {
         return mCollection.removeItemFromCollection(collectionId, itemId);
     }
-    //</editor-fold>
-    //<editor-fold desc="NavigationDrawerFragment.NavigationDrawerCallbacks Methods">
-
-    @Override
-    public boolean isItemCollected(final Integer collectionId, final Integer itemId) {
-        return mCollection.isItemCollected(collectionId, itemId);
-    }
-
-    @Override
-    public int getCollectionSize(final Integer collectionId) {
-        return mCollection.getCollectionSize(collectionId);
-    }
 
     //</editor-fold>
     //</editor-fold>
 
     //</editor-fold>
-    //<editor-fold desc="Public">
+    //<editor-fold desc="Private">
 
     @Override
     public boolean changeCollectionItemState(final int collectionId, final Integer itemId, final boolean collected) {
         return mCollection.changeCollectionItemState(collectionId, itemId, collected);
+    }
+
+    @Override
+    public void onNavigationDrawerActionCalled(final Actions action) {
+        switch (action) {
+            case Login:
+                break;
+            case Settings:
+                break;
+            default:
+        }
     }
 
     @Override
@@ -338,25 +350,11 @@ public final class Teammates extends ActivityBase implements
         }
     }
 
-    //</editor-fold>
-    //<editor-fold desc="Private">
-
-    @Override
-    public void onNavigationDrawerActionCalled(final Actions action) {
-        switch (action) {
-            case Login:
-                break;
-            case Settings:
-                break;
-            default:
-        }
-    }
-
-    void onSectionAttached(final int position) {
+    private void onSectionAttached(final int position) {
         mTitle = getResources().getStringArray(R.array.app_activities)[position];
     }
 
-    void restoreActionBar() {
+    private void restoreActionBar() {
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -400,9 +398,6 @@ public final class Teammates extends ActivityBase implements
 
         return intent;
     }
-
-    //</editor-fold>
-    //<editor-fold desc="Static">
 
     private boolean contextActionRequest(final int collectionId, final int requestCode) {
 

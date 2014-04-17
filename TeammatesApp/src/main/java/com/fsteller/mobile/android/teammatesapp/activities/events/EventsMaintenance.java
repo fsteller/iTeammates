@@ -229,6 +229,16 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
         return mEventEntity.getMinutesTo();
     }
 
+    @Override
+    public String getTimeZone() {
+        return mEventEntity.getTimeZone();
+    }
+
+    @Override
+    public void setTimeZone(final String timeZone) {
+        mEventEntity.setTimeZone(timeZone);
+    }
+
     //</editor-fold>
     //</editor-fold>
     //<editor-fold desc="Private">

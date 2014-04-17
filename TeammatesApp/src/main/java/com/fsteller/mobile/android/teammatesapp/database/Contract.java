@@ -56,9 +56,10 @@ public final class Contract {
      */
     public static interface TeamsColumns extends BaseColumns {
         public static final String NAME = Constants.Teams.Fields[1];
-        public static final String IMAGE_REF = Constants.Teams.Fields[2];
-        public static final String UPDATED_AT = Constants.Teams.Fields[3];
-        public static final String CREATED_AT = Constants.Teams.Fields[4];
+        public static final String DESCRIPTION = Constants.Teams.Fields[2];
+        public static final String IMAGE_REF = Constants.Teams.Fields[3];
+        public static final String UPDATED_AT = Constants.Teams.Fields[4];
+        public static final String CREATED_AT = Constants.Teams.Fields[5];
         public static final String DEFAULT_SORT_ORDER = NAME + " ASC";
         public static final String TABLE_NAME = Constants.Teams.TableName;
         public static final List<String> COLUMNS = Arrays.asList((Constants.Teams.Fields));
@@ -119,13 +120,11 @@ public final class Contract {
         private Teams() {
         }
 
-        static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-
         public static Uri getTeamDataUri(final long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
+        static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
 
         static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
@@ -149,15 +148,12 @@ public final class Contract {
             return builder;
         }
 
-        static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
-
         public final static class Contacts implements ContactsColumns {
 
             //<editor-fold desc="Constants">
 
             public static final String CONTENT_DIRECTORY = TABLE_NAME;
             static final String PATH = Teams.PATH + "/#/" + TABLE_NAME;
-            static final String ID_PATH = PATH + ITEM_NUMERIC_SUFFIX;
 
             /**
              * Private constructor used in order to prevent instantiation of this class.
@@ -165,12 +161,12 @@ public final class Contract {
             private Contacts() {
             }
 
+            static final String ID_PATH = PATH + ITEM_NUMERIC_SUFFIX;
+
             public static Uri getTeamContactUri(int id) {
                 final Uri result = getTeamDataUri(id);
                 return Uri.withAppendedPath(result, CONTENT_DIRECTORY);
             }
-
-            public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
 
             static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
                 final List<String> segments = uri.getPathSegments();
@@ -194,6 +190,9 @@ public final class Contract {
                 return null;
             }
 
+            public static final String CONTENT_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
+
+
             public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd." + AUTHORITY + "." + PATH;
 
             //</editor-fold>
@@ -212,6 +211,12 @@ public final class Contract {
             //</editor-fold>
         }
 
+        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
+
+
+        static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
+
+
         static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, PATH);
@@ -225,18 +230,7 @@ public final class Contract {
 
         //</editor-fold >
 
-        //<editor-fold desc="pubic methods">
-
-
-        //</editor-fold>
-        //<editor-fold desc="Protected Methods">
-
-
-
-        //</editor-fold>
-
         //<editor-fold desc="Inner Classes">
-
 
 
         //</editor-fold>
@@ -255,13 +249,11 @@ public final class Contract {
         private Events() {
         }
 
-        protected static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-
         public static Uri getEventDataUri(final long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
+        protected static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
 
         static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
@@ -284,6 +276,9 @@ public final class Contract {
 
             return builder;
         }
+
+        static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
+
 
         protected static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;
         protected static final String PATH_TEXT_FILTER = PATH_EMPTY_FILTER + ITEM_TEXT_SUFFIX;
@@ -308,7 +303,6 @@ public final class Contract {
         //<editor-fold desc="protected methods">
 
 
-
         //</editor-fold>
 
     }
@@ -325,8 +319,6 @@ public final class Contract {
         private MediaContent() {
         }
 
-        public static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
-
         static SQLiteQueryBuilder getQueryBuilder(final Uri uri, final int code) {
             final SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(MediaContent.TABLE_NAME);
@@ -342,6 +334,9 @@ public final class Contract {
             }
             return builder;
         }
+
+        public static final String PATH_ID = PATH + ITEM_NUMERIC_SUFFIX;
+
 
         public static final String PATH_EMPTY_FILTER = PATH + "/" + ITEM_FILTER_PATH_SUFFIX;
         public static final String PATH_NUMERIC_FILTER = PATH_EMPTY_FILTER + ITEM_NUMERIC_SUFFIX;

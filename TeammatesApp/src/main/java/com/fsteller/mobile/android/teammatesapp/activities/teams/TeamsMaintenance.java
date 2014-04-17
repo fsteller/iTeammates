@@ -54,9 +54,10 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
     //<editor-fold desc="Variables">
 
     private Loader mLoader = null;
-    private ITeamsEntity mTeamsEntity = null;
+    private TeamsEntity mTeamsEntity = null;
     private SimpleCursorAdapter mCursorAdapter = null;
     private EditText collectionName = null;
+    private EditText collectionDescription = null;
     private EditText collectionKey = null;
     private ImageView headerImage = null;
     private ListView mListView = null;
@@ -67,7 +68,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     public TeamsMaintenance() {
         super(new TeamsEntity());
-        mTeamsEntity = (ITeamsEntity) mEntity;
+        mTeamsEntity = (TeamsEntity) mEntity;
     }
 
     //</editor-fold>
@@ -86,24 +87,34 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
         this.setContentView(R.layout.activity_teams_maintenance_page1);
 
-        this.mEntity.loadData(this, extras);
+        this.mTeamsEntity.loadData(this, extras);
         this.mLoader = Utils.setupImageLoader(this, R.drawable.ic_default_picture);
         this.collectionKey = (EditText) findViewById(R.id.collection_lookup_key_text);
         this.collectionName = (EditText) findViewById(R.id.collection_title_text);
+        this.collectionDescription = (EditText) findViewById(R.id.collection_description_text);
         this.headerImage = (ImageView) findViewById(R.id.header_image);
         this.mListView = (ListView) findViewById(R.id.list_view);
         this.mEmptyView = findViewById(android.R.id.empty);
 
+        this.collectionName.setHint(getResources().getString(R.string.teamsMaintenance_collectionNameHint));
         this.collectionName.addTextChangedListener(new Text.AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
-                mEntity.setName(s.toString());
+                mTeamsEntity.setName(s.toString());
             }
         });
+        this.collectionDescription.setHint(getResources().getString(R.string.teamsMaintenance_collectionDescriptionHint));
+        this.collectionDescription.addTextChangedListener(new Text.AfterTextChangedWatcher() {
+            @Override
+            public void afterTextChanged(final Editable s) {
+                mTeamsEntity.setDescription(s.toString());
+            }
+        });
+        this.collectionKey.setHint(getResources().getString(R.string.teamsMaintenance_collectionKeyHint));
         this.collectionKey.addTextChangedListener(new Text.AfterTextChangedWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
-                mEntity.setSearchTerm(s.toString());
+                mTeamsEntity.setSearchTerm(s.toString());
                 restartLoader(TC.Queries.PhoneContacts.FILTER_QUERY_ID1, TeamsMaintenance.this);
             }
         });
@@ -159,9 +170,11 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         super.onResume();
 
         this.restartLoader(TC.Queries.PhoneContacts.SIMPLE_QUERY_ID, this);
-        this.mLoader.loadImage(mEntity.getImageRef(), headerImage);
-        this.collectionName.setText(mEntity.getName());
-        this.collectionKey.setText(mEntity.getSearchTerm());
+        this.mLoader.loadImage(mTeamsEntity.getImageRef(), headerImage);
+
+        this.collectionName.setText(mTeamsEntity.getName());
+        this.collectionKey.setText(mTeamsEntity.getSearchTerm());
+        this.collectionDescription.setText(mTeamsEntity.getDescription());
     }
 
     @Override
@@ -198,7 +211,7 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
         switch (id) {
             case TC.Queries.PhoneContacts.SIMPLE_QUERY_ID:
             case TC.Queries.PhoneContacts.FILTER_QUERY_ID1:
-                return getContactsFilteredBySearchTerm(mEntity.getSearchTerm());
+                return getContactsFilteredBySearchTerm(mTeamsEntity.getSearchTerm());
             default:
                 Log.e(TAG, String.format("OnCreateLoader - Unknown id provided (%s)", id));
                 return null;
@@ -250,11 +263,11 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
 
     @Override
     public void onClick(final View v) {
-        if (checkData(mEntity)) {
+        if (checkData(mTeamsEntity)) {
             hideSoftKeyboard(v);
             Intent mIntent = new Intent();
-            mIntent.putExtra(TC.ENTITY.EXTRAS, mEntity.getResult());
-            finalize(RESULT_OK, mEntity.isRequiredToBeSaved() ? mIntent : null);
+            mIntent.putExtra(TC.ENTITY.EXTRAS, mTeamsEntity.getResult());
+            finalize(RESULT_OK, mTeamsEntity.isRequiredToBeSaved() ? mIntent : null);
         }
     }
 
@@ -326,16 +339,16 @@ public final class TeamsMaintenance extends ActivityMaintenanceBase implements I
             final ContactItem mContactItem = (ContactItem) view.getTag();
 
             mContactItem.contact_check.setTag(id);
-            mContactItem.contact_check.setChecked(mEntity.isItemCollected(TeamsEntity.TEAMS, id));
+            mContactItem.contact_check.setChecked(mTeamsEntity.isItemCollected(TeamsEntity.TEAMS, id));
             setBasicText(mContactItem.contact_phone, cursor.getString(TC.Queries.PhoneContacts.CONTACT_STATUS));
-            setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.PhoneContacts.CONTACT_NAME), mEntity.getSearchTerm());
+            setHighlightedText(mContactItem.contact_name, cursor.getString(TC.Queries.PhoneContacts.CONTACT_NAME), mTeamsEntity.getSearchTerm());
             setImageView(mContactItem.contact_thumbnail, mLoader, cursor.getString(TC.Queries.PhoneContacts.CONTACT_PHOTO_DATA));
         }
 
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
             final Integer id = (Integer) buttonView.getTag();
-            mEntity.changeCollectionItemState(TeamsEntity.TEAMS, id, isChecked);
+            mTeamsEntity.changeCollectionItemState(TeamsEntity.TEAMS, id, isChecked);
         }
 
         private final class ContactItem {

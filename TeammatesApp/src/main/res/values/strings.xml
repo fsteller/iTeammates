@@ -30,6 +30,11 @@
 
     <!-- TeamsMaintenance Page Fragment -->
     <string name="no_teams">No teams to show</string>
+    <string name="teamsMaintenance_titleLabel">Teams</string>
+    <string name="teamsMaintenance_collectionNameHint">(Mandatory)</string>
+    <string name="teamsMaintenance_collectionDescriptionHint">(Optional)</string>
+    <string name="teamsMaintenance_collectionKeyHint">(Optional)</string>
+    <string name="teamsMaintenance_titleDescriptionLabel">Please, provide a team name and an optional image.</string>
 
     <!-- EventsMaintenance Page Fragment -->
     <string name="no_events">No events to show</string>
@@ -44,6 +49,7 @@
     <string name="pick_date_error">Sorry, the date you chose is not valid.</string>
     <string name="pick_time">Please pick time.</string>
     <string name="pick_time_error">Sorry, the time you chose is not valid.</string>
+    <string name="pick_timeZone">Please pick a time zone.</string>
     <string name="timeZone_label">Time zone</string>
     <string name="dateFrom_label">From</string>
     <string name="dateTo_label">To</string>
@@ -59,8 +65,7 @@
     <string name="emptyString"/>
     <string name="name">Name</string>
     <string name="LookupKey">Lookup Key</string>
-    <string name="teamsMaintenance_titleLabel">Teams</string>
-    <string name="teamsMaintenance_titleDescriptionLabel">Please, provide a team name and an optional image.</string>
+
     <string name="selectPicture">Please Select a Picture</string>
     <string name="action_finish">Done</string>
     <string name="no_entity_name">It is required to set a name on this step.</string>
@@ -80,5 +85,8 @@
     <string name="eventsMaintenance_DescriptionLabel">Description</string>
     <string name="eventsMaintenance_descriptionHint">Type Description</string>
     <string name="no_participants">There is no participants able</string>
+
+    <string name="zone_list_menu_sort_alphabetically">Sort alphabetically</string>
+    <string name="zone_list_menu_sort_by_timezone">Sort by time zone</string>
 
 </resources>

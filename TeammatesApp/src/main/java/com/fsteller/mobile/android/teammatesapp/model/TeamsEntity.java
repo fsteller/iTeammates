@@ -72,6 +72,7 @@ public class TeamsEntity extends AbstractEntity implements ITeamsEntity {
         extras.putInt(TC.ENTITY.ID, getId());
         extras.putInt(TC.ENTITY.COLLECTION_ID, TEAMS);
         extras.putString(TC.ENTITY.COLLECTION_NAME, getName());
+        extras.putString(TC.ENTITY.COLLECTION_DESCRIPTION, getDescription());
         extras.putString(TC.ENTITY.COLLECTION_IMAGE_REF, getImageRefAsString());
         extras.putIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS, getCollection(TEAMS));
         extras.putLong(TC.ENTITY.COLLECTION_CREATE_DATE, Calendar.getInstance().getTimeInMillis());
@@ -102,13 +103,16 @@ public class TeamsEntity extends AbstractEntity implements ITeamsEntity {
                         try {
                             data.moveToFirst();
 
-                            setId(id);
-                            setName(data.getString(TC.Queries.TeammatesTeams.NAME));
-                            setImageRef(data.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
-                            Log.i(TAG, String.format("Loading '%s' contacts...", getName()));
-                            addItemToCollection(TEAMS, data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
-                            while (data.moveToNext())
-                                addItemToCollection(TEAMS, data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
+                            TeamsEntity.this.setId(id);
+                            TeamsEntity.this.setName(data.getString(TC.Queries.TeammatesTeams.NAME));
+                            TeamsEntity.this.setImageRef(data.getString(TC.Queries.TeammatesTeams.IMAGE_REF));
+                            TeamsEntity.this.setDescription(data.getString(TC.Queries.TeammatesTeams.DESCRIPTION));
+
+                            Log.i(TAG, String.format("Loading '%s' contacts...", TeamsEntity.this.getName()));
+                            do {
+                                TeamsEntity.this.addItemToCollection(TEAMS, data.getInt(TC.Queries.TeammatesTeams.CONTACT_TOKEN));
+                            } while (data.moveToNext());
+
                         } catch (Exception e) {
                             Log.e(TAG, e.getMessage(), e);
                             e.printStackTrace();

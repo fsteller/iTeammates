@@ -1,5 +1,6 @@
 package com.fsteller.mobile.android.teammatesapp.model.base;
 
+
 /**
  * Project: iTeammates
  * Subpackage: model.base
@@ -49,7 +50,13 @@ public interface IEventsEntity extends IEntity {
 
     public abstract int getMinutesTo();
 
+    public abstract String getTimeZone();
+
+    public abstract void setTimeZone(final String timeZone);
+
     public static interface Callback {
         public void OnDateTimeHasBeenUpdated(final IEventsEntity sender, final boolean isDateTimeFrom, final boolean isDateTimeTo);
+
+        public void OnTimeZoneHasBeenUpdated(final IEventsEntity sender);
     }
 }

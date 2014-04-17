@@ -36,7 +36,6 @@ public final class DatabaseHandler {
 
     /**
      * Private constructor used in order to prevent instantiation of this class.
-     *
      */
     private DatabaseHandler() {
 
@@ -60,6 +59,7 @@ public final class DatabaseHandler {
                 // Loads TeamsTable data from bundle parameter
                 final long datetime = Calendar.getInstance().getTimeInMillis();
                 final String teamName = data.getString(TC.ENTITY.COLLECTION_NAME);
+                final String teamDesc = data.getString(TC.ENTITY.COLLECTION_DESCRIPTION);
                 final String imageDiskRef = data.getString(TC.ENTITY.COLLECTION_IMAGE_REF);
                 final long createdAt = data.getLong(TC.ENTITY.COLLECTION_CREATE_DATE, datetime);
                 final long updatedAt = data.getLong(TC.ENTITY.COLLECTION_UPDATE_DATE, datetime);
@@ -69,6 +69,7 @@ public final class DatabaseHandler {
 
                 // Stores TeamsTable data into ContentValues container
                 final ContentValues teamsTableContentValues = new ContentValues();
+                teamsTableContentValues.put(Contract.Teams.DESCRIPTION, teamDesc);
                 teamsTableContentValues.put(Contract.Teams.IMAGE_REF, imageDbRef);
                 teamsTableContentValues.put(Contract.Teams.CREATED_AT, createdAt);
                 teamsTableContentValues.put(Contract.Teams.UPDATED_AT, updatedAt);
@@ -150,6 +151,7 @@ public final class DatabaseHandler {
 
                 final int id = data.getInt(TC.ENTITY.ID);
                 final String teamName = data.getString(TC.ENTITY.COLLECTION_NAME);
+                final String teamDesc = data.getString(TC.ENTITY.COLLECTION_DESCRIPTION);
                 final String imageRef = data.getString(TC.ENTITY.COLLECTION_IMAGE_REF);
                 final long updatedAt = data.getLong(TC.ENTITY.COLLECTION_UPDATE_DATE, datetime);
                 final ArrayList<Integer> contacts = data.getIntegerArrayList(TC.ENTITY.COLLECTION_ITEMS);
@@ -157,6 +159,7 @@ public final class DatabaseHandler {
                 values.put(Contract.Teams.NAME, teamName);
                 values.put(Contract.Teams.IMAGE_REF, imageRef);
                 values.put(Contract.Teams.UPDATED_AT, updatedAt);
+                values.put(Contract.Teams.DESCRIPTION, teamDesc);
 
                 final String[] args = new String[]{String.valueOf(id)};
                 int updated = context.getContentResolver().update(Contract.Teams.CONTENT_URI, values, selection, args);

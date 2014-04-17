@@ -60,16 +60,16 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
         return Uri.parse(this.imageRef);
     }
 
+    public void setImageRef(final Uri ref) {
+        setImageRef(ref != null ? ref.toString() : "");
+    }
+
     public void setImageRef(final String ref) {
         final String mRef = ref.trim();
         if (!this.imageRef.equals(mRef)) {
             this.imageRef = mRef;
             this.setIsRequiredToBeSaved(true);
         }
-    }
-
-    public void setImageRef(final Uri ref) {
-        setImageRef(ref != null ? ref.toString() : "");
     }
 
     public String getImageRefAsString() {
@@ -134,5 +134,4 @@ public abstract class AbstractEntity extends Collection implements IEntity, IMai
     }
 
     //</editor-fold>
-
 }
