@@ -55,6 +55,11 @@
     <string name="dateTo_label">To</string>
     <string name="repetition_label">Repetition</string>
 
+    <!-- EventsMaintenance Page 3 Fragment -->
+    <string name="maps_to">To</string>
+    <string name="maps_from">From</string>
+    <string name="loading_maps_error">Sorry, unable to load maps</string>
+
     <!-- Notifications Page Fragment -->
     <string name="no_notifications">No notifications to show</string>
 
@@ -88,5 +93,6 @@
 
     <string name="zone_list_menu_sort_alphabetically">Sort alphabetically</string>
     <string name="zone_list_menu_sort_by_timezone">Sort by time zone</string>
+    <string name="remainders_label">Remainders</string>
 
 </resources>

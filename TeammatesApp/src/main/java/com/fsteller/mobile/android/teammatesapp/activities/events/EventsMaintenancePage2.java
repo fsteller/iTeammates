@@ -75,9 +75,7 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
 
     //</editor-fold>
 
-    //<editor-fold desc="Overridden">
-
-    //<editor-fold desc="Fragment">
+    //<editor-fold desc="Static">
 
     private static void setupDateTextView(final Fragment fragment, final TextView view, final IEventsEntity entity, final boolean isOriginDate) {
 
@@ -177,10 +175,6 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         });
     }
 
-
-    //</editor-fold>
-    //<editor-fold desc="LoaderManager.LoaderCallbacks<Cursor>">
-
     private static String getDateString(final IEventsEntity entity, final boolean isOriginDate) {
         final DateFormat dateFormat = DateFormat.getDateInstance();
         final int day = isOriginDate ? entity.getDayFrom() : entity.getDayTo();
@@ -203,9 +197,6 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         return "";
     }
 
-    //</editor-fold>
-    //<editor-fold desc="AdapterView.OnItemSelectedListener">
-
     private static String getTimeZoneString(final IEventsEntity entity) {
         return entity.getTimeZone();
     }
@@ -220,7 +211,9 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
     }
 
     //</editor-fold>
-    //<editor-fold desc="IEventsEntity.Callback">
+    //<editor-fold desc="Overridden">
+
+    //<editor-fold desc="Fragment">
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -238,15 +231,6 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
 
         Log.d(TAG, "onActivityCreated");
     }
-
-    @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
-        this.mEventEntity = (IEventsEntity) mEntity;
-        this.mEventEntity.setCallback(this);
-    }
-
-    //</editor-fold>
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -291,8 +275,12 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         return rootView;
     }
 
-    //</editor-fold>
-    //<editor-fold desc="Static">
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        this.mEventEntity = (IEventsEntity) mEntity;
+        this.mEventEntity.setCallback(this);
+    }
 
     @Override
     public void onResume() {
@@ -304,6 +292,9 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         titleText.setText(mEventEntity.getName());
 
     }
+
+    //</editor-fold>
+    //<editor-fold desc="LoaderManager.LoaderCallbacks<Cursor>">
 
     @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
@@ -341,6 +332,10 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
         }
     }
 
+
+    //</editor-fold
+    //<editor-fold desc="AdapterView.OnItemSelectedListener">
+
     @Override
     public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
         final CalendarAdapter.CalendarItem mCalendarItem = (CalendarAdapter.CalendarItem) view.getTag();
@@ -351,6 +346,9 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
     public void onNothingSelected(final AdapterView<?> parent) {
 
     }
+
+    //</editor-fold>
+    //<editor-fold desc="IEventsEntity.Callback">
 
     @Override
     public void OnDateTimeHasBeenUpdated(final IEventsEntity sender, final boolean isDateTimeFrom, final boolean isDateTimeTo) {
@@ -369,6 +367,9 @@ public class EventsMaintenancePage2 extends FragmentMaintenancePageBase implemen
     public void OnTimeZoneHasBeenUpdated(final IEventsEntity sender) {
         timeZone.setText(getTimeZoneString(sender));
     }
+
+
+    //</editor-fold>
 
     @Override
     protected int getFragmentDefaultImage() {

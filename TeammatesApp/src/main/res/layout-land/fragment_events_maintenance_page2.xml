@@ -142,5 +142,21 @@
             android:id="@+id/timeZone_edit"
             style="@android:style/Widget.Holo.Spinner"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/remainders_label"
+            android:id="@id/remainders_label"/>
+
+        <ListView
+            android:scrollbars="none"
+            android:dividerHeight="1dip"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@id/remainders_list"/>
+
     </LinearLayout>
 </LinearLayout>

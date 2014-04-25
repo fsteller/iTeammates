@@ -32,15 +32,16 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     //<editor-fold desc="Constants">
 
-    private static final int LAST_PAGE = 3;
+    private static final int LAST_PAGE = 2;
     private static final int FIRST_PAGE = 0;
     private int currentPage = FIRST_PAGE;
     private static final String TAG = EventsMaintenance.class.getSimpleName();
 
     //</editor-fold>
     //<editor-fold desc="Variables">
-    private static final Class pages[] = new Class[]{EventsMaintenancePage1.class, EventsMaintenancePage2.class};
+    private static final Class pages[] = new Class[]{EventsMaintenancePage1.class, EventsMaintenancePage2.class, EventsMaintenancePage3.class};
     private IEventsEntity mEventEntity = null;
+    private Button actionButton = null;
 
     //</editor-fold>
     //<editor-fold desc="Constructor">
@@ -79,14 +80,13 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.maintenance_event, menu);
 
-        final Resources rs = getResources();
         final MenuItem buttonNext = menu != null ? menu.findItem(R.id.action_next) : null;
 
         if (buttonNext != null) {
-            Button actionButton = (Button) buttonNext.getActionView();
+            actionButton = (Button) buttonNext.getActionView();
             if (actionButton != null) {
                 actionButton.setOnClickListener(this);
-                actionButton.setText(currentPage == LAST_PAGE ? rs.getString(R.string.action_finish) : rs.getString(R.string.action_next));
+                actionButton.setText(getResources().getString(R.string.action_next));
             } else return false;
         } else return false;
         return true;
@@ -108,8 +108,12 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
         if (currentPage < FIRST_PAGE) {
             Log.d(TAG, "onBackPressed: Canceling events maintenance...");
             finalize(RESULT_CANCELED, null);
-        } else {
+        } else if (currentPage <= LAST_PAGE) {
             Log.d(TAG, String.format("onBackPressed: rewarding to events maintenance page %s", currentPage));
+
+            final Resources rs = getResources();
+            actionButton.setText(currentPage == LAST_PAGE ?
+                    rs.getString(R.string.action_finish) : rs.getString(R.string.action_next));
             loadMaintenancePage(pages[currentPage], null, true);
         }
     }
@@ -127,8 +131,17 @@ public final class EventsMaintenance extends ActivityMaintenanceBase implements 
 
     @Override
     public void onClick(final View v) {
+        final Resources rs = getResources();
+
         currentPage++;
-        loadMaintenancePage(pages[currentPage], null, true);
+        actionButton.setText(currentPage <= LAST_PAGE ?
+                rs.getString(R.string.action_finish) : rs.getString(R.string.action_next));
+
+        if (currentPage <= LAST_PAGE)
+            // Load next page
+            loadMaintenancePage(pages[currentPage], null, true);
+        //else
+        //Todo: check result and persist event
     }
 
     //</editor-fold>

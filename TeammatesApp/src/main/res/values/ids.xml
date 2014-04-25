@@ -69,4 +69,6 @@
     <item name="date_timeLabel" type="id"/>
     <item name="listView_timeZones" type="id"/>
     <item name="fragment_right_side" type="id"/>
+    <item name="remainders_label" type="id"/>
+    <item name="remainders_list" type="id"/>
 </resources>
